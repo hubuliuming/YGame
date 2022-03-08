@@ -10,11 +10,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
+using Random = UnityEngine.Random;
 
 public class PoolManager : MonoSingeton<PoolManager>
 {
-    private Dictionary<string, ObjectPool<GameObject>> PoolDict = new Dictionary<string, ObjectPool<GameObject>>();
-    
+    private Dictionary<string, ObjectPool<GameObject>> m_PoolDict = new Dictionary<string, ObjectPool<GameObject>>();
+
+    private void Start()
+    {
+        DontDestroyOnLoad(gameObject);
+  
+    }
+
     /// <summary>
     ///  默认Resources根目录下
     /// </summary>
@@ -23,7 +30,8 @@ public class PoolManager : MonoSingeton<PoolManager>
     /// <returns></returns>
     public ObjectPool<GameObject> Get(string _name,string dir = null)
     {
-        if(!PoolDict.TryGetValue(_name,out var pool))
+        dir = "Prefabs/" + dir;
+        if(!m_PoolDict.TryGetValue(_name,out var pool))
         {
           pool = CreateNewPool(_name,dir);
         }
@@ -36,8 +44,10 @@ public class PoolManager : MonoSingeton<PoolManager>
         ObjectPool<GameObject> pool;
         pool = new ObjectPool<GameObject>(() =>
         {
-            return Instantiate(Resources.Load<GameObject>( dir+ _name));
-           
+            var go = Instantiate(Resources.Load<GameObject>(dir + _name));
+            var replace = go.name.Replace("(Clone)", "");
+            go.name = replace;
+            return go;
         } ,o =>
         {
             o.SetActive(true);
@@ -45,7 +55,9 @@ public class PoolManager : MonoSingeton<PoolManager>
         {
             o.SetActive(false);
         });
-        PoolDict.Add(dir+ _name,pool);
+        m_PoolDict.Add(_name,pool);
         return pool;
     }
+
+
 }

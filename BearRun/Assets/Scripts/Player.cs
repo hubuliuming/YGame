@@ -21,7 +21,6 @@ public class Player : MonoBehaviour
     private void Start()
     {
         cc = GetComponent<CharacterController>();
-       
         lerpVec3 = followCam.transform.position - transform.position;
     }
 
@@ -40,4 +39,5 @@ public class Player : MonoBehaviour
     {
         followCam.transform.position = transform.position + lerpVec3;
     }
+    
 }
