@@ -18,7 +18,7 @@ public class Test2 : MonoBehaviour
     private int index =-1;
     private void Start()
     {
-        road1Pool = PoolManager.Instance.Get("road1");
+        road1Pool = PoolFactory.Get("road1");
     }
 
     private void Update()

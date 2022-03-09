@@ -15,4 +15,6 @@ public class Consts : MonoBehaviour
     public const string Pattern2 = "Pattern_2";
     public const string Pattern3 = "Pattern_3";
     public const string Pattern4 = "Pattern_4";
+
+    public const string SceneGame = "Game";
 }

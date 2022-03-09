@@ -7,8 +7,13 @@
 *****************************************************/
 
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour 
 {
- 
+    private void Start()
+    {
+        DontDestroyOnLoad(gameObject);
+        SceneManager.LoadScene(Consts.SceneGame);
+    }
 }

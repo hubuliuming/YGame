@@ -13,7 +13,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    private float speed = 5;
+    private float speed = 10;
     private Vector3 lerpVec3;
     public Camera followCam;
     private CharacterController cc;
