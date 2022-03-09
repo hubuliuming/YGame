@@ -6,10 +6,7 @@
     功能：Nothing
 *****************************************************/
 
-using System;
-using System.Collections.Generic;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public class Road : MonoBehaviour
 {
@@ -20,7 +17,4 @@ public class Road : MonoBehaviour
             RoadManager.Instance.NextRoad(transform.parent.gameObject);
         }
     }
-
-
-    
 }
