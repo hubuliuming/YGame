@@ -6,12 +6,14 @@
     功能：Nothing
 *****************************************************/
 
-using System.Runtime.CompilerServices;
-using TMPro;
+using System;
+using System.Collections;
 using UnityEngine;
+using YFramework;
 
 public enum Direction
 {
+    None,
     Up,
     Down,
     Left,
@@ -27,19 +29,21 @@ public class Player : MonoBehaviour
     private void Start()
     {
         cc = GetComponent<CharacterController>();
+        playerAnim = GetComponent<Animation>();
         lerpVec3 = followCam.transform.position - transform.position;
     }
 
     private void Update()
     {
-        CamFollowMe();
-        Move();
-        GetCurDir();
-    }
-    
-    private void Move()
-    {
         cc.SimpleMove(Vector3.forward*speed);
+        CamFollowMe();
+        UpdateCurDir();
+    }
+
+    private void FixedUpdate()
+    {
+        //有物理效果时，改变位置操作放到Fix这里
+        MovePlayerPos(curDir);
     }
 
     private void CamFollowMe()
@@ -52,7 +56,9 @@ public class Player : MonoBehaviour
     private int effectiveDistance = 70;
     private Vector3 starPos = Vector3.zero;
     private bool hasDir = false;
-    private void GetCurDir()
+    private Animation playerAnim;
+    private Direction curDir;
+    private void UpdateCurDir()
     {
         Vector3 curPos = Vector3.zero;
         if (Input.GetMouseButtonDown(0) && !hasDir)
@@ -70,21 +76,18 @@ public class Player : MonoBehaviour
             curPos = Input.mousePosition;
             var offset = (Vector2)(starPos - curPos);
             // 左右移动
-            if (Mathf.Abs(offset.x )> Mathf.Abs(offset.y))
+            if (Mathf.Abs(offset.x ) > Mathf.Abs(offset.y))
             {
                 //left
                 if (offset.x > effectiveDistance)
                 {
-                    Debug.Log("left");
-                    hasDir = true;
+                    curDir = Direction.Left;
                 }
                 //right
                 else if (offset.x < -effectiveDistance)
                 {
-                    Debug.Log("Right");
-                    hasDir = true;
+                    curDir = Direction.Right;
                 }
-                
             }
             //上下移动
             else
@@ -92,18 +95,71 @@ public class Player : MonoBehaviour
                 //上面
                 if (offset.y < -effectiveDistance)
                 {
-                    Debug.Log("Up");
-                    hasDir = true;
+                    curDir = Direction.Up;
                 }
                 else if(offset.y >effectiveDistance)
                 {
-                    Debug.Log("Down");
-                    hasDir = true;
+                    curDir = Direction.Down;
                 }
             }
         }
-        
+        //键盘输入
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            curDir = Direction.Up;
+        }
+        else if (Input.GetKeyDown(KeyCode.S))
+        {
+            curDir = Direction.Down;
+        }
+        else if (Input.GetKeyDown(KeyCode.A))
+        {
+            curDir = Direction.Left;
+        }
+        else if (Input.GetKeyDown(KeyCode.D))
+        {
+            curDir = Direction.Right;
+        }
     }
+
+    private void MovePlayerPos(Direction dir)
+    {
+        var curPos = transform.position;
+        switch (dir)
+        {
+            case Direction.None:
+                break;
+            case Direction.Up:
+                break;
+            case Direction.Down:
+                break;
+            case Direction.Left:
+                if (curPos.x - 1.5 < -2.1f) return;
+                Debug.Log("left");
+                transform.AddLocalPosX(-2f);
+                hasDir = true;
+                //StartCoroutine(PlayAnimation(Consts.AnimLeftJump));
+                break;
+            case Direction.Right:
+                if (curPos.x + 1.5 > 2.1f) return;
+                Debug.Log("right");
+                transform.AddLocalPosX(2f);
+                //StartCoroutine(PlayAnimation(Consts.AnimRightJump));
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(dir), dir, null);
+        }
+        hasDir = true;
+        curDir = Direction.None;
+    }
+    
+    private IEnumerator PlayAnimation(string _name)
+    {
+        playerAnim.Play(_name);
+        yield return new WaitForSeconds(Consts.AnimTime);
+        playerAnim.Play(Consts.AnimRun);
+    }
+    
     #endregion
     
 }

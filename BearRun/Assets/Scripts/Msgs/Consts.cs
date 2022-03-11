@@ -17,4 +17,9 @@ public class Consts : MonoBehaviour
     public const string Pattern4 = "Pattern_4";
 
     public const string SceneGame = "Game";
+
+    public const string AnimLeftJump = "left_jump";
+    public const string AnimRightJump = "right_jump";
+    public const string AnimRun = "run";
+    public const float AnimTime = 0.8f;
 }
