@@ -22,7 +22,28 @@ public enum Direction
 public class Player : MonoBehaviour
 {
     private float speed = 10;
-    private Vector3 lerpVec3;
+    private float MaxSpeed;
+    public float Speed
+    {
+        get
+        {
+            
+            return speed;
+        }
+        set
+        {
+            if (speed >=Consts.MaxMoveSpeed)
+            {
+                speed = Consts.MaxMoveSpeed;
+            }
+            else
+            {
+                speed = value;
+            }
+        }
+    }
+
+    private Vector3 camelerpPlayer;
     public Camera followCam;
     private CharacterController cc;
 
@@ -30,14 +51,16 @@ public class Player : MonoBehaviour
     {
         cc = GetComponent<CharacterController>();
         playerAnim = GetComponent<Animation>();
-        lerpVec3 = followCam.transform.position - transform.position;
+        camelerpPlayer = followCam.transform.position - transform.position;
     }
 
     private void Update()
     {
-        cc.SimpleMove(Vector3.forward*speed);
+        AllMove();
         CamFollowMe();
         UpdateCurDir();
+        UpdateSpeed();
+        Debug.Log(Speed);
     }
 
     private void FixedUpdate()
@@ -48,16 +71,29 @@ public class Player : MonoBehaviour
 
     private void CamFollowMe()
     {
-        followCam.transform.position = transform.position + lerpVec3;
+        followCam.transform.position = transform.position + camelerpPlayer;
     }
 
     #region 控制角色移动的方法
 
-    private int effectiveDistance = 70;
+    private float gravity = 9.8f;
+    private int effectiveDistance = 80;
+    private float moveY = 0f;
     private Vector3 starPos = Vector3.zero;
     private bool hasDir = false;
     private Animation playerAnim;
     private Direction curDir;
+    
+    private void AllMove()
+    {
+        if (moveY !=0)
+        {
+            //模拟重力上跳下降
+            moveY -= gravity * Time.deltaTime;
+        }
+        cc.Move(new Vector3(0,moveY,1) * Time.deltaTime * Speed);
+    }
+    
     private void UpdateCurDir()
     {
         Vector3 curPos = Vector3.zero;
@@ -65,12 +101,7 @@ public class Player : MonoBehaviour
         {
             starPos = Input.mousePosition;
         }
-
-        if (Input.GetMouseButtonUp(0))
-        {
-            hasDir = false;
-        }
-
+        
         if (Input.GetMouseButton(0) && !hasDir)
         { 
             curPos = Input.mousePosition;
@@ -130,34 +161,45 @@ public class Player : MonoBehaviour
             case Direction.None:
                 break;
             case Direction.Up:
+                moveY = 1.5f;
+                StartCoroutine(PlayAnimation(Consts.AnimJump));
                 break;
             case Direction.Down:
+                StartCoroutine(PlayAnimation(Consts.AnimRoll));
                 break;
             case Direction.Left:
                 if (curPos.x - 1.5 < -2.1f) return;
-                Debug.Log("left");
                 transform.AddLocalPosX(-2f);
-                hasDir = true;
-                //StartCoroutine(PlayAnimation(Consts.AnimLeftJump));
+                StartCoroutine(PlayAnimation(Consts.AnimLeftJump));
                 break;
             case Direction.Right:
                 if (curPos.x + 1.5 > 2.1f) return;
-                Debug.Log("right");
                 transform.AddLocalPosX(2f);
-                //StartCoroutine(PlayAnimation(Consts.AnimRightJump));
+                StartCoroutine(PlayAnimation(Consts.AnimRightJump));
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(dir), dir, null);
         }
-        hasDir = true;
         curDir = Direction.None;
     }
     
     private IEnumerator PlayAnimation(string _name)
     {
+        hasDir = true;
         playerAnim.Play(_name);
         yield return new WaitForSeconds(Consts.AnimTime);
         playerAnim.Play(Consts.AnimRun);
+        moveY = 0;
+        transform.SetLocalPosY(0.215f);
+        hasDir = false;
+    }
+
+    private void UpdateSpeed()
+    {
+        if (transform.position.z> 0 && Speed < Consts.MaxMoveSpeed)
+        {
+            Speed += Time.deltaTime;
+        }
     }
     
     #endregion

@@ -6,10 +6,11 @@
     功能：常用字符串
 *****************************************************/
 
-using UnityEngine;
 
-public class Consts : MonoBehaviour
+public class Consts
 {
+    public const float MaxMoveSpeed = 40f;
+    
     public const string PathPattern = "Patterns/";
     public const string Pattern1 = "Pattern_1";
     public const string Pattern2 = "Pattern_2";
@@ -20,6 +21,8 @@ public class Consts : MonoBehaviour
 
     public const string AnimLeftJump = "left_jump";
     public const string AnimRightJump = "right_jump";
+    public const string AnimJump = "jump";
+    public const string AnimRoll = "roll";
     public const string AnimRun = "run";
-    public const float AnimTime = 0.8f;
+    public const float AnimTime = 0.77f;
 }
