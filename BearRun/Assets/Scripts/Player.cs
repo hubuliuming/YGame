@@ -21,26 +21,11 @@ public enum Direction
 }
 public class Player : MonoBehaviour
 {
-    private float speed = 10;
-    private float MaxSpeed;
+    private float speed = Consts.InitMoveSpeed;
     public float Speed
     {
-        get
-        {
-            
-            return speed;
-        }
-        set
-        {
-            if (speed >=Consts.MaxMoveSpeed)
-            {
-                speed = Consts.MaxMoveSpeed;
-            }
-            else
-            {
-                speed = value;
-            }
-        }
+        get => speed;
+        set { speed = speed >=Consts.MaxMoveSpeed ? Consts.MaxMoveSpeed : value; }
     }
 
     private Vector3 camelerpPlayer;
@@ -60,7 +45,6 @@ public class Player : MonoBehaviour
         CamFollowMe();
         UpdateCurDir();
         UpdateSpeed();
-        Debug.Log(Speed);
     }
 
     private void FixedUpdate()
@@ -91,6 +75,7 @@ public class Player : MonoBehaviour
             //模拟重力上跳下降
             moveY -= gravity * Time.deltaTime;
         }
+        Debug.Log(Speed);
         cc.Move(new Vector3(0,moveY,1) * Time.deltaTime * Speed);
     }
     
@@ -196,12 +181,41 @@ public class Player : MonoBehaviour
 
     private void UpdateSpeed()
     {
-        if (transform.position.z> 0 && Speed < Consts.MaxMoveSpeed)
+        if (transform.position.z> 500 && Speed < Consts.MaxMoveSpeed)
         {
             Speed += Time.deltaTime;
         }
     }
     
     #endregion
-    
+
+    #region 碰撞道具效果相关
+
+    private bool isHit = false;
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag.Contains(Consts.TagObstacle))
+        {
+            if (isHit) return;
+            isHit = true;
+            StartCoroutine(SlowDown());
+        }
+        else if (other.tag.Contains(Consts.TagWalk))
+        {
+            //todo die
+            Debug.Log("die");   
+        }
+    }
+
+    private IEnumerator SlowDown()
+    {
+        var curSpeed = Speed;
+        Debug.Log("减速");
+        Speed *= 0.5f;
+        yield return new WaitForSeconds(Consts.SlowSpeedTime);
+        Speed = curSpeed;
+        isHit = false;
+    }
+
+    #endregion
 }

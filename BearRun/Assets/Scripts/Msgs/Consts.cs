@@ -9,6 +9,7 @@
 
 public class Consts
 {
+    public const float InitMoveSpeed = 10f;
     public const float MaxMoveSpeed = 40f;
     
     public const string PathPattern = "Patterns/";
@@ -25,4 +26,9 @@ public class Consts
     public const string AnimRoll = "roll";
     public const string AnimRun = "run";
     public const float AnimTime = 0.77f;
+    
+    //Item
+    public const string TagObstacle = "Obstacle";
+    public const string TagWalk = "Walk";
+    public const float SlowSpeedTime = 1f;
 }
