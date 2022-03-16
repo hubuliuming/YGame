@@ -11,8 +11,10 @@ public class Consts
 {
     public const float InitMoveSpeed = 10f;
     public const float MaxMoveSpeed = 40f;
-    
+    //Path
     public const string PathPattern = "Patterns/";
+    public const string PathItem = "Item/";
+    
     public const string Pattern1 = "Pattern_1";
     public const string Pattern2 = "Pattern_2";
     public const string Pattern3 = "Pattern_3";
@@ -27,8 +29,20 @@ public class Consts
     public const string AnimRun = "run";
     public const float AnimTime = 0.77f;
     
-    //Item
+    //Tag
+    public const string TagPlayer = "Player";
     public const string TagObstacle = "Obstacle";
     public const string TagWalk = "Walk";
+
+    //skill cd
     public const float SlowSpeedTime = 1f;
+
+    public const float MagnetTime = 5f;
+    public const float MultiplyTime = 4f;
+
+    //ItemName
+    public const string Magnet = "Magnet";
+    public const string Coin = "Coin";
+    public const string AddTime = "AddTime";
+    public const string Multiply = "Multiply";
 }

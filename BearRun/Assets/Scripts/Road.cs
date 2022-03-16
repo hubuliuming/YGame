@@ -12,7 +12,7 @@ public class Road : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag(Consts.TagPlayer))
         {
             RoadManager.Instance.NextRoad(transform.parent.gameObject);
         }

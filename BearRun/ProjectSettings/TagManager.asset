@@ -6,6 +6,13 @@ TagManager:
   tags:
   - Item
   - Obstacle
+  - ItemBeforeTrigger
+  - Walk
+  - Goal
+  - Goalkeeper
+  - Coin
+  - AddTime
+  - Magnet
   layers:
   - Default
   - TransparentFX

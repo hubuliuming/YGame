@@ -62,7 +62,7 @@ public class Player : MonoBehaviour
 
     private float gravity = 9.8f;
     private int effectiveDistance = 80;
-    private float moveY = 0f;
+    private float moveY = -1f;
     private Vector3 starPos = Vector3.zero;
     private bool hasDir = false;
     private Animation playerAnim;
@@ -70,12 +70,11 @@ public class Player : MonoBehaviour
     
     private void AllMove()
     {
-        if (moveY !=0)
+        if (moveY >=0)
         {
             //模拟重力上跳下降
             moveY -= gravity * Time.deltaTime;
         }
-        Debug.Log(Speed);
         cc.Move(new Vector3(0,moveY,1) * Time.deltaTime * Speed);
     }
     
@@ -192,6 +191,7 @@ public class Player : MonoBehaviour
     #region 碰撞道具效果相关
 
     private bool isHit = false;
+    private IEnumerator corHitMagnet;
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag.Contains(Consts.TagObstacle))
@@ -205,6 +205,16 @@ public class Player : MonoBehaviour
             //todo die
             Debug.Log("die");   
         }
+        else if (other.tag.Contains(Consts.Magnet))
+        {
+            if (corHitMagnet!=null)
+            {
+                StopCoroutine(corHitMagnet);
+            }
+
+            corHitMagnet = HitMagnet();
+            StartCoroutine(corHitMagnet);
+        }
     }
 
     private IEnumerator SlowDown()
@@ -215,6 +225,14 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(Consts.SlowSpeedTime);
         Speed = curSpeed;
         isHit = false;
+    }
+
+    private IEnumerator HitMagnet()
+    {
+        var go = transform.Find("MagnetArea").gameObject;
+        go.SetActive(true);
+        yield return new WaitForSeconds(Consts.MagnetTime);
+        go.SetActive(false);
     }
 
     #endregion
