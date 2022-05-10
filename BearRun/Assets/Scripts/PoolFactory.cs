@@ -19,14 +19,14 @@ public class PoolFactory
     ///  默认Resources根目录下
     /// </summary>
     /// <param name="dir">文件夹目录</param>
-    /// <param name="_name"></param>
+    /// <param name="name"></param>
     /// <returns></returns>
-    public static ObjectPool<GameObject> Get(string _name,string dir = null)
+    public static ObjectPool<GameObject> Get(string name,string dir = null)
     {
         dir = "Prefabs/" + dir;
-        if(!m_PoolDict.TryGetValue(_name,out var pool))
+        if(!m_PoolDict.TryGetValue(name,out var pool))
         {
-          pool = CreateNewPool(_name,dir);
+          pool = CreateNewPool(name,dir);
         }
 
         return pool;
