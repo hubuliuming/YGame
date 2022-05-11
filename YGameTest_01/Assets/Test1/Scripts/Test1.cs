@@ -24,7 +24,7 @@ public class Test1 : MonoBehaviour
         // t.Stop();
         // t.Elapsed 
         
-        Debug.Log(DateTime.Now.ToString("yyyyMMddHHmmss"));
+        //Debug.Log(DateTime.Now.ToString("yyyyMMddHHmmss"));
         //Debug.Log(DateTime.Now.ToString());
 
     }
