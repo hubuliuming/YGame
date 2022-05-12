@@ -1,5 +1,5 @@
 /****************************************************
-    文件：PlayerData.cs
+    文件：ItemName.cs
     作者：Y
     邮箱: 916111418@qq.com
     日期：#CreateTime#
@@ -7,12 +7,8 @@
 *****************************************************/
 
 
-public class PlayerData
+
+public class ItemName
 {
-    public int Power;
-    public int HP;
-    public int Attack;
-    public int Defence;
-    public int Speed;
-    public int Coin;
+    public const string ActiveApple = "ActiveApple";
 }

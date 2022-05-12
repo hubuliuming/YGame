@@ -1,18 +1,13 @@
 /****************************************************
-    文件：PlayerData.cs
+    文件：EnemyName.cs
     作者：Y
     邮箱: 916111418@qq.com
     日期：#CreateTime#
     功能：Nothing
 *****************************************************/
 
-
-public class PlayerData
+public class EnemyName
 {
-    public int Power;
-    public int HP;
-    public int Attack;
-    public int Defence;
-    public int Speed;
-    public int Coin;
+    //野猪
+    public const string WildBoar = "WildBoar";
 }

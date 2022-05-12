@@ -18,15 +18,14 @@ namespace YFramework
         {
             get
             {
-                if (m_instance == null)
-                {
-                    var go = new GameObject(typeof(T).Name);
-                    DontDestroyOnLoad(go);
-                    m_instance = go.AddComponent<T>();
-                }
-
                 return m_instance;
             }
+        }
+
+        private void Awake()
+        {
+            m_instance = this as T;
+            DontDestroyOnLoad(gameObject);
         }
     }
 }

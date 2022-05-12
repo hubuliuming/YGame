@@ -15,6 +15,8 @@ namespace YFramework
     {
         public static void Save<T>(T data,string savePath) where T : class
         {
+            if (!savePath.EndsWith(".json"))
+                savePath += ".json"; 
             var jsonStr = JsonUtility.ToJson(data);
             StreamWriter sw = new StreamWriter(savePath);
             sw.Write(jsonStr);
@@ -23,6 +25,8 @@ namespace YFramework
 
         public static T Load<T>(string path) where T : class
         {
+            if (!path.EndsWith(".json"))
+                path += ".json"; 
             StreamReader sr = new StreamReader(path);
             var data = sr.ReadToEnd(); 
             sr.Close();
