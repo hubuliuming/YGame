@@ -6,25 +6,46 @@
     功能：Nothing
 *****************************************************/
 
-using System;
 using UnityEngine;
 
 public class AttackMath
 {
-    private static Lazy<PlayerData> _playerData = new Lazy<PlayerData>(GameManager.Instance.PlayerData);
-
-    public static bool AttackOrder(int speedSelf)
-    {
-        if (_playerData.Value.Speed >= speedSelf)
-            return true;
-        return false;
-    }
-    public static int AttackValue(int attackValue,int targetDefence)
+    public static int AttackValue(int attackValue,int targetDefence,bool isDebug = true)
     {
         var value = attackValue - targetDefence;
         if (value <= 0)
             value = 1;
-        Debug.Log("造成的伤害为：" + value);
+        if(isDebug)
+            Debug.Log("造成的伤害为：" + value);
         return value;
     }
+
+    /// <summary>
+    /// 敌人和玩家战斗
+    /// </summary>
+    /// <returns>true 为玩家胜利，false为敌人胜利</returns>
+    // public static bool EnemyAndPlayerAttack(ref EnemyData enemyData, ref PlayerData playerData)
+    // {
+    //     //玩家先手
+    //     while (enemyData.HP > 0 && playerData.HP >0)
+    //     {
+    //         if (playerData.Speed >= enemyData.Speed)
+    //         {
+    //             enemyData.HP -= AttackValue(playerData.Attack, enemyData.Defence);
+    //             Player.ChangeHP(-AttackValue(enemyData.Attack, playerData.Defence));
+    //         }
+    //         else
+    //         {
+    //             Player.ChangeHP(-AttackValue(enemyData.Attack, playerData.Defence));
+    //             enemyData.HP -= AttackValue(playerData.Attack, enemyData.Defence);
+    //         }
+    //         Debug.Log("enemyHP:"+enemyData.HP);
+    //     }
+    //
+    //     if (enemyData.HP <= 0)
+    //         return true;
+    //     else if(playerData.HP <=0)
+    //         return false;
+    //     return true;
+    // }
 }

@@ -7,38 +7,26 @@
 *****************************************************/
 
 using UnityEngine;
-using YFramework;
-using YFramework.UI;
 
 public class WildBoar : EnemyBase
 {
-    private EnmeyData _data = new EnmeyData()
+    protected override void InitEnemyData()
     {
-        HP = 100,
-        Attack = 5,
-        Defence = 2,
-        awrd = new EnmeyData.Award()
+        data = new EnemyData()
         {
-            Coin = 3
-        }  
-    };
+            HP = 100,
+            Attack = 5,
+            Defence = 2,
+            Speed = 5,
+            awrd = new EnemyData.Award()
+            {
+                Coin = 3
+            }
+        };
+    }
     private void Start()
     {
-        UiUtility.Get("Btn").AddListener(()=>
-        {
-            //todo 战斗计算
-            //玩家先手
-            if (AttackMath.AttackOrder(_data.Attack))
-            {
-                
-            }
-            else
-            {
-                
-            }
-          
-            ChangeHP(ref _data.HP,_data.Defence);
-            //PlayerUtility.ChangeHP(-AttackMath.AttackValue(_data.Attack));
-        });
+       Init();
     }
+
 }

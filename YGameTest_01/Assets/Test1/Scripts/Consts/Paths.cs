@@ -11,4 +11,6 @@ using UnityEngine;
 public class Paths : MonoBehaviour
 {
     public static readonly string PlayerData = Application.dataPath + "/Test1/Data/Player";
+    //prefab
+    public const string WildBoar = "Prefabs/Enemy/WildBoar";
 }

@@ -15,7 +15,7 @@ public class ActiveApple : UIBase
     {
         UiUtility.Get("Btn").AddListener(()=>
        {
-          PlayerUtility.ChangePower(_addPower);
+          Player.ChangePower(_addPower);
        });
     }
 }
