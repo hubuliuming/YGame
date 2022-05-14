@@ -6,9 +6,8 @@
     功能：Nothing
 *****************************************************/
 
-using YFramework.UI;
 
-public class ActiveApple : UIBase
+public class ActiveApple : ItemBase
 {
     private int _addPower = 10;
     private void Start()

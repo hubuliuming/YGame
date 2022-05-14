@@ -6,27 +6,28 @@
     功能：野猪
 *****************************************************/
 
-using UnityEngine;
 
 public class WildBoar : EnemyBase
 {
-    protected override void InitEnemyData()
+    public override void InitData()
     {
         data = new EnemyData()
         {
+            Name = EnemyName.WildBoar,
             HP = 100,
             Attack = 5,
             Defence = 2,
             Speed = 5,
+            NeedPower = 10,
             awrd = new EnemyData.Award()
             {
                 Coin = 3
             }
         };
     }
-    private void Start()
-    {
-       Init();
-    }
 
+    public override void Init()
+    {
+        base.Init();
+    }
 }

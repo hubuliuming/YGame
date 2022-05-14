@@ -6,6 +6,7 @@
     功能：Nothing
 *****************************************************/
 
+using System;
 using UnityEngine;
 using YFramework;
 
@@ -13,14 +14,38 @@ public class StartGame : MonoBehaviour
 {
     private void Start()
     {
-        GameManager.Instance.InitPlayer();
         //GameManager.Instance.ReloadJsonData();
-        // var prefab = Resources.Load<GameObject>(Paths.WildBoar);
-        // var go =Instantiate(prefab, transform);
         
-        var wildBoarPool = EnemyFactory.Get(EnemyName.WildBoar);
+        GameManager.Instance.InitPlayer();
+
+        transform.Find("PlayerData").GetComponent<PlayerDataUI>().Init();
+    }
+
+    private void Update()
+    {
+        // test
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            CreateEnemy();
+        }
+    }
+
+    #region TestMeoth
+
+    private void CreateEnemy()
+    {
+        var wildBoarPool = EnemyFactory.wildBoardPool;
         var go = wildBoarPool.Get();
         go.transform.SetParent(transform);
         go.transform.localPosition =Vector3.zero;
     }
+
+    private void CreateItem()
+    {
+        var apple = ItemFactory.activeAppPool.Get();
+        apple.transform.SetParent(transform);
+        apple.transform.localPosition = Vector3.one;
+    }
+
+    #endregion
 }

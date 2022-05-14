@@ -9,6 +9,7 @@
 
 public class PlayerData
 {
+    public string Name;
     public int Power;
     public int HP;
     public int Attack;

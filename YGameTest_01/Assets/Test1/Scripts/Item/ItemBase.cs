@@ -7,16 +7,10 @@
 *****************************************************/
 
 using UnityEngine;
+using YFramework.UI;
 
 
-public interface Iitem
+public class ItemBase : UIBase 
 {
-    void OnClick();
-}
-public class ItemBase : MonoBehaviour ,Iitem 
-{
-    public void OnClick()
-    {
-        
-    }
+    
 }

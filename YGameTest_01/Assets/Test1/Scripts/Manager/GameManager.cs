@@ -28,6 +28,7 @@ public class GameManager : MonoSingleton<GameManager>
     {
         _playerData = new PlayerData
         {
+            Name = "小明",
             Power = 100,
             HP = 200,
             Attack = 10,

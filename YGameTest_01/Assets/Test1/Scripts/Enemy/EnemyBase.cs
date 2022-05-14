@@ -8,14 +8,18 @@
 
 using UnityEngine;
 using UnityEngine.Pool;
+using YFramework;
 using YFramework.UI;
 
 public class EnemyData
 {
+    public string Name;
     public int HP;
     public int Attack;
     public int Defence;
     public int Speed;
+
+    public int NeedPower;
 
     public Award awrd;
     
@@ -35,7 +39,7 @@ public enum RareLevel
     Gold
 }
 
-public abstract class EnemyBase : UIBase
+public abstract class EnemyBase : UIBase,IEnemy
 {
     protected EnemyData data;
     private PlayerData _playerData;
@@ -44,27 +48,30 @@ public abstract class EnemyBase : UIBase
 
     public override void Init()
     {
-        InitEnemyData();
-        _enemyPool = new ObjectPool<GameObject>(() =>
-        {
-            return Instantiate(Resources.Load<GameObject>(Paths.WildBoar));
-        });
-            _playerData = GameManager.Instance.PlayerData;
+        InitData();
+        _playerData = GameManager.Instance.PlayerData;
         UiUtility.Get("Btn").AddListener(()=>
         {
+            if(!Player.EnableAttack())
+                return;
+            Player.ChangePower(data.NeedPower,false);
             AttackPlayer();
             Debug.Log("战斗结果:" + AttackResult());
             //todo 以后正式时候打开更新本地数据
             //GameManager.Instance.UpdateLocalPlayerData();
+           
             //死亡奖励
             if (AttackResult())
             {
                 Player.ChangeCoin(data.awrd.Coin);
-                //todo 回收对象池
+                MsgDispatcher.Send(RegisterMsg.UpdateShowData,null);
             }
+            
+            EnemyFactory.Release(data.Name,gameObject);
         });
     }
-    
+
+   
     public void AttackPlayer()
     {
         while (data.HP > 0 && _playerData.HP > 0)
@@ -89,7 +96,7 @@ public abstract class EnemyBase : UIBase
         return false;
     }
 
-    protected abstract void InitEnemyData();
+    public abstract void InitData();
 
     protected void ChangeHP(ref int hpSelf,int defenceSelf,bool isDebug = true)
     {

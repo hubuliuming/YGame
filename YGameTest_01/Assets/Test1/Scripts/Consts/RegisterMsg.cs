@@ -11,6 +11,7 @@ using UnityEngine;
 public class RegisterMsg : MonoBehaviour
 {
     public const string PlayerAttack = "PlayerAttack";
+    public const string UpdateShowData = "UpdateShowData";
 }
 
 public class AttackDataPack
