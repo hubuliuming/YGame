@@ -6,11 +6,14 @@
     功能：Nothing
 *****************************************************/
 
-using UnityEngine;
 using YFramework.UI;
 
-
-public class ItemBase : UIBase 
+public abstract class ItemBase : UIBase,IInit
 {
-    
+    public virtual void InitFirst()
+    {
+        InitData();
+    }
+
+    public abstract void InitData();
 }

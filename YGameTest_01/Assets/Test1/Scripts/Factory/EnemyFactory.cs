@@ -9,17 +9,8 @@
 using UnityEngine;
 using UnityEngine.Pool;
 
-public interface IEnemy: IInit
-{
-    void InitData();
-}
 public class EnemyFactory : FactoryBase
 {
     public static ObjectPool<GameObject> wildBoardPool = Get(EnemyName.WildBoar,Paths.WildBoar);
-
-    public static void Release(string name,GameObject go)
-    {
-        go.GetComponent<IEnemy>().InitData();
-        pools[name].Release(go);
-    }
+    
 }

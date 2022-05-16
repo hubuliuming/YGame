@@ -12,7 +12,14 @@ using UnityEngine.Pool;
 
 public interface IInit
 {
-    void Init();
+    /// <summary>
+    /// 对象池第一次创建时候初始化一次
+    /// </summary>
+    void InitFirst();
+    /// <summary>
+    /// 每次对象池取用释放时调用初始化数据
+    /// </summary>
+    void InitData();
 }
 public class FactoryBase
 {
@@ -31,12 +38,19 @@ public class FactoryBase
 
         return data;
     }
+    
+    public static void Release(string name,GameObject go)
+    {
+        go.GetComponent<IInit>().InitData();
+        pools[name].Release(go);
+    }
+    
     private static GameObject OnCreate(string path)
     {
         //Debug.Log("CreatePool");
         var prefab = Resources.Load<GameObject>(path);
         var go = Object.Instantiate(prefab);
-        go.GetComponent<IInit>().Init();
+        go.GetComponent<IInit>().InitFirst();
         return go;
     }
 

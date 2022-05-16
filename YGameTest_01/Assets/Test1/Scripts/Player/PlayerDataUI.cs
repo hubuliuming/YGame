@@ -6,8 +6,6 @@
     功能：Nothing
 *****************************************************/
 
-using System;
-using UnityEngine;
 using UnityEngine.UI;
 using YFramework;
 using YFramework.UI;

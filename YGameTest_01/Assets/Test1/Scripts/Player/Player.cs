@@ -7,80 +7,80 @@
 *****************************************************/
 
 using UnityEngine;
+using System;
 
 public class Player
 {
-    private static PlayerData _playerData = GameManager.Instance.PlayerData;
-    
+    private static Lazy<PlayerData> _playerData = new Lazy<PlayerData>(GameManager.Instance.PlayerData);
     public static bool IsDied { get; private set; }
     public static bool IsEmptyPower { get; private set; }
-
     public static void ChangeName(string nameStr)
     {
-        _playerData.Name = nameStr;
+        _playerData.Value.Name = nameStr;
     }
     public static void ChangePower(int value,bool isDebug = true)
     {
-        if (_playerData.Power + value < 0)
+        if (_playerData.Value.Power + value < 0)
         {
             //todo 体力不够
             IsEmptyPower = true;
             Debug.Log("体力不足！");
             return;
         }
-        _playerData.Power += value;
+        _playerData.Value.Power += value;
         IsEmptyPower = false;
         if(isDebug)
-            Debug.Log("PlayerPower:"+_playerData.Power);
+            Debug.Log("PlayerPower:"+_playerData.Value.Power);
     }
     public static void ChangeHP(int value,bool isDebug = true)
     {
-        if (_playerData.HP <=0 ||_playerData.HP + value <= 0)
+        if (_playerData.Value.HP <=0 ||_playerData.Value.HP + value <= 0)
         {
             //todo 玩家死亡
             IsDied = true;
             Debug.Log("玩家死亡！");
+            _playerData.Value.HP = 0;
             return;
         }
 
         IsDied = false;
-        _playerData.HP += value;
+        _playerData.Value.HP += value;
         if(isDebug)
-            Debug.Log("PlayerHP:"+_playerData.HP);
+            Debug.Log("PlayerHP:"+_playerData.Value.HP);
     }
     public static void ChangeHPAttack(int attack,bool isDebug = true)
     {
-        var value = AttackMath.AttackValue(attack, _playerData.Defence,isDebug);
+        var value = AttackMath.AttackValue(attack, _playerData.Value.Defence,isDebug);
         ChangeHP(-value,isDebug);
     }
     public static void ChangeAttack(int value,bool isDebug = true)
     {
-        _playerData.Attack += value;
+        _playerData.Value.Attack += value;
         if(isDebug)
-            Debug.Log("PlayerAttack:"+_playerData.Attack);
+            Debug.Log("PlayerAttack:"+_playerData.Value.Attack);
     }
     public static void ChangeDefence(int value,bool isDebug = true)
     {
-        _playerData.Defence += value;
+        _playerData.Value.Defence += value;
         if(isDebug)
-            Debug.Log("PlayerDefence:"+_playerData.Defence);
+            Debug.Log("PlayerDefence:"+_playerData.Value.Defence);
     }
     public static void ChangeSpeed(int value,bool isDebug = true)
     {
-        _playerData.Speed += value;
+        _playerData.Value.Speed += value;
         if(isDebug)
-            Debug.Log("PlayerSpeed:"+_playerData.Speed);
+            Debug.Log("PlayerSpeed:"+_playerData.Value.Speed);
     }
     public static void ChangeCoin(int value,bool isDebug = true)
     {
-        _playerData.Coin += value;
+        _playerData.Value.Coin += value;
         if(isDebug)
-            Debug.Log("PlayerCoin:"+_playerData.Coin);
+            Debug.Log("PlayerCoin:"+_playerData.Value.Coin);
     }
 
     public static bool EnableAttack()
     {
-        if (!IsDied || !IsEmptyPower)
+        if (!IsDied && !IsEmptyPower)
             return true;
         return false;
     }

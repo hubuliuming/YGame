@@ -25,9 +25,5 @@ public class WildBoar : EnemyBase
             }
         };
     }
-
-    public override void Init()
-    {
-        base.Init();
-    }
+    
 }

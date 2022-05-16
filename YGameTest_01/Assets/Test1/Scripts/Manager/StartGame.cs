@@ -28,6 +28,8 @@ public class StartGame : MonoBehaviour
         {
             CreateEnemy();
         }
+        if(Input.GetKeyDown(KeyCode.I))
+            CreateItem();
     }
 
     #region TestMeoth
@@ -44,7 +46,7 @@ public class StartGame : MonoBehaviour
     {
         var apple = ItemFactory.activeAppPool.Get();
         apple.transform.SetParent(transform);
-        apple.transform.localPosition = Vector3.one;
+        apple.transform.localPosition = new Vector3(300,0,0);
     }
 
     #endregion

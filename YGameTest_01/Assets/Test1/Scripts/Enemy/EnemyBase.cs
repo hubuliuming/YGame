@@ -39,22 +39,26 @@ public enum RareLevel
     Gold
 }
 
-public abstract class EnemyBase : UIBase,IEnemy
+public abstract class EnemyBase : UIBase,IInit
 {
     protected EnemyData data;
     private PlayerData _playerData;
-    public RareLevel level;
+    protected RareLevel level;
     private ObjectPool<GameObject> _enemyPool;
 
-    public override void Init()
+    public void InitFirst()
     {
         InitData();
         _playerData = GameManager.Instance.PlayerData;
         UiUtility.Get("Btn").AddListener(()=>
         {
-            if(!Player.EnableAttack())
+            if (!Player.EnableAttack())
+            {
+                Debug.Log("玩家已经死亡或者体力不足");
                 return;
-            Player.ChangePower(data.NeedPower,false);
+            }
+              
+            Player.ChangePower(-data.NeedPower,false);
             AttackPlayer();
             Debug.Log("战斗结果:" + AttackResult());
             //todo 以后正式时候打开更新本地数据
@@ -63,16 +67,14 @@ public abstract class EnemyBase : UIBase,IEnemy
             //死亡奖励
             if (AttackResult())
             {
-                Player.ChangeCoin(data.awrd.Coin);
+                Player.ChangeCoin(data.awrd.Coin,false);
                 MsgDispatcher.Send(RegisterMsg.UpdateShowData,null);
             }
-            
-            EnemyFactory.Release(data.Name,gameObject);
+            FactoryBase.Release(data.Name,gameObject);
         });
     }
 
-   
-    public void AttackPlayer()
+    private void AttackPlayer()
     {
         while (data.HP > 0 && _playerData.HP > 0)
         {

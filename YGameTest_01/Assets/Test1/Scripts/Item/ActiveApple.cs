@@ -7,14 +7,24 @@
 *****************************************************/
 
 
+using YFramework;
+
 public class ActiveApple : ItemBase
 {
-    private int _addPower = 10;
-    private void Start()
+    private int _addPower;
+    public override void InitFirst()
     {
+        base.InitFirst();
         UiUtility.Get("Btn").AddListener(()=>
        {
           Player.ChangePower(_addPower);
+          MsgDispatcher.Send(RegisterMsg.UpdateShowData,null);
+          FactoryBase.Release(ItemName.ActiveApple,gameObject);
        });
+    }
+
+    public override void InitData()
+    {
+        _addPower = 10;
     }
 }
