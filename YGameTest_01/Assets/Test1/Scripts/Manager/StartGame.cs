@@ -6,9 +6,7 @@
     功能：Nothing
 *****************************************************/
 
-using System;
 using UnityEngine;
-using YFramework;
 
 public class StartGame : MonoBehaviour 
 {

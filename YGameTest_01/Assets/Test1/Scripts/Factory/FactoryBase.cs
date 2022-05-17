@@ -15,12 +15,13 @@ public interface IInit
     /// <summary>
     /// 对象池第一次创建时候初始化一次
     /// </summary>
-    void InitFirst();
+    void InitOnce();
     /// <summary>
-    /// 每次对象池取用释放时调用初始化数据
+    /// 每次对象池取用释放时调用初始化每个对象的数据
     /// </summary>
-    void InitData();
+    //void InitData();
 }
+
 public class FactoryBase
 {
     protected static Dictionary<string, ObjectPool<GameObject>> pools = new Dictionary<string, ObjectPool<GameObject>>();
@@ -41,7 +42,7 @@ public class FactoryBase
     
     public static void Release(string name,GameObject go)
     {
-        go.GetComponent<IInit>().InitData();
+        //go.GetComponent<IInit>().InitData();
         pools[name].Release(go);
     }
     
@@ -50,7 +51,7 @@ public class FactoryBase
         //Debug.Log("CreatePool");
         var prefab = Resources.Load<GameObject>(path);
         var go = Object.Instantiate(prefab);
-        go.GetComponent<IInit>().InitFirst();
+        go.GetComponent<IInit>().InitOnce();
         return go;
     }
 

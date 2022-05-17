@@ -6,9 +6,7 @@
     功能：Nothing
 *****************************************************/
 
-
-
 public class ItemName
 {
-    public const string ActiveApple = "ActiveApple";
+    public static string ActiveApple = ItemBase.Names.ActiveApple.ToString();
 }

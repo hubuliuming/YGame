@@ -12,6 +12,6 @@ public class Paths : MonoBehaviour
 {
     public static readonly string PlayerData = Application.dataPath + "/Test1/Data/Player";
     //prefab
-    public const string WildBoar = "Prefabs/Enemy/"+EnemyName.WildBoar;
-    public const string ActiveApple = "Prefabs/Item/" + ItemName.ActiveApple;
+    public static readonly string WildBoar = "Prefabs/Enemy/"+EnemyName.WildBoar;
+    public static readonly string ActiveApple = "Prefabs/Item/RecoverItem/" + ItemName.ActiveApple;
 }

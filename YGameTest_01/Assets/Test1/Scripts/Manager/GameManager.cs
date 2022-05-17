@@ -24,18 +24,17 @@ public class GameManager : MonoSingleton<GameManager>
         _playerData = YJsonUtility.Load<PlayerData>(Paths.PlayerData);
     }
 
+    // Name = "小明",
+    // Power = 100,
+    // HP = 200,
+    // Attack = 10,
+    // Defence = 8,
+    // Speed = 10,
+    // Coin = 1000,
     public void ReloadJsonData()
     {
         _playerData = new PlayerData
-        {
-            Name = "小明",
-            Power = 100,
-            HP = 200,
-            Attack = 10,
-            Defence = 8,
-            Speed = 10,
-            Coin = 1000
-        };
+            ("小明", 100, 200, 10, 8, 10, 1000);
         YJsonUtility.Save(_playerData,Paths.PlayerData);
     }
 

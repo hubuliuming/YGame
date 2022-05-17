@@ -6,14 +6,26 @@
     功能：Nothing
 *****************************************************/
 
+using System;
 using YFramework.UI;
+
+[Serializable]
+public struct ItemData
+{
+    public ItemBase.Names Name;
+    public int AddHP;
+    public int AddPower;
+}
 
 public abstract class ItemBase : UIBase,IInit
 {
-    public virtual void InitFirst()
+    public enum Names
     {
-        InitData();
+        ActiveApple,
     }
-
-    public abstract void InitData();
+    public ItemData data;
+    
+    public virtual void InitOnce()
+    {
+    }
 }

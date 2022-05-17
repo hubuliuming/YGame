@@ -11,19 +11,19 @@ public class WildBoar : EnemyBase
 {
     public override void InitData()
     {
-        data = new EnemyData()
-        {
-            Name = EnemyName.WildBoar,
-            HP = 100,
-            Attack = 5,
-            Defence = 2,
-            Speed = 5,
-            NeedPower = 10,
-            awrd = new EnemyData.Award()
-            {
-                Coin = 3
-            }
-        };
+        // data = new EnemyData()
+        // {
+        //     Name = EnemyName.WildBoar,
+        //     HP = 100,
+        //     Attack = 5,
+        //     Defence = 2,
+        //     Speed = 5,
+        //     NeedPower = 10,
+        //     awrd = new EnemyData.Award()
+        //     {
+        //         Coin = 3
+        //     }
+        // };
     }
     
 }

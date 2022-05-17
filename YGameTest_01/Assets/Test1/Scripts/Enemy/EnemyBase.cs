@@ -6,24 +6,27 @@
     功能：Nothing
 *****************************************************/
 
+using System;
 using UnityEngine;
 using UnityEngine.Pool;
 using YFramework;
 using YFramework.UI;
 
+[Serializable]
 public class EnemyData
 {
-    public string Name;
+    public EnemyBase.Names Name;
     public int HP;
     public int Attack;
     public int Defence;
     public int Speed;
 
-    public int NeedPower;
+    public int CostPower;
 
     public Award awrd;
     
     //奖励
+    [Serializable]
     public class Award
     {
         public int Coin;
@@ -39,15 +42,23 @@ public enum RareLevel
     Gold
 }
 
-public abstract class EnemyBase : UIBase,IInit
+public abstract class EnemyBase : UIBase,IEnemy
 {
-    protected EnemyData data;
+    public enum Names
+    {
+        WildBoar,
+    }
+    
+    public EnemyData data;
+    protected EnemyData initData;
     private PlayerData _playerData;
-    protected RareLevel level;
+    // todo level
+    //protected RareLevel level;
     private ObjectPool<GameObject> _enemyPool;
 
-    public void InitFirst()
+    public void InitOnce()
     {
+        initData = data;
         InitData();
         _playerData = GameManager.Instance.PlayerData;
         UiUtility.Get("Btn").AddListener(()=>
@@ -58,7 +69,7 @@ public abstract class EnemyBase : UIBase,IInit
                 return;
             }
               
-            Player.ChangePower(-data.NeedPower,false);
+            Player.ChangePower(-data.CostPower,false);
             AttackPlayer();
             Debug.Log("战斗结果:" + AttackResult());
             //todo 以后正式时候打开更新本地数据
@@ -70,7 +81,7 @@ public abstract class EnemyBase : UIBase,IInit
                 Player.ChangeCoin(data.awrd.Coin,false);
                 MsgDispatcher.Send(RegisterMsg.UpdateShowData,null);
             }
-            FactoryBase.Release(data.Name,gameObject);
+            EnemyFactory.Release(data.Name.ToString(),gameObject);
         });
     }
 

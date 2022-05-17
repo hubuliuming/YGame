@@ -27,6 +27,12 @@ public class Test1 : MonoBehaviour
         //Debug.Log(DateTime.Now.ToString("yyyyMMddHHmmss"));
         //Debug.Log(DateTime.Now.ToString());
 
+        string str = "1221";
+        var upstr = str.Substring(0, str.Length / 2);
+        var downstr = str.Substring(str.Length / 2);
+        
+        Debug.Log(upstr); 
+        Debug.Log(downstr);
     }
 
     private void Update()

@@ -1,13 +1,15 @@
 /****************************************************
-    文件：EnemyName.cs
+    文件：NormalEnemy.cs
     作者：Y
     邮箱: 916111418@qq.com
     日期：#CreateTime#
     功能：Nothing
 *****************************************************/
 
-public class EnemyName
+public class NormalEnemy : EnemyBase 
 {
-    //野猪
-    public static readonly string WildBoar = EnemyBase.Names.WildBoar.ToString();
+    public override void InitData()
+    {
+        data = initData;
+    }
 }

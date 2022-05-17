@@ -7,14 +7,15 @@
 *****************************************************/
 
 
+using System;
 using YFramework;
-
-public class ActiveApple : ItemBase
+[Obsolete]
+public class ActiveApple : ItemBase 
 {
     private int _addPower;
-    public override void InitFirst()
+    public override void InitOnce()
     {
-        base.InitFirst();
+        base.InitOnce();
         UiUtility.Get("Btn").AddListener(()=>
        {
           Player.ChangePower(_addPower);
@@ -23,8 +24,8 @@ public class ActiveApple : ItemBase
        });
     }
 
-    public override void InitData()
-    {
-        _addPower = 10;
-    }
+    // public override void InitData()
+    // {
+    //     _addPower = 10;
+    // }
 }
