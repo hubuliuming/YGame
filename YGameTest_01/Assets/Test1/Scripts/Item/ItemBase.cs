@@ -7,14 +7,19 @@
 *****************************************************/
 
 using System;
+using YFramework;
 using YFramework.UI;
 
 [Serializable]
 public struct ItemData
 {
-    public ItemBase.Names Name;
-    public int AddHP;
-    public int AddPower;
+    public ItemBase.Names name;
+    public int addHp;
+    public int addPower;
+    public int addAttack;
+    public int addDefence;
+    public int addSpeed;
+    public int addCoin;
 }
 
 public abstract class ItemBase : UIBase,IInit
@@ -27,5 +32,6 @@ public abstract class ItemBase : UIBase,IInit
     
     public virtual void InitOnce()
     {
+       
     }
 }

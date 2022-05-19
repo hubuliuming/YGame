@@ -6,6 +6,7 @@
     功能：Nothing
 *****************************************************/
 
+using System.Collections.Generic;
 using YFramework;
 
 public class GameManager : MonoSingleton<GameManager>
@@ -21,7 +22,7 @@ public class GameManager : MonoSingleton<GameManager>
 
     public void InitPlayer()
     {
-        _playerData = YJsonUtility.Load<PlayerData>(Paths.PlayerData);
+        _playerData = YJsonUtility.ReadFromJson<PlayerData>(Paths.PlayerData);
     }
 
     // Name = "小明",
@@ -34,13 +35,19 @@ public class GameManager : MonoSingleton<GameManager>
     public void ReloadJsonData()
     {
         _playerData = new PlayerData
-            ("小明", 100, 200, 10, 8, 10, 1000);
-        YJsonUtility.Save(_playerData,Paths.PlayerData);
+            ("小明", 100, 200, 10, 8, 10, 1000)
+            {
+                goodsDict =new Dictionary<string, int>()
+                {
+                    {"馒头",5}
+                }
+            };
+        YJsonUtility.WriteToJson(_playerData,Paths.PlayerData);
     }
 
     public void UpdateLocalPlayerData()
     {
-        YJsonUtility.Save(_playerData,Paths.PlayerData);
+        YJsonUtility.WriteToJson(_playerData,Paths.PlayerData);
     }
     
     

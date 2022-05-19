@@ -12,7 +12,7 @@ public class StartGame : MonoBehaviour
 {
     private void Start()
     {
-        //GameManager.Instance.ReloadJsonData();
+        GameManager.Instance.ReloadJsonData();
         
         GameManager.Instance.InitPlayer();
 

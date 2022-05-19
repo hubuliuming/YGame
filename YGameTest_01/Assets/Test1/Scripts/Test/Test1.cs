@@ -7,15 +7,24 @@
 *****************************************************/
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using Unity.Plastic.Newtonsoft.Json;
+using Unity.VisualScripting.YamlDotNet.Serialization;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
 public class Test1 : MonoBehaviour
 {
+    
+    public class Wood
+    {
+        
+    }
     private float _curTime;
 
     private TimeSpan _timeSpan;
+    [SerializeField] private Character crt;
     
     private void Start()
     {
@@ -33,10 +42,9 @@ public class Test1 : MonoBehaviour
         
         Debug.Log(upstr); 
         Debug.Log(downstr);
-    }
+        Deserializer des = new Deserializer();
 
-    private void Update()
-    {
-        
+        des.Deserialize<Dictionary<string,int>>("dsf");
     }
+    
 }

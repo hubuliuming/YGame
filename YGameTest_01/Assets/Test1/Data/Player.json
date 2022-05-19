@@ -1,1 +1,13 @@
-{"Name":"小明","Power":100,"HP":200,"Attack":10,"Defence":8,"Speed":10,"Coin":1000,"UpperPower":100,"UpperHP":200,"UpperAttack":10,"UpperDefence":8,"UpperSpeed":10}
+{"Name":"小明",
+"Power":100,
+"HP":200,
+"Attack":10,
+"Defence":8,
+"Speed":10,
+"Coin":1000,
+"UpperPower":100,
+"UpperHP":200,
+"UpperAttack":10,
+"UpperDefence":8,
+"UpperSpeed":10,
+"goodsDict":{"馒头":5}}

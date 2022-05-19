@@ -6,9 +6,11 @@
     功能：Nothing
 *****************************************************/
 
-
+using System;
+using System.Collections.Generic;
 public class PlayerData
 {
+   
     public string Name;
     public int Power;
     public int HP;
@@ -23,6 +25,10 @@ public class PlayerData
     public int UpperDefence;
     public int UpperSpeed;
 
+    /// <summary>
+    /// 物品名字 key is 物品名字，value 是数量
+    /// </summary>
+    public Dictionary<string, int> goodsDict;
     //允许降低上限数值的最小值
     public const int LimitMinPower = 50;
     public const int LimitMinHP = 100;

@@ -15,11 +15,9 @@ public class RecoverItem : ItemBase
         base.InitOnce();
         UiUtility.Get("Btn").AddListener(()=>
         {
-            Player.ChangeHP(data.AddHP,false);
-            Player.ChangePower(data.AddPower,false);
+            Player.ChangeAll(data,true);
             MsgDispatcher.Send(RegisterMsg.UpdateShowData,null);
-            FactoryBase.Release(data.Name.ToString(),gameObject);
+            FactoryBase.Release(data.name.ToString(),gameObject);
         });
     }
-    
 }

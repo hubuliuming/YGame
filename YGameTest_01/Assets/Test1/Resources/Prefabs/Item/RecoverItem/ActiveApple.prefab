@@ -253,5 +253,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data:
-    AddHP: 10
-    AddPower: 10
+    name: 0
+    addHp: 0
+    addPower: 10
+    addAttack: 0
+    addDefence: 0
+    addSpeed: 0
+    addCoin: 0

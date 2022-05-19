@@ -6,21 +6,15 @@
     功能：Mono类单例基类
 *****************************************************/
 
+using System;
 using UnityEngine;
 
 namespace YFramework
 {
-    public class MonoSingleton<T> : MonoBehaviour where  T : MonoBehaviour
+    public class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
     {
         private static T m_instance;
-
-        public static T Instance
-        {
-            get
-            {
-                return m_instance;
-            }
-        }
+        public static T Instance => m_instance;
 
         private void Awake()
         {

@@ -45,6 +45,8 @@ public class Player
     public static void ChangePower(int value,bool isDebug = true)
     {
         //Power += value;
+        if(value == 0)
+            return;
         if (_playerData.Value.Power + value < 0)
         {
             //todo 体力不够
@@ -66,9 +68,10 @@ public class Player
         if(isDebug)
             Debug.Log("PlayerPower:"+_playerData.Value.Power);
     }
-
     public static void ChangeUpperPower(int value, bool isDebug = true)
     {
+        if(value == 0)
+            return;
         if (_playerData.Value.UpperPower + value < PlayerData.LimitMinPower)
         {
             _playerData.Value.UpperPower = PlayerData.LimitMinPower;
@@ -82,16 +85,12 @@ public class Player
     }
     public static void ChangeHP(int value,bool isDebug = true)
     {
-        if (_playerData.Value.HP <=0 ||_playerData.Value.HP + value <= 0)
-        {
-            //todo 玩家死亡
-            IsDied = true;
-            Debug.Log("玩家死亡！");
-            _playerData.Value.HP = 0;
+        if(value == 0)
             return;
-        }
+        if(CheckChangeDied(value))
+            return;
         //恢复的血量不可以超过血量上限
-        else if (_playerData.Value.HP + value >= _playerData.Value.UpperHP)
+        if (_playerData.Value.HP + value >= _playerData.Value.UpperHP)
         {
             _playerData.Value.HP = _playerData.Value.UpperHP;
         }
@@ -104,15 +103,16 @@ public class Player
         if(isDebug)
             Debug.Log("PlayerHP:"+_playerData.Value.HP);
     }
-    
+  
     public static void ChangeHPAttack(int attack,bool isDebug = true)
     {
         var value = AttackMath.AttackValue(attack, _playerData.Value.Defence,isDebug);
         ChangeHP(-value,isDebug);
     }
-    
     public static void ChangeUpperHP(int value, bool isDebug = true)
     {
+        if(value == 0)
+            return;
         if (_playerData.Value.UpperHP + value < PlayerData.LimitMinHP)
         {
             _playerData.Value.UpperHP = PlayerData.LimitMinHP;
@@ -124,9 +124,10 @@ public class Player
         if(isDebug)
             Debug.Log("当前生命上限值为:"+_playerData.Value.UpperHP);
     }
-    
     public static void ChangeAttack(int value,bool isDebug = true)
     {
+        if(value == 0)
+            return;
         if (_playerData.Value.Attack + value < PlayerData.LimitMinAttack)
         {
             _playerData.Value.Attack = PlayerData.LimitMinAttack;
@@ -142,9 +143,10 @@ public class Player
         if(isDebug)
             Debug.Log("PlayerAttack:"+_playerData.Value.Attack);
     }
-
     public static void ChangeUpperAttack(int value, bool isDebug = true)
     {
+        if(value == 0)
+            return;
         if (_playerData.Value.UpperAttack + value < PlayerData.LimitMinAttack)
         {
             _playerData.Value.UpperAttack = PlayerData.LimitMinAttack;
@@ -158,6 +160,8 @@ public class Player
     }
     public static void ChangeDefence(int value,bool isDebug = true)
     {
+        if(value == 0)
+            return;
         if (_playerData.Value.Defence + value < PlayerData.LimitMinDefence)
         {
             _playerData.Value.Defence = PlayerData.LimitMinDefence;
@@ -173,9 +177,10 @@ public class Player
         if(isDebug)
             Debug.Log("PlayerDefence:"+_playerData.Value.Defence);
     }
-    
     public static void ChangeUpperDefence(int value, bool isDebug = true)
     {
+        if(value == 0)
+            return;
         if (_playerData.Value.UpperDefence + value < PlayerData.LimitMinDefence)
         {
             _playerData.Value.UpperDefence = PlayerData.LimitMinDefence;
@@ -189,6 +194,8 @@ public class Player
     }
     public static void ChangeSpeed(int value,bool isDebug = true)
     {
+        if(value == 0)
+            return;
         if (_playerData.Value.Speed + value < PlayerData.LimitMinSpeed)
         {
             _playerData.Value.Speed = PlayerData.LimitMinSpeed;
@@ -204,9 +211,10 @@ public class Player
         if(isDebug)
             Debug.Log("PlayerSpeed:"+_playerData.Value.Speed);
     }
-    
     public static void ChangeUpperSpeed(int value, bool isDebug = true)
     {
+        if(value == 0)
+            return;
         if (_playerData.Value.UpperSpeed + value < PlayerData.LimitMinSpeed)
         {
             _playerData.Value.UpperSpeed = PlayerData.LimitMinSpeed;
@@ -220,6 +228,8 @@ public class Player
     }
     public static void ChangeCoin(int value,bool isDebug = true)
     {
+        if(value == 0)
+            return;
         if (_playerData.Value.Coin + value < 0)
             _playerData.Value.Coin = 0;
         else
@@ -228,11 +238,37 @@ public class Player
             Debug.Log("PlayerCoin:"+_playerData.Value.Coin);
     }
 
+    public static void ChangeAll(ItemData data,bool isDebug = true)
+    {
+        ChangePower(data.addPower,isDebug);
+        ChangeHP(data.addHp,isDebug);
+        ChangeAttack(data.addAttack,isDebug);
+        ChangeDefence(data.addDefence,isDebug);
+        ChangeSpeed(data.addSpeed,isDebug);
+        ChangeCoin(data.addCoin,isDebug);
+    }
+
     public static bool EnableAttack()
     {
         if (!IsDied && !IsEmptyPower)
             return true;
         return false;
     }
+    
+    
+    
+    private static bool CheckChangeDied(int value)
+    {
+        if (_playerData.Value.HP <=0 ||_playerData.Value.HP + value <= 0)
+        {
+            //todo 玩家死亡
+            IsDied = true;
+            Debug.Log("玩家死亡！");
+            _playerData.Value.HP = 0;
+            return true;
+        }
+
+        return false;
+    }   
 
 }

@@ -7,30 +7,37 @@
 *****************************************************/
 
 using System.IO;
+using Unity.Plastic.Newtonsoft.Json;
 using UnityEngine;
 
 namespace YFramework
 {
     public static class YJsonUtility 
     {
-        public static void Save<T>(T data,string savePath) where T : class
+        public static void WriteToJson<T>(T data,string savePath)
         {
             if (!savePath.EndsWith(".json"))
-                savePath += ".json"; 
-            var jsonStr = JsonUtility.ToJson(data);
+                savePath += ".json";
+            var jsonStr =JsonConvert.SerializeObject(data);
             StreamWriter sw = new StreamWriter(savePath);
-            sw.Write(jsonStr);
+            var str = jsonStr.Split(",");
+            for (int i = 0; i < str.Length -1; i++)
+            {
+                sw.WriteLine(str[i] + ",");
+            }
+            sw.Write(str[str.Length-1]);
             sw.Close();
         }
 
-        public static T Load<T>(string path) where T : class
+        public static T ReadFromJson<T>(string path) 
         {
             if (!path.EndsWith(".json"))
                 path += ".json"; 
             StreamReader sr = new StreamReader(path);
             var data = sr.ReadToEnd(); 
             sr.Close();
-            return JsonUtility.FromJson<T>(data);
+            return JsonConvert.DeserializeObject<T>(data);
         }
+
     }
 }
