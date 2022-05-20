@@ -29,9 +29,10 @@ public abstract class ItemBase : UIBase,IInit
         ActiveApple,
     }
     public ItemData data;
+    protected Player _player;
     
     public virtual void InitOnce()
     {
-       
+        _player = GameManager.Instance.player;
     }
 }

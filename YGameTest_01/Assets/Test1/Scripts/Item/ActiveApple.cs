@@ -18,7 +18,7 @@ public class ActiveApple : ItemBase
         base.InitOnce();
         UiUtility.Get("Btn").AddListener(()=>
        {
-          Player.ChangePower(_addPower);
+          //Player.ChangePower(_addPower);
           MsgDispatcher.Send(RegisterMsg.UpdateShowData,null);
           FactoryBase.Release(ItemName.ActiveApple,gameObject);
        });

@@ -1,5 +1,5 @@
 /****************************************************
-    文件：NormalEnemy.cs
+    文件：GoodsName.cs
     作者：Y
     邮箱: 916111418@qq.com
     日期：#CreateTime#
@@ -8,11 +8,7 @@
 
 using UnityEngine;
 
-public class NormalEnemy : EnemyBase 
+public class GoodsName : MonoBehaviour
 {
-    public override void InitData()
-    {
-        Debug.Log(initData.HP);
-        data = initData;
-    }
+    public static readonly string LittleMeat = "LittleMeat";
 }

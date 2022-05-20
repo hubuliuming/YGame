@@ -7,238 +7,272 @@
 *****************************************************/
 
 using UnityEngine;
-using System;
+using System.Collections.Generic;
+using YFramework;
 
 public class Player
 {
-    private static Lazy<PlayerData> _playerData = new Lazy<PlayerData>(GameManager.Instance.PlayerData);
-    public static bool IsDied { get; private set; }
-    public static bool IsEmptyPower { get; private set; }
-
-    // private static int Power
-    // {
-    //     get => _playerData.Value.Power;
-    //     set
-    //     {
-    //         if (value < 0)
-    //         {
-    //             IsEmptyPower = true;
-    //             _playerData.Value.UpperPower = 0;
-    //             Debug.Log("体力不足!");
-    //         }
-    //         else if (value > _playerData.Value.UpperPower)
-    //         {
-    //             _playerData.Value.Power = _playerData.Value.UpperPower;
-    //         }
-    //         else
-    //         {
-    //             _playerData.Value.Power = value;
-    //         }
-    //     }
-    // }
-    
-    public static void ChangeName(string nameStr)
+    private  PlayerData _playerData;
+    //public PlayerData playerData => _playerData;
+    public Player()
     {
-        _playerData.Value.Name = nameStr;
+        InitPlayer();
+    }
+    public Player(PlayerData playerData)
+    {
+        this._playerData = playerData;
     }
 
-    public static void ChangePower(int value,bool isDebug = true)
+    public bool IsDied { get; private set; }
+    public bool IsEmptyPower { get; private set; }
+
+    public string Name => _playerData.Name;
+    
+    public int Power => _playerData.Power;
+    public int HP => _playerData.HP;
+    public int Attack => _playerData.Attack;
+    public int Defence => _playerData.Defence;
+    public int Speed => _playerData.Speed;
+    public int Coin => _playerData.Coin;
+    
+    public int UpperPower => _playerData.UpperPower;
+    public int UpperHP => _playerData.UpperHP;
+    public int UpperAttack => _playerData.UpperAttack;
+    public int UpperDefence => _playerData.UpperDefence;
+    public int UpperSpeed => _playerData.UpperSpeed;
+
+    // Name = "小明",
+    // Power = 100,
+    // HP = 200,
+    // Attack = 10,
+    // Defence = 8,
+    // Speed = 10,
+    // Coin = 1000,
+    public void ReLoadJsonData()
     {
-        //Power += value;
+        _playerData = new PlayerData
+            ("小明", 100, 200, 10, 8, 10, 1000)
+            {
+                goodsDict =new Dictionary<string, int>()
+                {
+                    {"馒头",5}
+                }
+            };
+        YJsonUtility.WriteToJson(_playerData,Paths.PlayerData);
+    }
+    
+    public void InitPlayer()
+    {
+        _playerData = YJsonUtility.ReadFromJson<PlayerData>(Paths.PlayerData);
+    }
+
+    private void UpdateLocalPlayerData()
+    {
+        YJsonUtility.WriteToJson(_playerData,Paths.PlayerData);
+    }
+    
+    #region ChangePlayerData
+    public void ChangeName(string nameStr)
+    {
+        _playerData.Name = nameStr;
+        UpdateLocalPlayerData();
+    }
+
+    public void ChangePower(int value,bool isDebug = true)
+    {
         if(value == 0)
             return;
-        if (_playerData.Value.Power + value < 0)
+        if (_playerData.Power + value < 0)
         {
             //todo 体力不够
             IsEmptyPower = true;
-            _playerData.Value.Power = 0;
+            _playerData.Power = 0;
             Debug.Log("体力不足!");
             return;
         }
         //恢复的体力不可以超过体力上限
-        else if (_playerData.Value.Power + value >= _playerData.Value.UpperPower)
+        else if (_playerData.Power + value >= _playerData.UpperPower)
         {
-            _playerData.Value.Power = _playerData.Value.UpperPower;
+            _playerData.Power = _playerData.UpperPower;
         }
         else
         {
-            _playerData.Value.Power += value;
+            _playerData.Power += value;
         }
         IsEmptyPower = false;
         if(isDebug)
-            Debug.Log("PlayerPower:"+_playerData.Value.Power);
+            Debug.Log("PlayerPower:"+_playerData.Power);
     }
-    public static void ChangeUpperPower(int value, bool isDebug = true)
+    public void ChangeUpperPower(int value, bool isDebug = true)
     {
         if(value == 0)
             return;
-        if (_playerData.Value.UpperPower + value < PlayerData.LimitMinPower)
+        if (_playerData.UpperPower + value < PlayerData.LimitMinPower)
         {
-            _playerData.Value.UpperPower = PlayerData.LimitMinPower;
+            _playerData.UpperPower = PlayerData.LimitMinPower;
             Debug.Log("已经到达最低体力上限值");
             return;
         }
 
-        _playerData.Value.UpperPower += value;
+        _playerData.UpperPower += value;
         if(isDebug)
-            Debug.Log("当前体力上限值为:"+_playerData.Value.UpperPower);
+            Debug.Log("当前体力上限值为:"+_playerData.UpperPower);
     }
-    public static void ChangeHP(int value,bool isDebug = true)
+    public void ChangeHP(int value,bool isDebug = true)
     {
         if(value == 0)
             return;
         if(CheckChangeDied(value))
             return;
         //恢复的血量不可以超过血量上限
-        if (_playerData.Value.HP + value >= _playerData.Value.UpperHP)
+        if (_playerData.HP + value >= _playerData.UpperHP)
         {
-            _playerData.Value.HP = _playerData.Value.UpperHP;
+            _playerData.HP = _playerData.UpperHP;
         }
         else
         {
-            _playerData.Value.HP += value;
+            _playerData.HP += value;
         }
 
         IsDied = false;
         if(isDebug)
-            Debug.Log("PlayerHP:"+_playerData.Value.HP);
+            Debug.Log("PlayerHP:"+_playerData.HP);
     }
-  
-    public static void ChangeHPAttack(int attack,bool isDebug = true)
+    public void ChangeHPAttack(int attack,bool isDebug = true)
     {
-        var value = AttackMath.AttackValue(attack, _playerData.Value.Defence,isDebug);
+        var value = AttackMath.AttackValue(attack, _playerData.Defence,isDebug);
         ChangeHP(-value,isDebug);
     }
-    public static void ChangeUpperHP(int value, bool isDebug = true)
+    public void ChangeUpperHP(int value, bool isDebug = true)
     {
         if(value == 0)
             return;
-        if (_playerData.Value.UpperHP + value < PlayerData.LimitMinHP)
+        if (_playerData.UpperHP + value < PlayerData.LimitMinHP)
         {
-            _playerData.Value.UpperHP = PlayerData.LimitMinHP;
+            _playerData.UpperHP = PlayerData.LimitMinHP;
             Debug.Log("已经到达最低生命上限值");
             return;
         }
 
-        _playerData.Value.UpperHP += value;
+        _playerData.UpperHP += value;
         if(isDebug)
-            Debug.Log("当前生命上限值为:"+_playerData.Value.UpperHP);
+            Debug.Log("当前生命上限值为:"+_playerData.UpperHP);
     }
-    public static void ChangeAttack(int value,bool isDebug = true)
+    public void ChangeAttack(int value,bool isDebug = true)
     {
         if(value == 0)
             return;
-        if (_playerData.Value.Attack + value < PlayerData.LimitMinAttack)
+        if (_playerData.Attack + value < PlayerData.LimitMinAttack)
         {
-            _playerData.Value.Attack = PlayerData.LimitMinAttack;
+            _playerData.Attack = PlayerData.LimitMinAttack;
         }
-        else if (_playerData.Value.Attack + value > _playerData.Value.UpperAttack)
+        else if (_playerData.Attack + value > _playerData.UpperAttack)
         {
-            _playerData.Value.Attack = _playerData.Value.UpperAttack;
+            _playerData.Attack = _playerData.UpperAttack;
         }
         else
         {
-            _playerData.Value.Attack += value;
+            _playerData.Attack += value;
         }
         if(isDebug)
-            Debug.Log("PlayerAttack:"+_playerData.Value.Attack);
+            Debug.Log("PlayerAttack:"+_playerData.Attack);
     }
-    public static void ChangeUpperAttack(int value, bool isDebug = true)
+    public void ChangeUpperAttack(int value, bool isDebug = true)
     {
         if(value == 0)
             return;
-        if (_playerData.Value.UpperAttack + value < PlayerData.LimitMinAttack)
+        if (_playerData.UpperAttack + value < PlayerData.LimitMinAttack)
         {
-            _playerData.Value.UpperAttack = PlayerData.LimitMinAttack;
+            _playerData.UpperAttack = PlayerData.LimitMinAttack;
         }
         else
         {
-            _playerData.Value.UpperAttack += value;
+            _playerData.UpperAttack += value;
         }
         if(isDebug)
-            Debug.Log("PlayerUpperAttack:"+_playerData.Value.UpperAttack);
+            Debug.Log("PlayerUpperAttack:"+_playerData.UpperAttack);
     }
-    public static void ChangeDefence(int value,bool isDebug = true)
+    public void ChangeDefence(int value,bool isDebug = true)
     {
         if(value == 0)
             return;
-        if (_playerData.Value.Defence + value < PlayerData.LimitMinDefence)
+        if (_playerData.Defence + value < PlayerData.LimitMinDefence)
         {
-            _playerData.Value.Defence = PlayerData.LimitMinDefence;
+            _playerData.Defence = PlayerData.LimitMinDefence;
         }
-        else if (_playerData.Value.Defence + value > _playerData.Value.Defence)
+        else if (_playerData.Defence + value > _playerData.Defence)
         {
-            _playerData.Value.Defence = _playerData.Value.UpperDefence;
+            _playerData.Defence = _playerData.UpperDefence;
         }
         else
         {
-            _playerData.Value.Defence += value;
+            _playerData.Defence += value;
         }
         if(isDebug)
-            Debug.Log("PlayerDefence:"+_playerData.Value.Defence);
+            Debug.Log("PlayerDefence:"+_playerData.Defence);
     }
-    public static void ChangeUpperDefence(int value, bool isDebug = true)
+    public void ChangeUpperDefence(int value, bool isDebug = true)
     {
         if(value == 0)
             return;
-        if (_playerData.Value.UpperDefence + value < PlayerData.LimitMinDefence)
+        if (_playerData.UpperDefence + value < PlayerData.LimitMinDefence)
         {
-            _playerData.Value.UpperDefence = PlayerData.LimitMinDefence;
+            _playerData.UpperDefence = PlayerData.LimitMinDefence;
         }
         else
         {
-            _playerData.Value.UpperDefence += value;
+            _playerData.UpperDefence += value;
         }
         if(isDebug)
-            Debug.Log("PlayerUpperDefence:"+_playerData.Value.UpperDefence);
+            Debug.Log("PlayerUpperDefence:"+_playerData.UpperDefence);
     }
-    public static void ChangeSpeed(int value,bool isDebug = true)
+    public void ChangeSpeed(int value,bool isDebug = true)
     {
         if(value == 0)
             return;
-        if (_playerData.Value.Speed + value < PlayerData.LimitMinSpeed)
+        if (_playerData.Speed + value < PlayerData.LimitMinSpeed)
         {
-            _playerData.Value.Speed = PlayerData.LimitMinSpeed;
+            _playerData.Speed = PlayerData.LimitMinSpeed;
         }
-        else if (_playerData.Value.Speed + value > _playerData.Value.UpperSpeed)
+        else if (_playerData.Speed + value > _playerData.UpperSpeed)
         {
-            _playerData.Value.Speed = _playerData.Value.UpperSpeed;
+            _playerData.Speed = _playerData.UpperSpeed;
         }
         else
         {
-            _playerData.Value.Speed += value;
+            _playerData.Speed += value;
         }
         if(isDebug)
-            Debug.Log("PlayerSpeed:"+_playerData.Value.Speed);
+            Debug.Log("PlayerSpeed:"+_playerData.Speed);
     }
-    public static void ChangeUpperSpeed(int value, bool isDebug = true)
+    public void ChangeUpperSpeed(int value, bool isDebug = true)
     {
         if(value == 0)
             return;
-        if (_playerData.Value.UpperSpeed + value < PlayerData.LimitMinSpeed)
+        if (_playerData.UpperSpeed + value < PlayerData.LimitMinSpeed)
         {
-            _playerData.Value.UpperSpeed = PlayerData.LimitMinSpeed;
+            _playerData.UpperSpeed = PlayerData.LimitMinSpeed;
         }
         else
         {
-            _playerData.Value.UpperSpeed += value;
+            _playerData.UpperSpeed += value;
         }
         if(isDebug)
-            Debug.Log("PlayerUpperSpeed:"+_playerData.Value.UpperSpeed);
+            Debug.Log("PlayerUpperSpeed:"+_playerData.UpperSpeed);
     }
-    public static void ChangeCoin(int value,bool isDebug = true)
+    public void ChangeCoin(int value,bool isDebug = true)
     {
         if(value == 0)
             return;
-        if (_playerData.Value.Coin + value < 0)
-            _playerData.Value.Coin = 0;
+        if (_playerData.Coin + value < 0)
+            _playerData.Coin = 0;
         else
-            _playerData.Value.Coin += value;
+            _playerData.Coin += value;
         if(isDebug)
-            Debug.Log("PlayerCoin:"+_playerData.Value.Coin);
+            Debug.Log("PlayerCoin:"+_playerData.Coin);
     }
 
-    public static void ChangeAll(ItemData data,bool isDebug = true)
+    public void ChangeAll(ItemData data,bool isDebug = true)
     {
         ChangePower(data.addPower,isDebug);
         ChangeHP(data.addHp,isDebug);
@@ -248,27 +282,41 @@ public class Player
         ChangeCoin(data.addCoin,isDebug);
     }
 
-    public static bool EnableAttack()
+    public bool EnableAttack()
     {
         if (!IsDied && !IsEmptyPower)
             return true;
         return false;
     }
     
-    
-    
-    private static bool CheckChangeDied(int value)
+    private bool CheckChangeDied(int value)
     {
-        if (_playerData.Value.HP <=0 ||_playerData.Value.HP + value <= 0)
+        if (_playerData.HP <=0 ||_playerData.HP + value <= 0)
         {
             //todo 玩家死亡
             IsDied = true;
             Debug.Log("玩家死亡！");
-            _playerData.Value.HP = 0;
+            _playerData.HP = 0;
             return true;
         }
 
         return false;
     }   
 
+    #endregion
+
+    #region ChangeGoodsDic
+    public void ChangeGoodsDic(string goodsName,int num)
+    {
+        if (_playerData.goodsDict.ContainsKey(goodsName))
+        {
+            _playerData.goodsDict[goodsName] += num;
+        }
+        else
+        {
+            //todo bug 可能为负数取出没有的物品
+            _playerData.goodsDict.Add(goodsName,num);
+        }
+    }
+    #endregion
 }

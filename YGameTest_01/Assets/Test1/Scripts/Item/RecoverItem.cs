@@ -15,7 +15,7 @@ public class RecoverItem : ItemBase
         base.InitOnce();
         UiUtility.Get("Btn").AddListener(()=>
         {
-            Player.ChangeAll(data,true);
+            _player.ChangeAll(data,true);
             MsgDispatcher.Send(RegisterMsg.UpdateShowData,null);
             FactoryBase.Release(data.name.ToString(),gameObject);
         });

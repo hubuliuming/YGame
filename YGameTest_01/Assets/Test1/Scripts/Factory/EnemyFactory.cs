@@ -11,6 +11,9 @@ using UnityEngine.Pool;
 
 public interface IEnemy: IInit
 {
+    /// <summary>
+    /// 每次对象池中释放时候调用
+    /// </summary>
     void InitData();
 }
 public class EnemyFactory : FactoryBase

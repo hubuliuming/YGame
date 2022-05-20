@@ -8,13 +8,13 @@
 
 using UnityEngine;
 
-public class StartGame : MonoBehaviour 
+public class StartGame : MonoBehaviour
 {
     private void Start()
     {
-        GameManager.Instance.ReloadJsonData();
-        
-        GameManager.Instance.InitPlayer();
+        //Player.ReLoadJsonData();
+        GameManager.Instance.player = new Player();
+        //_player.InitPlayer();
 
         transform.Find("PlayerData").GetComponent<PlayerDataUI>().Init();
     }

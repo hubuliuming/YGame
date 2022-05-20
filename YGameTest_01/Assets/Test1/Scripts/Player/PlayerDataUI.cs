@@ -12,11 +12,11 @@ using YFramework.UI;
 
 public class PlayerDataUI : UIBase
 {
-    private PlayerData _playerData;
     private Text _showText;
+    private Player _player;
     public override void Init()
     {
-        _playerData = GameManager.Instance.PlayerData;
+        _player = GameManager.Instance.player;
         _showText = UiUtility.Get("Text").Text;
         UpdateShow();
         MsgDispatcher.Register(RegisterMsg.UpdateShowData,o=>UpdateShow());
@@ -29,12 +29,12 @@ public class PlayerDataUI : UIBase
 
     public void UpdateShow()
     {
-        _showText.text = ("昵称：" + _playerData.Name + 
-         "\n\n生命："+_playerData.HP +
-         "\n\n体力："+_playerData.Power+
-         "\n\n攻击力："+_playerData.Attack+
-         "\n\n防御力："+_playerData.Defence+
-         "\n\n速度："+_playerData.Speed+
-         "\n\n金币："+_playerData.Coin);
+        _showText.text = ("昵称：" + _player.Name + 
+         "\n\n生命："+_player.HP +
+         "\n\n体力："+_player.Power+
+         "\n\n攻击力："+_player.Attack+
+         "\n\n防御力："+_player.Defence+
+         "\n\n速度："+_player.Speed+
+         "\n\n金币："+_player.Coin);
     }
 }

@@ -6,49 +6,27 @@
     功能：Nothing
 *****************************************************/
 
-using System.Collections.Generic;
 using YFramework;
 
 public class GameManager : MonoSingleton<GameManager>
 {
     //private Stopwatch t = new Stopwatch();
-    private PlayerData _playerData;
-    public PlayerData PlayerData => _playerData;
+    // private PlayerData _playerData;
+    // public PlayerData PlayerData => _playerData;
 
+    public Player player;
+    
     private void OnDestroy()
     {
         MsgDispatcher.UnRegisterAll();
     }
 
-    public void InitPlayer()
-    {
-        _playerData = YJsonUtility.ReadFromJson<PlayerData>(Paths.PlayerData);
-    }
+    
 
-    // Name = "小明",
-    // Power = 100,
-    // HP = 200,
-    // Attack = 10,
-    // Defence = 8,
-    // Speed = 10,
-    // Coin = 1000,
-    public void ReloadJsonData()
-    {
-        _playerData = new PlayerData
-            ("小明", 100, 200, 10, 8, 10, 1000)
-            {
-                goodsDict =new Dictionary<string, int>()
-                {
-                    {"馒头",5}
-                }
-            };
-        YJsonUtility.WriteToJson(_playerData,Paths.PlayerData);
-    }
+   
+  
 
-    public void UpdateLocalPlayerData()
-    {
-        YJsonUtility.WriteToJson(_playerData,Paths.PlayerData);
-    }
+    
     
     
 }
