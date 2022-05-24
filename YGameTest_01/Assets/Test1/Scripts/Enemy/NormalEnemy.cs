@@ -12,7 +12,6 @@ public class NormalEnemy : EnemyBase
 {
     public override void InitData()
     {
-        Debug.Log(initData.HP);
         data = initData;
     }
 }

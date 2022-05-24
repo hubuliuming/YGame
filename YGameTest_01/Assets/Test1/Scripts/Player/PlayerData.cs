@@ -6,12 +6,13 @@
     功能：Nothing
 *****************************************************/
 
-using System;
 using System.Collections.Generic;
 public class PlayerData
 {
    
     public string Name;
+    public int Level;
+    public long Exp;
     public int Power;
     public int HP;
     public int Attack;
@@ -36,8 +37,12 @@ public class PlayerData
     public const int LimitMinDefence = 4;
     public const int LimitMinSpeed = 5;
 
+    public const int MaxLevel = 100;
+
     public PlayerData(
         string name,
+        int level,
+        long exp,
         int power,
         int hp,
         int attack,
@@ -46,6 +51,8 @@ public class PlayerData
         int coin)
     {
         this.Name = name;
+        this.Level = level;
+        this.Exp = exp;
         this.Power = power;
         this.HP = hp;
         this.Attack = attack;

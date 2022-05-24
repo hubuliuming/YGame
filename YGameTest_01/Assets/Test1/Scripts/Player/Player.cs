@@ -27,7 +27,8 @@ public class Player
     public bool IsEmptyPower { get; private set; }
 
     public string Name => _playerData.Name;
-    
+    public int Level => _playerData.Level;
+    public long Exp => _playerData.Exp;
     public int Power => _playerData.Power;
     public int HP => _playerData.HP;
     public int Attack => _playerData.Attack;
@@ -41,21 +42,15 @@ public class Player
     public int UpperDefence => _playerData.UpperDefence;
     public int UpperSpeed => _playerData.UpperSpeed;
 
-    // Name = "小明",
-    // Power = 100,
-    // HP = 200,
-    // Attack = 10,
-    // Defence = 8,
-    // Speed = 10,
-    // Coin = 1000,
+ 
     public void ReLoadJsonData()
     {
         _playerData = new PlayerData
-            ("小明", 100, 200, 10, 8, 10, 1000)
+            ("小明", 1,0,100, 200, 10, 8, 10, 1000)
             {
                 goodsDict =new Dictionary<string, int>()
                 {
-                    {"馒头",5}
+                    {GoodsNames.SteamedBun,5}
                 }
             };
         YJsonUtility.WriteToJson(_playerData,Paths.PlayerData);
@@ -78,6 +73,27 @@ public class Player
         UpdateLocalPlayerData();
     }
 
+    public void LevelUp()
+    {
+        var needExp = _playerData.Level * 100 + 100;
+        if (_playerData.Exp >= needExp)
+        {
+            _playerData.Level++;
+            ChangeExp(-needExp);
+        }
+        else
+        {
+            Debug.Log("经验不足升级");
+        }
+    }
+    
+    public void ChangeExp(int value, bool isDebug = true)
+    {
+        _playerData.Exp += value;
+        if(isDebug)
+            Debug.Log("经验值:"+Exp);
+        UpdateLocalPlayerData();
+    }
     public void ChangePower(int value,bool isDebug = true)
     {
         if(value == 0)
@@ -102,6 +118,7 @@ public class Player
         IsEmptyPower = false;
         if(isDebug)
             Debug.Log("PlayerPower:"+_playerData.Power);
+        UpdateLocalPlayerData();
     }
     public void ChangeUpperPower(int value, bool isDebug = true)
     {
@@ -117,6 +134,7 @@ public class Player
         _playerData.UpperPower += value;
         if(isDebug)
             Debug.Log("当前体力上限值为:"+_playerData.UpperPower);
+        UpdateLocalPlayerData();
     }
     public void ChangeHP(int value,bool isDebug = true)
     {
@@ -137,11 +155,7 @@ public class Player
         IsDied = false;
         if(isDebug)
             Debug.Log("PlayerHP:"+_playerData.HP);
-    }
-    public void ChangeHPAttack(int attack,bool isDebug = true)
-    {
-        var value = AttackMath.AttackValue(attack, _playerData.Defence,isDebug);
-        ChangeHP(-value,isDebug);
+        UpdateLocalPlayerData();
     }
     public void ChangeUpperHP(int value, bool isDebug = true)
     {
@@ -157,6 +171,7 @@ public class Player
         _playerData.UpperHP += value;
         if(isDebug)
             Debug.Log("当前生命上限值为:"+_playerData.UpperHP);
+        UpdateLocalPlayerData();
     }
     public void ChangeAttack(int value,bool isDebug = true)
     {
@@ -176,6 +191,7 @@ public class Player
         }
         if(isDebug)
             Debug.Log("PlayerAttack:"+_playerData.Attack);
+        UpdateLocalPlayerData();
     }
     public void ChangeUpperAttack(int value, bool isDebug = true)
     {
@@ -191,6 +207,7 @@ public class Player
         }
         if(isDebug)
             Debug.Log("PlayerUpperAttack:"+_playerData.UpperAttack);
+        UpdateLocalPlayerData();
     }
     public void ChangeDefence(int value,bool isDebug = true)
     {
@@ -210,6 +227,7 @@ public class Player
         }
         if(isDebug)
             Debug.Log("PlayerDefence:"+_playerData.Defence);
+        UpdateLocalPlayerData();
     }
     public void ChangeUpperDefence(int value, bool isDebug = true)
     {
@@ -225,6 +243,7 @@ public class Player
         }
         if(isDebug)
             Debug.Log("PlayerUpperDefence:"+_playerData.UpperDefence);
+        UpdateLocalPlayerData();
     }
     public void ChangeSpeed(int value,bool isDebug = true)
     {
@@ -244,6 +263,7 @@ public class Player
         }
         if(isDebug)
             Debug.Log("PlayerSpeed:"+_playerData.Speed);
+        UpdateLocalPlayerData();
     }
     public void ChangeUpperSpeed(int value, bool isDebug = true)
     {
@@ -259,6 +279,7 @@ public class Player
         }
         if(isDebug)
             Debug.Log("PlayerUpperSpeed:"+_playerData.UpperSpeed);
+        UpdateLocalPlayerData();
     }
     public void ChangeCoin(int value,bool isDebug = true)
     {
@@ -270,8 +291,9 @@ public class Player
             _playerData.Coin += value;
         if(isDebug)
             Debug.Log("PlayerCoin:"+_playerData.Coin);
+        UpdateLocalPlayerData();
     }
-
+    
     public void ChangeAll(ItemData data,bool isDebug = true)
     {
         ChangePower(data.addPower,isDebug);
@@ -317,6 +339,7 @@ public class Player
             //todo bug 可能为负数取出没有的物品
             _playerData.goodsDict.Add(goodsName,num);
         }
+        UpdateLocalPlayerData();
     }
     #endregion
 }

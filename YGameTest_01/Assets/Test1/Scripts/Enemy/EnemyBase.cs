@@ -15,7 +15,7 @@ using YFramework.UI;
 using Random = UnityEngine.Random;
 
 [Serializable]
-public class EnemyData
+public struct EnemyData
 {
     public EnemyBase.Names Name;
     public int HP;
@@ -25,16 +25,16 @@ public class EnemyData
 
     public int CostPower;
 
-    public Award awrd;
-    
     //奖励
-    [Serializable]
-    public class Award
+    public struct Award
     {
+        public int Exp;
         public int Coin;
         public Dictionary<string, int> goodsDict;
     }
+  
 }
+
 
 public enum RareLevel
 {
@@ -91,6 +91,28 @@ public abstract class EnemyBase : UIBase,IEnemy
 
     public abstract void InitData();
 
+    private void WinAward(Names names)
+    {
+        Dictionary<string, int> goodsDic;
+        switch (names)
+        {
+            case Names.WildBoar:
+                _player.ChangeExp(EnemyAwardConfigs.WildBoar.Exp);
+                _player.ChangeCoin(EnemyAwardConfigs.WildBoar.Coin);
+                goodsDic = GetRangeGoods(EnemyAwardConfigs.WildBoar.GoodsName,EnemyAwardConfigs.WildBoar.MinGoodsNum,EnemyAwardConfigs.WildBoar.MaxGoodsNum);
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(names), names, null);
+        }
+        foreach (var i in goodsDic)
+        {
+            _player.ChangeGoodsDic(i.Key,i.Value);
+            Debug.Log("战利品为经验值:"+EnemyAwardConfigs.WildBoar.Exp+",金币:"
+                      +EnemyAwardConfigs.WildBoar.Coin+",物品为:"+i.Value+"个"+i.Key);
+        }
+    }
+
+
     private void AttackPlayer()
     {
         int playerHP = _player.HP;
@@ -108,8 +130,6 @@ public abstract class EnemyBase : UIBase,IEnemy
                 data.HP -= AttackMath.AttackValue(_player.Attack, data.Defence);
             }
         }
-
-        Debug.Log(playerHP);
         //当前的HP - 计算战斗后剩余的playerHP，得到改变的HP
         _player.ChangeHP(-(_player.HP - playerHP));
     }
@@ -129,24 +149,7 @@ public abstract class EnemyBase : UIBase,IEnemy
             Debug.Log("cur enemyHP:"+ hpSelf);
     }
 
-    protected void WinAward(Names names)
-    {
-        Dictionary<string, int> goodsDic;
-        switch (names)
-        {
-           case Names.WildBoar:
-               _player.ChangeCoin(5);
-               goodsDic = GetRangeGoods(names.ToString(), 1, 3);
-               break;
-           default:
-               throw new ArgumentOutOfRangeException(nameof(names), names, null);
-        }
-        foreach (var i in goodsDic)
-        {
-            _player.ChangeGoodsDic(i.Key,i.Value);
-        }
-    }
-
+   
     private Dictionary<string,int> GetRangeGoods(string goodsName,int min,int max)
     {
         Dictionary<string, int> dic = new Dictionary<string, int>();

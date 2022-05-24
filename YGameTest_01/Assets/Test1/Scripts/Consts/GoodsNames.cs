@@ -8,7 +8,8 @@
 
 using UnityEngine;
 
-public class GoodsName : MonoBehaviour
+public class GoodsNames : MonoBehaviour
 {
-    public static readonly string LittleMeat = "LittleMeat";
+    public static readonly string SteamedBun = "馒头";
+    public static readonly string LittleMeat = "小块肉";
 }

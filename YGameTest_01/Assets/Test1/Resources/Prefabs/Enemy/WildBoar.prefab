@@ -133,8 +133,8 @@ MonoBehaviour:
   data:
     Name: 0
     HP: 100
-    Attack: 5
-    Defence: 2
+    Attack: 10
+    Defence: 3
     Speed: 5
     CostPower: 10
     awrd:

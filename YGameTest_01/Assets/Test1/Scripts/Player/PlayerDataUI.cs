@@ -30,6 +30,8 @@ public class PlayerDataUI : UIBase
     public void UpdateShow()
     {
         _showText.text = ("昵称：" + _player.Name + 
+         "\n\n等级："+_player.Level +
+         "\n\n经验："+_player.Exp +
          "\n\n生命："+_player.HP +
          "\n\n体力："+_player.Power+
          "\n\n攻击力："+_player.Attack+

@@ -12,9 +12,8 @@ public class StartGame : MonoBehaviour
 {
     private void Start()
     {
-        //Player.ReLoadJsonData();
         GameManager.Instance.player = new Player();
-        //_player.InitPlayer();
+        //GameManager.Instance.player.ReLoadJsonData();
 
         transform.Find("PlayerData").GetComponent<PlayerDataUI>().Init();
     }

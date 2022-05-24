@@ -18,14 +18,9 @@ namespace YFramework
         {
             if (!savePath.EndsWith(".json"))
                 savePath += ".json";
-            var jsonStr =JsonConvert.SerializeObject(data);
+            var jsonStr = JsonConvert.SerializeObject(data, Formatting.Indented);
             StreamWriter sw = new StreamWriter(savePath);
-            var str = jsonStr.Split(",");
-            for (int i = 0; i < str.Length -1; i++)
-            {
-                sw.WriteLine(str[i] + ",");
-            }
-            sw.Write(str[str.Length-1]);
+            sw.Write(jsonStr);
             sw.Close();
         }
 
