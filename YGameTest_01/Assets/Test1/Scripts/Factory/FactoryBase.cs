@@ -25,7 +25,7 @@ public interface IInit
 public class FactoryBase
 {
     protected static Dictionary<string, ObjectPool<GameObject>> pools = new Dictionary<string, ObjectPool<GameObject>>();
-    protected static ObjectPool<GameObject> Get(string poolName,string path)
+    public static ObjectPool<GameObject> Get(string poolName,string path)
     {
         if (!pools.TryGetValue(poolName,out var data))
         {

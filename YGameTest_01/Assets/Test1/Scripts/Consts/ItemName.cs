@@ -8,5 +8,7 @@
 
 public class ItemName
 {
-    public static string ActiveApple = ItemBase.Names.ActiveApple.ToString();
+    public static readonly string ActiveApple = ItemBase.Names.ActiveApple.ToString();
+    public static readonly string SteamedBun = "馒头";
+    public static readonly string LittleMeat = "小块肉";
 }

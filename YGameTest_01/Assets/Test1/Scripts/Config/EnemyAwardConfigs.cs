@@ -12,7 +12,7 @@ public class EnemyAwardConfigs
     {
         public static readonly int Exp = 5;
         public static readonly int Coin = 5;
-        public static readonly string GoodsName = GoodsNames.LittleMeat;
+        public static readonly string GoodsName = ItemName.LittleMeat;
         public static readonly int MinGoodsNum = 1;
         public static readonly int MaxGoodsNum = 3;
     }

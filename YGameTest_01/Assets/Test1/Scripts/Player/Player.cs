@@ -42,7 +42,9 @@ public class Player
     public int UpperDefence => _playerData.UpperDefence;
     public int UpperSpeed => _playerData.UpperSpeed;
 
- 
+    public Dictionary<string, int> GoodsDic => _playerData.goodsDict;
+
+
     public void ReLoadJsonData()
     {
         _playerData = new PlayerData
@@ -50,7 +52,7 @@ public class Player
             {
                 goodsDict =new Dictionary<string, int>()
                 {
-                    {GoodsNames.SteamedBun,5}
+                    {ItemName.SteamedBun,5}
                 }
             };
         YJsonUtility.WriteToJson(_playerData,Paths.PlayerData);

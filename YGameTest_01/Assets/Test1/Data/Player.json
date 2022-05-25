@@ -1,13 +1,13 @@
 {
   "Name": "小明",
   "Level": 1,
-  "Exp": 35,
-  "Power": 80,
-  "HP": 110,
+  "Exp": 50,
+  "Power": 90,
+  "HP": 120,
   "Attack": 10,
   "Defence": 8,
   "Speed": 10,
-  "Coin": 1035,
+  "Coin": 1050,
   "UpperPower": 100,
   "UpperHP": 200,
   "UpperAttack": 10,
@@ -15,6 +15,6 @@
   "UpperSpeed": 10,
   "goodsDict": {
     "馒头": 5,
-    "小块肉": 12
+    "小块肉": 16
   }
 }
