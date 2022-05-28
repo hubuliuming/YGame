@@ -40,6 +40,7 @@ public class Test1 : MonoBehaviour
         var upstr = str.Substring(0, str.Length / 2);
         var downstr = str.Substring(str.Length / 2);
         
+
         Debug.Log(upstr); 
         Debug.Log(downstr);
         Deserializer des = new Deserializer();
