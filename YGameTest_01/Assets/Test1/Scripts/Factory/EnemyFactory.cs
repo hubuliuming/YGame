@@ -18,7 +18,7 @@ public interface IEnemy: IInit
 }
 public class EnemyFactory : FactoryBase
 {
-    public static ObjectPool<GameObject> wildBoardPool = Get(EnemyName.WildBoar,Paths.WildBoar);
+    public static ObjectPool<GameObject> wildBoardPool = GetPool(EnemyName.WildBoar,Paths.WildBoar);
 
     public new static void Release(string name,GameObject go)
     {

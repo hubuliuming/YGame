@@ -15,13 +15,43 @@ using YFramework.UI;
 public class Knapsack : UIBase
 {
     private Player _player;
-    private int _rowNum = 10;
+    public RectTransform contextRect;
+    private int _row = 6;
+    private int _column = 10;
+    private int _maxGirdNum = 99;
     private ObjectPool<GameObject> _goodsPool;
     public override void Init()
     {
         base.Init();
         _player = GameManager.Instance.player;
-        _goodsPool = FactoryBase.Get("Goods", Paths.Goods);
+        Debug.Log(Paths.Goods);
+        Debug.Log(Paths.ActiveApple);
+        _goodsPool = FactoryBase.GetPool("Goods", Paths.Goods);
+        int gridNum = 0;
+        foreach (var  i in _player.GoodsDic.Keys)
+        {
+            var num = _player.GoodsDic[i];
+            gridNum++;
+            //单位格子已满
+            while (num > _maxGirdNum)
+            {
+                gridNum++;
+                num -= _maxGirdNum;
+            }
+        }
+        Debug.Log("总计背包有："+gridNum+"格子物品");
+        for (int i = 0; i < gridNum; i++)
+        {
+            _goodsPool.Get().transform.parent = contextRect;
+        }
+        var needRow = gridNum / _column + 1;
+        Debug.Log("需要的行数："+needRow);
+        //超过当界面扩展行数
+        if (needRow > _row)
+        {
+            var addRow = needRow - _row;
+            contextRect.sizeDelta += new Vector2(addRow * 150, 0);
+        }
     }
 
 

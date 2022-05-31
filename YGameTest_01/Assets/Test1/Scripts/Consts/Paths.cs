@@ -13,5 +13,5 @@ public class Paths
     //prefab
     public static readonly string WildBoar = "Prefabs/Enemy/"+EnemyName.WildBoar;
     public static readonly string ActiveApple = "Prefabs/Item/RecoverItem/" + ItemName.ActiveApple;
-    public static readonly string Goods = "Prefabs/Item/Goods";
+    public static readonly string Goods = "Prefabs/Goods";
 }

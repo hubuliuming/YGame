@@ -1,16 +1,18 @@
 /****************************************************
-    文件：NormalEnemy.cs
+    文件：Goods.cs
     作者：Y
     邮箱: 916111418@qq.com
     日期：#CreateTime#
     功能：Nothing
 *****************************************************/
 
+using UnityEngine;
 
-public class NormalEnemy : EnemyBase 
+public class Goods : MonoBehaviour,IInit 
 {
-    public override void InitData()
+    
+    public void InitOnce()
     {
-        data = initData;
+        
     }
 }

@@ -93,13 +93,13 @@ public abstract class EnemyBase : UIBase,IEnemy
 
     private void WinAward(Names names)
     {
-        Dictionary<string, int> goodsDic;
+        Dictionary<string, int> goodsDic= new Dictionary<string, int>();
         switch (names)
         {
             case Names.WildBoar:
                 _player.ChangeExp(EnemyAwardConfigs.WildBoar.Exp);
                 _player.ChangeCoin(EnemyAwardConfigs.WildBoar.Coin);
-                goodsDic = GetRangeGoods(EnemyAwardConfigs.WildBoar.GoodsName,EnemyAwardConfigs.WildBoar.MinGoodsNum,EnemyAwardConfigs.WildBoar.MaxGoodsNum);
+                goodsDic = DropSystem.GetRangeGoods(EnemyAwardConfigs.WildBoar.LittleMeat,EnemyAwardConfigs.WildBoar.MinGoodsNum,EnemyAwardConfigs.WildBoar.MaxGoodsNum);
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(names), names, null);
@@ -150,11 +150,11 @@ public abstract class EnemyBase : UIBase,IEnemy
     }
 
    
-    private Dictionary<string,int> GetRangeGoods(string goodsName,int min,int max)
-    {
-        Dictionary<string, int> dic = new Dictionary<string, int>();
-        var num = Random.Range(min, max);
-        dic.Add(goodsName,num);
-        return dic;
-    }
+    // private Dictionary<string,int> GetRangeGoods(string goodsName,int min,int max)
+    // {
+    //     Dictionary<string, int> dic = new Dictionary<string, int>();
+    //     var num = Random.Range(min, max);
+    //     dic.Add(goodsName,num);
+    //     return dic;
+    // }
 }

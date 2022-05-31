@@ -12,6 +12,6 @@ using UnityEngine.Pool;
 
 public class ItemFactory : FactoryBase
 {
-    public static ObjectPool<GameObject> activeAppPool = Get(ItemName.ActiveApple,Paths.ActiveApple);
+    public static ObjectPool<GameObject> activeAppPool = GetPool(ItemName.ActiveApple,Paths.ActiveApple);
     //public static ObjectPool<GameObject> littleMeat = Get(ItemName.ActiveApple,Paths.ActiveApple);
 }

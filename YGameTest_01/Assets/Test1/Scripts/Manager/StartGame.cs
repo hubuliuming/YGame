@@ -16,6 +16,7 @@ public class StartGame : MonoBehaviour
         //GameManager.Instance.player.ReLoadJsonData(); 
         
         transform.Find("PlayerData").GetComponent<PlayerDataUI>().Init();
+        transform.Find("Knapsack").GetComponent<Knapsack>().Init();
     }
 
     private void Update()
