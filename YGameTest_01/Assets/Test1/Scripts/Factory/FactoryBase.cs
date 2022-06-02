@@ -57,7 +57,6 @@ public class FactoryBase
 
     private static void OnGet(GameObject go)
     {
-        //go.GetComponent<IInit>()?.Init();
         go.SetActive(true);
     }
     private static void OnRelease(GameObject go)
