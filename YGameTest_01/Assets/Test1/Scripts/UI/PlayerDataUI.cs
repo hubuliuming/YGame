@@ -19,12 +19,12 @@ public class PlayerDataUI : UIBase
         _player = GameManager.Instance.player;
         _showText = UiUtility.Get("Text").Text;
         UpdateShow();
-        MsgDispatcher.Register(RegisterMsg.UpdateShowData,o=>UpdateShow());
+        MsgDispatcher.Register(MsgRegister.UpdateShowData,o=>UpdateShow());
     }
 
     private void OnDestroy()
     {
-        MsgDispatcher.UnRegister(RegisterMsg.UpdateShowData);
+        MsgDispatcher.UnRegister(MsgRegister.UpdateShowData);
     }
 
     public void UpdateShow()

@@ -1,0 +1,9 @@
+{
+  "name": "ActiveApple",
+  "addHp": 20,
+  "addPower": 10,
+  "addAttack": 0,
+  "addDefence": 0,
+  "addSpeed": 0,
+  "addCoin": 10
+}

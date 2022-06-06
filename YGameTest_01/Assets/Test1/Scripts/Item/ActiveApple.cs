@@ -19,7 +19,7 @@ public class ActiveApple : ItemBase
         UiUtility.Get("Btn").AddListener(()=>
        {
           //Player.ChangePower(_addPower);
-          MsgDispatcher.Send(RegisterMsg.UpdateShowData,null);
+          MsgDispatcher.Send(MsgRegister.UpdateShowData,null);
           FactoryBase.Release(ItemName.ActiveApple,gameObject);
        });
     }

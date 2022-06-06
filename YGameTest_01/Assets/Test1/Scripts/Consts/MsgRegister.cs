@@ -8,10 +8,11 @@
 
 using UnityEngine;
 
-public class RegisterMsg : MonoBehaviour
+public class MsgRegister : MonoBehaviour
 {
     public const string PlayerAttack = "PlayerAttack";
     public const string UpdateShowData = "UpdateShowData";
+    public const string UseGoods = "UseGoods";
 }
 
 public class AttackDataPack

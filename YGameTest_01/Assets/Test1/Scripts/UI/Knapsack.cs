@@ -9,6 +9,7 @@
 using UnityEngine;
 using UnityEngine.Pool;
 using UnityEngine.UI;
+using YFramework;
 using YFramework.UI;
 
 public class Knapsack : UIBase
@@ -66,7 +67,11 @@ public class Knapsack : UIBase
     {
         var go = _goodsPool.Get();
         go.transform.SetParent(contextRect,false);
-        go.transform.Find("TxtNum").GetComponent<Text>().text = num.ToString() ;
+        go.transform.Find("TxtNum").GetComponent<Text>().text = num.ToString();
         go.transform.Find("TxtName").GetComponent<Text>().text = goodName;
+        go.GetComponent<Button>().onClick.AddListener(() =>
+        {
+            MsgDispatcher.Send(MsgRegister.UseGoods,null);
+        });
     }
 }

@@ -54,7 +54,6 @@ public abstract class EnemyBase : UIBase,IEnemy
     
     public EnemyData data;
     protected EnemyData initData;
-    //private PlayerData _playerData;
     // todo level
     //protected RareLevel level;
     private ObjectPool<GameObject> _enemyPool;
@@ -82,10 +81,9 @@ public abstract class EnemyBase : UIBase,IEnemy
             {
                 //Player.ChangeCoin(data.awrd.Coin,false);
                 WinAward(data.Name);
-                MsgDispatcher.Send(RegisterMsg.UpdateShowData,null);
             }
-            //Player.UpdateLocalPlayerData();
             EnemyFactory.Release(data.Name.ToString(),gameObject);
+            MsgDispatcher.Send(MsgRegister.UpdateShowData,null);
         });
     }
 

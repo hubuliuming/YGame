@@ -13,7 +13,7 @@ using YFramework.UI;
 [Serializable]
 public struct ItemData
 {
-    public ItemBase.Names name;
+    public string name;
     public int addHp;
     public int addPower;
     public int addAttack;
@@ -28,11 +28,16 @@ public abstract class ItemBase : UIBase,IInit
     {
         ActiveApple,
     }
-    public ItemData data;
+    protected ItemData _data;
     protected Player _player;
     
     public virtual void InitOnce()
     {
         _player = GameManager.Instance.player;
+        var datas = YJsonUtility.ReadFromJson<ItemData[]>(Paths.RecoverItemConfig);
+        foreach (var i in datas)
+        {
+            
+        }
     }
 }
