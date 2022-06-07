@@ -8,16 +8,18 @@
 
 using YFramework;
 
-public class RecoverItem : ItemBase 
+public class RecoverItem : ItemBase
 {
-    public override void InitOnce()
+    public  void InitOnce()
     {
-        base.InitOnce();
+        //base.InitOnce();
         UiUtility.Get("Btn").AddListener(()=>
         {
-            _player.ChangeAll(_data,true);
-            MsgDispatcher.Send(MsgRegister.UpdateShowData,null);
-            FactoryBase.Release(_data.name,gameObject);
+            // _player.ChangeAll(_data,true);
+            // MsgDispatcher.Send(MsgRegister.UpdateShowData,null);
+            // FactoryBase.Release(_data.name,gameObject);
         });
     }
+    
+    
 }

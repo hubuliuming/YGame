@@ -1,0 +1,14 @@
+{
+  "野猪": {
+    "HP": 100,
+    "Attack": 10,
+    "Defence": 3,
+    "Speed": 5,
+    "CostPower": 10,
+    "award": {
+      "Exp": 10,
+      "Coin": 20,
+      "GoodsName": "小块肉"
+    }
+  }
+}

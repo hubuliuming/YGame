@@ -19,8 +19,8 @@ public class DetailInform : UIBase
         UiUtility.Get("Text").SetText(Inform);
         UiUtility.Get("BtnUse").AddListener(()=>MsgDispatcher.Register(MsgRegister.UseGoods, o =>
         {
-            var itemData = o is ItemData ? (ItemData) o : default;
-            player.ChangeAll(itemData);
+            var itemData = o is ItemBase.ItemData ? (ItemBase.ItemData) o : default;
+            //player.ChangeAll(itemData);
         }));
     }
 }

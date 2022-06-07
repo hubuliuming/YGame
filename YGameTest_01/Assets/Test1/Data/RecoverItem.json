@@ -1,9 +1,18 @@
 {
-  "name": "ActiveApple",
-  "addHp": 20,
-  "addPower": 10,
-  "addAttack": 0,
-  "addDefence": 0,
-  "addSpeed": 0,
-  "addCoin": 10
+  "馒头": {
+    "addHp": 5,
+    "addPower": 20,
+    "addAttack": 0,
+    "addDefence": 0,
+    "addSpeed": 0,
+    "addCoin": 0
+  },
+  "活力苹果": {
+    "addHp": 10,
+    "addPower": 10,
+    "addAttack": 0,
+    "addDefence": 0,
+    "addSpeed": 0,
+    "addCoin": 0
+  }
 }

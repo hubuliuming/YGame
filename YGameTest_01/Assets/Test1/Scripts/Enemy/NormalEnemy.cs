@@ -9,8 +9,8 @@
 
 public class NormalEnemy : EnemyBase 
 {
-    public override void InitData()
-    {
-        data = initData;
-    }
+    // public override void InitData()
+    // {
+    //     data = initData;
+    // }
 }

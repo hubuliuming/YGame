@@ -6,6 +6,7 @@
     功能：Nothing
 *****************************************************/
 
+using System.Collections.Generic;
 using UnityEngine;
 using YFramework;
 
@@ -16,32 +17,8 @@ public class StartGame : MonoBehaviour
     {
         GameManager.Instance.player = new Player();
         //GameManager.Instance.player.ReLoadJsonData(); 
-        
-        //write new json 
-        ItemData[] datas = new ItemData[]
-        {
-            new ItemData()
-            {
-                name = ItemName.SteamedBun,
-                addAttack = 0,
-                addCoin = 10,
-                addDefence = 0,
-                addHp = 5,
-                addPower = 20,
-                addSpeed = 0
-            },
-            new ItemData()
-            {
-                name = ItemName.ActiveApple,
-                addAttack = 0,
-                addCoin = 10,
-                addDefence = 0,
-                addHp = 10,
-                addPower = 10,
-                addSpeed = 0
-            },
-        };
-        YJsonUtility.WriteToJson(datas,Paths.RecoverItemConfig);
+        //WriteItemJson();
+        WriteEnemyJson();
         
         transform.Find("PlayerData").GetComponent<PlayerDataUI>().Init();
         _knapsack = transform.Find("Knapsack").gameObject;
@@ -65,9 +42,59 @@ public class StartGame : MonoBehaviour
 
     #region TestMeoth
 
+    private void WriteItemJson()
+    {
+        Dictionary<string,ItemBase.ItemData> datas = new Dictionary<string,ItemBase.ItemData>
+        {
+            {ItemName.SteamedBun,new ItemBase.ItemData()
+            {
+                addAttack = 0,
+                addCoin = 0,
+                addDefence = 0,
+                addHp = 5,
+                addPower = 20,
+                addSpeed = 0
+            }},
+            {ItemName.ActiveApple,new ItemBase.ItemData()
+            {
+                addAttack = 0,
+                addCoin = 0,
+                addDefence = 0,
+                addHp = 10,
+                addPower = 10,
+                addSpeed = 0
+            }}
+        };
+        YJsonUtility.WriteToJson(datas,Paths.Config.RecoverItem);
+    }
+
+    private void WriteEnemyJson()
+    {
+        Dictionary<string, EnemyBase.EnemyData> datas = new Dictionary<string, EnemyBase.EnemyData>()
+        {
+            {
+                EnemyName.WildBoar, new EnemyBase.EnemyData()
+                {
+                    HP = 100,
+                    Attack = 10,
+                    Defence = 3,
+                    Speed = 5,
+                    CostPower = 10,
+                    award = new EnemyBase.EnemyData.Award()
+                    {
+                        Exp = 10,
+                        Coin = 20,
+                        GoodsName = ItemName.LittleMeat
+                    }
+                }
+            }
+        };
+        YJsonUtility.WriteToJson(datas,Paths.Config.Enemy);
+    }
+
     private void CreateEnemy()
     {
-        var wildBoarPool = EnemyFactory.wildBoardPool;
+        var wildBoarPool = EnemyFactory.GetPool(EnemyName.WildBoar,Paths.Prefab.Enemy,EnemyName.WildBoar);
         var go = wildBoarPool.Get();
         go.transform.SetParent(transform);
         go.transform.localPosition =Vector3.zero;
@@ -75,9 +102,13 @@ public class StartGame : MonoBehaviour
 
     private void CreateItem()
     {
-        var apple = ItemFactory.activeAppPool.Get();
-        apple.transform.SetParent(transform);
-        apple.transform.localPosition = new Vector3(300,0,0);
+        // var apple = ItemFactory.activeAppPool.Get();
+        // apple.transform.SetParent(transform);
+        // apple.transform.localPosition = new Vector3(300,0,0);
+        var pool = ItemFactory.GetPool(ItemName.ActiveApple, Paths.Prefab.RecoverItem,ItemName.ActiveApple);
+        var go = pool.Get();
+        go.transform.SetParent(transform);
+        go.transform.localPosition = new Vector3(300, 0, 0);
     }
 
     #endregion

@@ -10,17 +10,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
-public interface IInit
-{
-    /// <summary>
-    /// 对象池第一次创建时候初始化一次
-    /// </summary>
-    void InitOnce();
-    /// <summary>
-    /// 每次对象池取用释放时调用初始化每个对象的数据
-    /// </summary>
-    //void InitData();
-}
+
 
 public class FactoryBase
 {
@@ -51,7 +41,7 @@ public class FactoryBase
         //Debug.Log("CreatePool");
         var prefab = Resources.Load<GameObject>(path);
         var go = Object.Instantiate(prefab);
-        go.GetComponent<IInit>().InitOnce();
+        //go.GetComponent<IInit>().InitOnce();
         return go;
     }
 

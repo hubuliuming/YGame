@@ -12,46 +12,40 @@ using UnityEngine;
 using UnityEngine.Pool;
 using YFramework;
 using YFramework.UI;
-using Random = UnityEngine.Random;
 
-[Serializable]
-public struct EnemyData
+public abstract class EnemyBase : UIBase
 {
-    public EnemyBase.Names Name;
-    public int HP;
-    public int Attack;
-    public int Defence;
-    public int Speed;
-
-    public int CostPower;
-
-    //奖励
-    public struct Award
+    public enum RareLevel
     {
-        public int Exp;
-        public int Coin;
-        public Dictionary<string, int> goodsDict;
-    }
-  
-}
-
-
-public enum RareLevel
-{
-    White,
-    Green,
-    Blue,
-    Red,
-    Gold
-}
-
-public abstract class EnemyBase : UIBase,IEnemy
-{
-    public enum Names
-    {
-        WildBoar,
+        White,
+        Green,
+        Blue,
+        Red,
+        Gold
     }
     
+    [Serializable]
+    public struct EnemyData
+    {
+        public int HP;
+        public int Attack;
+        public int Defence;
+        public int Speed;
+
+        public int CostPower;
+        public Award award;
+
+        //奖励
+        [Serializable]
+        public struct Award
+        {
+            public int Exp;
+            public int Coin;
+            public string GoodsName;
+        }
+  
+    }
+
     public EnemyData data;
     protected EnemyData initData;
     // todo level
@@ -60,56 +54,60 @@ public abstract class EnemyBase : UIBase,IEnemy
 
     private Player _player;
 
-    public void InitOnce()
+    public void Init(string enemyName)
     {
         _player = GameManager.Instance.player;
-        initData = data;
-        InitData();
-        UiUtility.Get("Btn").AddListener(()=>
+        var datas = YJsonUtility.ReadFromJson<Dictionary<string, EnemyData>>(Paths.Config.Enemy);
+        foreach (var key in datas.Keys)
         {
-            if (!_player.EnableAttack())
+            if (key == enemyName)
             {
-                Debug.Log("玩家已经死亡或者体力不足");
-                return;
-            }
+                data = datas[enemyName];
+                initData = data;
+                InitData();
+                UiUtility.Get("Btn").AddListener(()=>
+                {
+                    if (!_player.EnableAttack())
+                    {
+                        Debug.Log("玩家已经死亡或者体力不足");
+                        return;
+                    }
               
-            _player.ChangePower(-data.CostPower,false);
-            AttackPlayer();
-            Debug.Log("战斗结果:" + AttackResult());
-            //死亡奖励
-            if (AttackResult())
-            {
-                //Player.ChangeCoin(data.awrd.Coin,false);
-                WinAward(data.Name);
+                    _player.ChangePower(-data.CostPower,false);
+                    AttackPlayer();
+                    Debug.Log("战斗结果:" + AttackResult());
+                    //死亡奖励
+                    if (AttackResult())
+                    {
+                        //Player.ChangeCoin(data.awrd.Coin,false);
+                        WinAward();
+                    }
+                    EnemyFactory.Release(enemyName,gameObject);
+                    MsgDispatcher.Send(MsgRegister.UpdateShowData);
+                });
+                break;
             }
-            EnemyFactory.Release(data.Name.ToString(),gameObject);
-            MsgDispatcher.Send(MsgRegister.UpdateShowData,null);
-        });
+        }
     }
 
-    public abstract void InitData();
+    public void InitData()
+    {
+        data = initData;
+    }
 
-    private void WinAward(Names names)
+    private void WinAward()
     {
         Dictionary<string, int> goodsDic= new Dictionary<string, int>();
-        switch (names)
-        {
-            case Names.WildBoar:
-                _player.ChangeExp(EnemyAwardConfigs.WildBoar.Exp);
-                _player.ChangeCoin(EnemyAwardConfigs.WildBoar.Coin);
-                goodsDic = DropSystem.GetRangeGoods(EnemyAwardConfigs.WildBoar.LittleMeat,EnemyAwardConfigs.WildBoar.MinGoodsNum,EnemyAwardConfigs.WildBoar.MaxGoodsNum);
-                break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(names), names, null);
-        }
+        _player.ChangeExp(data.award.Exp);
+        _player.ChangeCoin(data.award.Coin);
+        //todo 数值要优化为配置
+        goodsDic = DropSystem.GetRangeGoods(data.award.GoodsName,1,3);
         foreach (var i in goodsDic)
         {
             _player.ChangeGoodsDic(i.Key,i.Value);
-            Debug.Log("战利品为经验值:"+EnemyAwardConfigs.WildBoar.Exp+",金币:"
-                      +EnemyAwardConfigs.WildBoar.Coin+",物品为:"+i.Value+"个"+i.Key);
+            Debug.Log("战利品为经验值:"+data.award.Exp+",金币:"+data.award.Coin+",物品为:"+i.Value+"个"+i.Key);
         }
     }
-
 
     private void AttackPlayer()
     {
@@ -147,7 +145,6 @@ public abstract class EnemyBase : UIBase,IEnemy
             Debug.Log("cur enemyHP:"+ hpSelf);
     }
 
-   
     // private Dictionary<string,int> GetRangeGoods(string goodsName,int min,int max)
     // {
     //     Dictionary<string, int> dic = new Dictionary<string, int>();

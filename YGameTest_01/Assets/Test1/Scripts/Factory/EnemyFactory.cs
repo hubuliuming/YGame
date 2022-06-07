@@ -6,23 +6,48 @@
     功能：Nothing
 *****************************************************/
 
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
-
-public interface IEnemy: IInit
+public class EnemyFactory 
 {
-    /// <summary>
-    /// 每次对象池中释放时候调用
-    /// </summary>
-    void InitData();
-}
-public class EnemyFactory : FactoryBase
-{
-    public static ObjectPool<GameObject> wildBoardPool = GetPool(EnemyName.WildBoar,Paths.WildBoar);
 
-    public new static void Release(string name,GameObject go)
+    private static Dictionary<string, ObjectPool<GameObject>> _pools = new Dictionary<string, ObjectPool<GameObject>>();
+    public static ObjectPool<GameObject> GetPool(string poolName,string path,string enemyName)
     {
-        go.GetComponent<IEnemy>().InitData();
-        pools[name].Release(go);
+        if (!_pools.TryGetValue(poolName,out var data))
+        {
+            ObjectPool<GameObject> pool = new ObjectPool<GameObject>(
+                ()=> OnCreate(path,enemyName), 
+                go =>OnGet(go),
+                OnRelease);
+            _pools.Add(poolName,pool);
+            return _pools[poolName];
+        }
+
+        return data;
+    }
+    
+    public static void Release(string name,GameObject go)
+    {
+        _pools[name].Release(go);
+    }
+    
+    private static GameObject OnCreate(string path,string itemName)
+    {
+        var prefab = Resources.Load<GameObject>(path);
+        var go = Object.Instantiate(prefab);
+        go.GetComponent<EnemyBase>().Init(itemName);
+        return go;
+    }
+
+    private static void OnGet(GameObject go)
+    {
+        go.SetActive(true);
+        go.GetComponent<EnemyBase>().InitData();
+    }
+    private static void OnRelease(GameObject go)
+    {
+        go.SetActive(false);
     }
 }

@@ -7,37 +7,51 @@
 *****************************************************/
 
 using System;
+using System.Collections.Generic;
 using YFramework;
 using YFramework.UI;
 
-[Serializable]
-public struct ItemData
+public abstract class ItemBase : UIBase
 {
-    public string name;
-    public int addHp;
-    public int addPower;
-    public int addAttack;
-    public int addDefence;
-    public int addSpeed;
-    public int addCoin;
-}
-
-public abstract class ItemBase : UIBase,IInit
-{
-    public enum Names
+    // public enum Names
+    // {
+    //     SteamedBun,
+    //     ActiveApple,
+    //     LittleMeat
+    // }
+    //
+    [Serializable]
+    public struct ItemData
     {
-        ActiveApple,
+        //public string name;
+        public int addHp;
+        public int addPower;
+        public int addAttack;
+        public int addDefence;
+        public int addSpeed;
+        public int addCoin;
     }
-    protected ItemData _data;
-    protected Player _player;
+    // protected ItemData data;
+    // protected Player _player;
     
-    public virtual void InitOnce()
+    public void Init(string itemName)
     {
-        _player = GameManager.Instance.player;
-        var datas = YJsonUtility.ReadFromJson<ItemData[]>(Paths.RecoverItemConfig);
-        foreach (var i in datas)
-        {
-            
-        }
+         var _player = GameManager.Instance.player;
+         var datas = YJsonUtility.ReadFromJson<Dictionary<string,ItemData>>(Paths.Config.RecoverItem);
+         foreach (var item in datas.Keys)
+         {
+             if (item == itemName)
+             {
+                 var data = datas[itemName];
+                 UiUtility.Get("Btn").AddListener(() =>
+                 {
+                     _player.ChangeAll(data);
+                     //
+                     //MsgDispatcher.Send(MsgRegister.UpdateShowData,null);
+                     ItemFactory.Release(itemName,gameObject);
+                 });
+                 break;
+             }
+         }
     }
 }

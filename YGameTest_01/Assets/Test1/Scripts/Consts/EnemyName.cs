@@ -9,5 +9,5 @@
 public class EnemyName
 {
     //野猪
-    public static readonly string WildBoar = EnemyBase.Names.WildBoar.ToString();
+    public static readonly string WildBoar = "野猪";
 }

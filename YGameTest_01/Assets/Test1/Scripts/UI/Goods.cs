@@ -8,7 +8,7 @@
 
 using UnityEngine;
 
-public class Goods : MonoBehaviour,IInit 
+public class Goods : MonoBehaviour 
 {
     
     public void InitOnce()
