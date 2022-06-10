@@ -18,7 +18,7 @@ public class StartGame : MonoBehaviour
         GameManager.Instance.player = new Player();
         //GameManager.Instance.player.ReLoadJsonData(); 
         //WriteItemJson();
-        WriteEnemyJson();
+        //WriteEnemyJson();
         
         transform.Find("PlayerData").GetComponent<PlayerDataUI>().Init();
         _knapsack = transform.Find("Knapsack").gameObject;

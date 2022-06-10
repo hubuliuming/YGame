@@ -26,7 +26,7 @@ public class Knapsack : UIBase
     {
         base.Init();
         _player = GameManager.Instance.player;
-        _goodsPool = FactoryBase.GetPool("Goods", Paths.Prefab.Goods);
+        //_goodsPool = FactoryUIBase.GetPool("Goods", Paths.Prefab.Goods);
         int gridNum = 0;
         foreach (var  i in _player.GoodsDic.Keys)
         {

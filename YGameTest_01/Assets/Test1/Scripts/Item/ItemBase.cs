@@ -13,17 +13,9 @@ using YFramework.UI;
 
 public abstract class ItemBase : UIBase
 {
-    // public enum Names
-    // {
-    //     SteamedBun,
-    //     ActiveApple,
-    //     LittleMeat
-    // }
-    //
     [Serializable]
     public struct ItemData
     {
-        //public string name;
         public int addHp;
         public int addPower;
         public int addAttack;
@@ -31,9 +23,7 @@ public abstract class ItemBase : UIBase
         public int addSpeed;
         public int addCoin;
     }
-    // protected ItemData data;
-    // protected Player _player;
-    
+
     public void Init(string itemName)
     {
          var _player = GameManager.Instance.player;
@@ -46,7 +36,6 @@ public abstract class ItemBase : UIBase
                  UiUtility.Get("Btn").AddListener(() =>
                  {
                      _player.ChangeAll(data);
-                     //
                      //MsgDispatcher.Send(MsgRegister.UpdateShowData,null);
                      ItemFactory.Release(itemName,gameObject);
                  });

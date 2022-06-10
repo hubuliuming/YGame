@@ -19,14 +19,19 @@ public class PlayerDataUI : UIBase
         _player = GameManager.Instance.player;
         _showText = UiUtility.Get("Text").Text;
         UpdateShow();
+        Register();
+    }
+    
+    public void Register()
+    {
         MsgDispatcher.Register(MsgRegister.UpdateShowData,o=>UpdateShow());
     }
 
-    private void OnDestroy()
+    public void UnRegister()
     {
         MsgDispatcher.UnRegister(MsgRegister.UpdateShowData);
     }
-
+    
     public void UpdateShow()
     {
         _showText.text = ("昵称：" + _player.Name + 

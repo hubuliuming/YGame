@@ -10,17 +10,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 
-
-
-public class FactoryBase
+public abstract class FactoryUIBase
 {
-    protected static Dictionary<string, ObjectPool<GameObject>> pools = new Dictionary<string, ObjectPool<GameObject>>();
-    public static ObjectPool<GameObject> GetPool(string poolName,string path)
+    protected  Dictionary<string, ObjectPool<GameObject>> pools = new Dictionary<string, ObjectPool<GameObject>>();
+    public ObjectPool<GameObject> GetPool(string poolName,string path,Transform parent)
     {
         if (!pools.TryGetValue(poolName,out var data))
         {
             ObjectPool<GameObject> pool = new ObjectPool<GameObject>(
-                ()=> OnCreate(path), 
+                ()=> OnCreate(path,parent), 
                 go =>OnGet(go),
                 OnRelease);
             pools.Add(poolName,pool);
@@ -30,26 +28,23 @@ public class FactoryBase
         return data;
     }
     
-    public static void Release(string name,GameObject go)
+    protected void Release(string name,GameObject go)
     {
-        //go.GetComponent<IInit>().InitData();
         pools[name].Release(go);
     }
     
-    private static GameObject OnCreate(string path)
+    protected virtual GameObject OnCreate(string path,Transform parent = null)
     {
-        //Debug.Log("CreatePool");
         var prefab = Resources.Load<GameObject>(path);
-        var go = Object.Instantiate(prefab);
-        //go.GetComponent<IInit>().InitOnce();
+        var go = Object.Instantiate(prefab,parent);
         return go;
     }
 
-    private static void OnGet(GameObject go)
+    protected virtual void OnGet(GameObject go)
     {
         go.SetActive(true);
     }
-    private static void OnRelease(GameObject go)
+    protected virtual void OnRelease(GameObject go)
     {
         go.SetActive(false);
     }
