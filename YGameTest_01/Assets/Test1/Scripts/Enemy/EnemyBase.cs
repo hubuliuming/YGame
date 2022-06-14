@@ -13,7 +13,7 @@ using UnityEngine.Pool;
 using YFramework;
 using YFramework.UI;
 
-public abstract class EnemyBase : UIBase
+public abstract class EnemyBase : UIBase,IItem
 {
     public enum RareLevel
     {
@@ -82,7 +82,7 @@ public abstract class EnemyBase : UIBase
                         //Player.ChangeCoin(data.awrd.Coin,false);
                         WinAward();
                     }
-                    EnemyFactory.Release(enemyName,gameObject);
+                    ItemFactory.Release(enemyName,gameObject);
                     MsgDispatcher.Send(MsgRegister.UpdateShowData);
                 });
                 break;

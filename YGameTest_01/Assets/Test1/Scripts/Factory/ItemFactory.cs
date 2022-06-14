@@ -15,18 +15,18 @@ using UnityEngine.Pool;
 public class ItemFactory
 {
     private static Dictionary<string, ObjectPool<GameObject>> _pools = new Dictionary<string, ObjectPool<GameObject>>();
-    public static ObjectPool<GameObject> GetPool(string poolName,string path,string itemName)
+    public static ObjectPool<GameObject> GetPool(string poolName,string path,Transform parent)
     {
         if (!_pools.TryGetValue(poolName,out var data))
         {
             ObjectPool<GameObject> pool = new ObjectPool<GameObject>(
-                ()=> OnCreate(path,itemName), 
+                ()=> OnCreate(path,poolName,parent), 
                 go =>OnGet(go),
                 OnRelease);
             _pools.Add(poolName,pool);
             return _pools[poolName];
         }
-
+    
         return data;
     }
     
@@ -35,14 +35,14 @@ public class ItemFactory
         _pools[name].Release(go);
     }
     
-    private static GameObject OnCreate(string path,string itemName)
+    private static GameObject OnCreate(string path,string itemName,Transform parent)
     {
         var prefab = Resources.Load<GameObject>(path);
-        var go = Object.Instantiate(prefab);
-        go.GetComponent<ItemBase>().Init(itemName);
+        var go = Object.Instantiate(prefab,parent);
+        go.GetComponent<IItem>().Init(itemName);
         return go;
     }
-
+    
     private static void OnGet(GameObject go)
     {
         go.SetActive(true);
@@ -51,4 +51,5 @@ public class ItemFactory
     {
         go.SetActive(false);
     }
+    
 }

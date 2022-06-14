@@ -26,7 +26,7 @@ public class Knapsack : UIBase
     {
         base.Init();
         _player = GameManager.Instance.player;
-        //_goodsPool = FactoryUIBase.GetPool("Goods", Paths.Prefab.Goods);
+        _goodsPool = FactoryUIBase.GetPool(ItemName.Goods, Paths.Prefab.Goods,contextRect);
         int gridNum = 0;
         foreach (var  i in _player.GoodsDic.Keys)
         {
@@ -66,7 +66,7 @@ public class Knapsack : UIBase
     private void CreateGrid(string goodName,int num)
     {
         var go = _goodsPool.Get();
-        go.transform.SetParent(contextRect,false);
+        //go.transform.SetParent(contextRect,false);
         go.transform.Find("TxtNum").GetComponent<Text>().text = num.ToString();
         go.transform.Find("TxtName").GetComponent<Text>().text = goodName;
         go.GetComponent<Button>().onClick.AddListener(() =>

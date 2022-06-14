@@ -94,20 +94,15 @@ public class StartGame : MonoBehaviour
 
     private void CreateEnemy()
     {
-        var wildBoarPool = EnemyFactory.GetPool(EnemyName.WildBoar,Paths.Prefab.Enemy,EnemyName.WildBoar);
+        var wildBoarPool = ItemFactory.GetPool(EnemyName.WildBoar,Paths.Prefab.Enemy,transform);
         var go = wildBoarPool.Get();
-        go.transform.SetParent(transform);
         go.transform.localPosition =Vector3.zero;
     }
 
     private void CreateItem()
     {
-        // var apple = ItemFactory.activeAppPool.Get();
-        // apple.transform.SetParent(transform);
-        // apple.transform.localPosition = new Vector3(300,0,0);
-        var pool = ItemFactory.GetPool(ItemName.ActiveApple, Paths.Prefab.RecoverItem,ItemName.ActiveApple);
+        var pool = ItemFactory.GetPool(ItemName.ActiveApple, Paths.Prefab.RecoverItem,transform);
         var go = pool.Get();
-        go.transform.SetParent(transform);
         go.transform.localPosition = new Vector3(300, 0, 0);
     }
 

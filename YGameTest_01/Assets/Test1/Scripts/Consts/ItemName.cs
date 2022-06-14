@@ -11,4 +11,5 @@ public class ItemName
     public static readonly string ActiveApple = "活力苹果";
     public static readonly string SteamedBun = "馒头";
     public static readonly string LittleMeat = "小块肉";
+    public static readonly string Goods = "Goods";
 }

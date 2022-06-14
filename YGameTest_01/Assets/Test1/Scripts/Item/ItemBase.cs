@@ -11,7 +11,11 @@ using System.Collections.Generic;
 using YFramework;
 using YFramework.UI;
 
-public abstract class ItemBase : UIBase
+public interface IItem
+{
+    void Init(string itemName);
+}
+public abstract class ItemBase : UIBase,IItem
 {
     [Serializable]
     public struct ItemData
