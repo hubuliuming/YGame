@@ -1,19 +1,50 @@
 /****************************************************
-    文件：MonoSimplify.cs
+    文件：YMonoBehaviour.cs
     作者：Y
     邮箱: 916111418@qq.com
     日期：2022/1/11 16:40:53
-    功能：mono简化，所有操作mono的父类
+    功能：
 *****************************************************/
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace YFramework
 {
-    public abstract class YMonoBehaviour : MonoBehaviour
+    public interface IMono : IInit
     {
+    }
+
+    public interface IInit
+    {
+        void Init();
+    }
+
+    public static class Event
+    {
+        private static Dictionary<int, IMono> _orderForMonoMap = new Dictionary<int, IMono>();
+
+        public static void RegisterEvent(IMono mono, int order)
+        {
+            if (!_orderForMonoMap.TryAdd(order,mono))
+            {
+                Debug.LogError("注册时当前顺序已经存在order:" +order);
+            }
+        }
+    }
+   
+    public abstract class YMonoBehaviour : MonoBehaviour,IMono
+    {
+
+        public virtual void Init()
+        {
+            
+        }
+
+     
+
         #region TimeDelay
         //利用协程实现定时
         public void Delay(float delay, Action onFinished)
@@ -35,5 +66,7 @@ namespace YFramework
         {
             MsgDispatcher.UnRegisterAll();
         }
+
+       
     }
 }

@@ -13,7 +13,7 @@ using UnityEngine.Pool;
 using YFramework;
 using YFramework.UI;
 
-public abstract class EnemyBase : UIBase,IItem
+public  class EnemyBase : UIBase,IItem
 {
     public enum RareLevel
     {
@@ -56,8 +56,8 @@ public abstract class EnemyBase : UIBase,IItem
 
     public void Init(string enemyName)
     {
-        _player = GameManager.Instance.player;
-        var datas = YJsonUtility.ReadFromJson<Dictionary<string, EnemyData>>(Paths.Config.Enemy);
+        _player = PlayerManager.Instance.player;
+        var datas = YJsonUtility.ReadFromJson<Dictionary<string, EnemyData>>(Msg.Paths.Config.Enemy);
         foreach (var key in datas.Keys)
         {
             if (key == enemyName)
@@ -83,7 +83,7 @@ public abstract class EnemyBase : UIBase,IItem
                         WinAward();
                     }
                     ItemFactory.Release(enemyName,gameObject);
-                    MsgDispatcher.Send(MsgRegister.UpdateShowData);
+                    MsgDispatcher.Send(Msg.MsgRegister.UpdateShowData);
                 });
                 break;
             }

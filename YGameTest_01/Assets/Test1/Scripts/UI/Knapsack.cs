@@ -25,8 +25,8 @@ public class Knapsack : UIBase
     public override void Init()
     {
         base.Init();
-        _player = GameManager.Instance.player;
-        _goodsPool = FactoryUIBase.GetPool(ItemName.Goods, Paths.Prefab.Goods,contextRect);
+        _player = PlayerManager.Instance.player;
+        _goodsPool = FactoryUIBase.GetPool(Msg.ItemName.Goods, Msg.Paths.Prefab.Goods,contextRect);
         int gridNum = 0;
         foreach (var  i in _player.GoodsDic.Keys)
         {
@@ -56,7 +56,7 @@ public class Knapsack : UIBase
     public void UpdateGoods()
     {
         var count = _player.GoodsDic.Keys.Count;
-        //todo 背包        
+        //todo 更新背包显示       
         foreach (var i in _player.GoodsDic)
         {
             
@@ -71,7 +71,7 @@ public class Knapsack : UIBase
         go.transform.Find("TxtName").GetComponent<Text>().text = goodName;
         go.GetComponent<Button>().onClick.AddListener(() =>
         {
-            MsgDispatcher.Send(MsgRegister.UseGoods,null);
+            MsgDispatcher.Send(Msg.MsgRegister.UseGoods,null);
         });
     }
 }

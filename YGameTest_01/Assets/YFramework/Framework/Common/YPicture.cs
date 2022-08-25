@@ -6,13 +6,16 @@
     功能：挂载到UI物体上生成对应的图片
 *****************************************************/
 
-using System.Collections;
+using System;
 using System.IO;
 using UnityEngine;
 
 namespace YFramework
 {
-    public class YPicture : MonoBehaviour 
+    /// <summary>
+    /// 方法需要等这帧渲染完调用
+    /// </summary>
+    public class YPicture 
     {
         public enum PictureType
         {
@@ -22,7 +25,7 @@ namespace YFramework
             TGA
         }
 
-        public PictureType Type;
+        private PictureType _type;
         private RectTransform _rectTrans;
         private byte[] _data;
         private string _defaultName;
@@ -31,59 +34,48 @@ namespace YFramework
         private int _width;
         private int _height;
 
-        private void Start()
+        public YPicture(RectTransform rectTrans,PictureType type = PictureType.PNG)
         {
-            _rectTrans = GetComponent<RectTransform>();
-            _startX = (int)_rectTrans.offsetMin.x;
-            _startY = (int)_rectTrans.offsetMin.y;
-            _width = (int) (Screen.width - _startX + _rectTrans.offsetMax.x);
-            _height = (int) (Screen.height - _startY + _rectTrans.offsetMax.y);
+            this._rectTrans = rectTrans;
+            this._type = type;
+            _defaultName = DateTime.Now.ToString("yyyyMMddHHmmss");
+            _startX = (int)(_rectTrans.position.x - MathF.Abs(_rectTrans.rect.xMin)); 
+            _startY = (int)(_rectTrans.position.y - MathF.Abs(_rectTrans.rect.yMin)); 
+            _width = (int)_rectTrans.sizeDelta.x;
+            _height = (int)_rectTrans.sizeDelta.y;
         }
-
-        public byte[] GetData() => GetData(Type);
-
-        public byte[] GetData(PictureType type)
+        
+        public byte[] Cut(PictureType type = PictureType.PNG)
         {
-            StartCoroutine(CorCut(type));
-            return _data;
-        }
-
-        private IEnumerator CorCut(PictureType type)
-        {
-            yield return new WaitForEndOfFrame();
             Texture2D texture2D = new Texture2D(_width, _height, TextureFormat.ARGB32, false);
             texture2D.ReadPixels(new Rect(_startX,_startY,_width,_height),0,0,false);
             texture2D.Apply();
-        
+
+            byte[] data = null;
             switch (type)
             {
                 case PictureType.PNG:
-                    _data = texture2D.EncodeToPNG();
+                    data = texture2D.EncodeToPNG();
                     break;
                 case PictureType.JPG:
-                    _data = texture2D.EncodeToJPG();
+                    data = texture2D.EncodeToJPG();
                     break;
                 case PictureType.EXR:
-                    _data = texture2D.EncodeToEXR();
+                    data = texture2D.EncodeToEXR();
                     break;
                 case PictureType.TGA:
-                    _data = texture2D.EncodeToTGA();
+                    data = texture2D.EncodeToTGA();
                     break;
             }
 
-            if (_data == null)
+            if (data == null)
                 Debug.LogError("转化图片失败");
+            return data;
         }
-        public byte[] CutByWebCam(WebCamTexture webCamTexture) => CutByWebCam(webCamTexture, Type);
+        
+        public byte[] CutByWebCam(WebCamTexture webCamTexture) => CutByWebCam(webCamTexture, _type);
         public byte[] CutByWebCam(WebCamTexture webCamTexture,PictureType type)
         {
-            StartCoroutine(CorWebCam(webCamTexture, type));
-            return _data;
-        }
-
-        private IEnumerator CorWebCam(WebCamTexture webCamTexture,PictureType type)
-        {
-            yield return new WaitForEndOfFrame();
             Texture2D texture2D = new Texture2D(webCamTexture.width, webCamTexture.height, TextureFormat.ARGB32, false);
             Color[] colors = webCamTexture.GetPixels();
             texture2D.SetPixels(colors);
@@ -106,21 +98,19 @@ namespace YFramework
 
             if (data == null)
                 Debug.LogError("转化图片失败");
+            return _data;
         }
-
         public void SaveLocalFile(string path,byte[] pictureData,PictureType type,string pictureName )
         {
-            //如果存储路径不存在，则创建文件夹
             if (!Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
             }
             File.WriteAllBytes(path + "/" + pictureName+"."+ type.ToString(), pictureData);
         }
-
-        public void SaveLocalFile(string path, byte[] pictureData, string pictureName) => SaveLocalFile(path, pictureData, Type, pictureName);
-        public void SaveLocalFile(string path, byte[] pictureData,PictureType type) => SaveLocalFile(path, pictureData, Type, _defaultName);
-        public void SaveLocalFile(string path, byte[] pictureData) => SaveLocalFile(path, pictureData, Type, _defaultName);
+        public void SaveLocalFile(string path, byte[] pictureData, string pictureName) => SaveLocalFile(path, pictureData, _type, pictureName);
+        public void SaveLocalFile(string path, byte[] pictureData,PictureType type) => SaveLocalFile(path, pictureData, _type, _defaultName);
+        public void SaveLocalFile(string path, byte[] pictureData) => SaveLocalFile(path, pictureData, _type, _defaultName);
 
     }
 }

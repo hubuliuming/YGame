@@ -30,8 +30,8 @@ public abstract class ItemBase : UIBase,IItem
 
     public void Init(string itemName)
     {
-         var _player = GameManager.Instance.player;
-         var datas = YJsonUtility.ReadFromJson<Dictionary<string,ItemData>>(Paths.Config.RecoverItem);
+         var _player = PlayerManager.Instance.player;
+         var datas = YJsonUtility.ReadFromJson<Dictionary<string,ItemData>>(Msg.Paths.Config.RecoverItem);
          foreach (var item in datas.Keys)
          {
              if (item == itemName)
