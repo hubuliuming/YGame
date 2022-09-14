@@ -8,8 +8,8 @@
 
 using System;
 using System.Collections.Generic;
-using YFramework;
-using YFramework.UI;
+using YFramework.Kit.UI;
+using YFramework.Kit.Utility;
 
 public interface IItem
 {

@@ -13,18 +13,14 @@ using YFramework;
 public class PlayerManager :ManagerBase<PlayerManager>
 {
     public Player player;
-    private List<IMono> _monoList;
+    //private List<IMono> _monoList;
     public override void Init()
     {
         base.Init();
-        _monoList = new List<IMono>();
+        //_monoList = new List<IMono>();
         
     }
-
-    public void RegisterMono(IMono mono)
-    {
-      
-    }
+    
 
     public override void Release()
     {

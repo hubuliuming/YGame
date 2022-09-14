@@ -6,17 +6,16 @@
     功能：Nothing
 *****************************************************/
 
-using System;
 using UnityEngine.UI;
-using YFramework;
-using YFramework.UI;
+using YFramework.Kit;
+using YFramework.Kit.UI;
 
 public class PlayerDetails : UIBase
 {
     private Text _showText;
     private Player _player;
     
-    public override void Init()
+    public  void Init()
     {
         _player = PlayerManager.Instance.player;
         _showText = UiUtility.Get("Text").Text;

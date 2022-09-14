@@ -8,7 +8,7 @@
 
 using System.Collections.Generic;
 using UnityEngine;
-using YFramework;
+using YFramework.Kit.Utility;
 
 public class GameStart : MonoBehaviour
 {

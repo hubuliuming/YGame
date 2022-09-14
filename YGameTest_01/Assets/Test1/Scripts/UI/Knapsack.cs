@@ -9,8 +9,8 @@
 using UnityEngine;
 using UnityEngine.Pool;
 using UnityEngine.UI;
-using YFramework;
-using YFramework.UI;
+using YFramework.Kit;
+using YFramework.Kit.UI;
 
 public class Knapsack : UIBase
 {
@@ -22,11 +22,11 @@ public class Knapsack : UIBase
     private const int Column = 10;
     private const int MaxGirdNum = 99;
 
-    public override void Init()
+    public  void Init()
     {
-        base.Init();
         _player = PlayerManager.Instance.player;
-        _goodsPool = FactoryUIBase.GetPool(Msg.ItemName.Goods, Msg.Paths.Prefab.Goods,contextRect);
+        // todo fix
+        //_goodsPool = FactoryUIBase.GetPool(Msg.ItemName.Goods, Msg.Paths.Prefab.Goods,contextRect);
         int gridNum = 0;
         foreach (var  i in _player.GoodsDic.Keys)
         {

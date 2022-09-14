@@ -6,15 +6,14 @@
     功能：Nothing
 *****************************************************/
 
-using YFramework;
-using YFramework.UI;
+using YFramework.Kit;
+using YFramework.Kit.UI;
 
 public class DetailInform : UIBase
 {
     public string Inform;
-    public override void Init()
+    public void Init()
     {
-        base.Init();
         var player = PlayerManager.Instance.player;
         UiUtility.Get("Text").SetText(Inform);
         UiUtility.Get("BtnUse").AddListener(()=>MsgDispatcher.Register(Msg.MsgRegister.UseGoods, o =>

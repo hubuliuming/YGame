@@ -10,8 +10,10 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
-using YFramework;
-using YFramework.UI;
+using YFramework.Kit;
+using YFramework.Kit.UI;
+using YFramework.Kit.Utility;
+
 
 public  class EnemyBase : UIBase,IItem
 {

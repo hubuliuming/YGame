@@ -8,7 +8,8 @@
 
 using UnityEngine;
 using System.Collections.Generic;
-using YFramework;
+using YFramework.Kit;
+using YFramework.Kit.Utility;
 
 public class Player
 {
