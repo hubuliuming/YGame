@@ -10,12 +10,13 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
+using YFramework;
 using YFramework.Kit;
 using YFramework.Kit.UI;
 using YFramework.Kit.Utility;
 
 
-public  class EnemyBase : UIBase,IItem
+public  class EnemyBase : MonoBehaviour,IController
 {
     public enum RareLevel
     {
@@ -67,26 +68,26 @@ public  class EnemyBase : UIBase,IItem
                 data = datas[enemyName];
                 initData = data;
                 InitData();
-                UiUtility.Get("Btn").AddListener(()=>
-                {
-                    if (!_player.EnableAttack())
-                    {
-                        Debug.Log("玩家已经死亡或者体力不足");
-                        return;
-                    }
-              
-                    _player.ChangePower(-data.CostPower,false);
-                    AttackPlayer();
-                    Debug.Log("战斗结果:" + AttackResult());
-                    //死亡奖励
-                    if (AttackResult())
-                    {
-                        //Player.ChangeCoin(data.awrd.Coin,false);
-                        WinAward();
-                    }
-                    ItemFactory.Release(enemyName,gameObject);
-                    MsgDispatcher.Send(Msg.MsgRegister.UpdateShowData);
-                });
+                // UiUtility.Get("Btn").AddListener(()=>
+                // {
+                //     if (!_player.EnableAttack())
+                //     {
+                //         Debug.Log("玩家已经死亡或者体力不足");
+                //         return;
+                //     }
+                //
+                //     _player.ChangePower(-data.CostPower,false);
+                //     AttackPlayer();
+                //     Debug.Log("战斗结果:" + AttackResult());
+                //     //死亡奖励
+                //     if (AttackResult())
+                //     {
+                //         //Player.ChangeCoin(data.awrd.Coin,false);
+                //         WinAward();
+                //     }
+                //     ItemFactory.Release(enemyName,gameObject);
+                //     MsgDispatcher.Send(Msg.MsgRegister.UpdateShowData);
+                // });
                 break;
             }
         }
@@ -154,4 +155,8 @@ public  class EnemyBase : UIBase,IItem
     //     dic.Add(goodsName,num);
     //     return dic;
     // }
+    public IArchitecture GetArchitecture()
+    {
+        return Game.Interface;
+    }
 }

@@ -17,7 +17,6 @@ public class GameStart : MonoBehaviour
     public ItemManager itemManager;
     private void Start()
     {
-        
         playerManager.Init();
         PlayerManager.Instance.player = new Player();
         itemManager.Init();
@@ -112,4 +111,5 @@ public class GameStart : MonoBehaviour
     }
 
     #endregion
+    
 }
