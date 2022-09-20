@@ -6,8 +6,9 @@
     功能：Nothing
 *****************************************************/
 
+using System;
 using System.Collections.Generic;
-public class PlayerData
+public class PlayerData 
 {
    
     public string Name;
@@ -66,4 +67,5 @@ public class PlayerData
         UpperDefence = Defence;
         UpperSpeed = Speed;
     }
+    
 }

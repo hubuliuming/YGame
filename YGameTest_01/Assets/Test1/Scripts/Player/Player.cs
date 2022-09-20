@@ -14,7 +14,6 @@ using YFramework.Kit.Utility;
 public class Player
 {
     private  PlayerData _playerData;
-    //public PlayerData playerData => _playerData;
     public Player()
     {
         InitPlayer();
@@ -44,8 +43,7 @@ public class Player
     public int UpperSpeed => _playerData.UpperSpeed;
 
     public Dictionary<string, int> GoodsDic => _playerData.goodsDict;
-
-
+    
     public void ReLoadJsonData()
     {
         _playerData = new PlayerData

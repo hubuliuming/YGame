@@ -6,7 +6,6 @@
     功能：Nothing
 *****************************************************/
 
-using Codice.CM.Common;
 using UnityEngine;
 
 public abstract class ManagerBase<T> : MonoBehaviour where T : MonoBehaviour

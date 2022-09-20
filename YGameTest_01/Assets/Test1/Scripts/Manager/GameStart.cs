@@ -8,9 +8,10 @@
 
 using System.Collections.Generic;
 using UnityEngine;
+using YFramework;
 using YFramework.Kit.Utility;
 
-public class GameStart : MonoBehaviour
+public class GameStart : MonoBehaviour,IController
 {
     private GameObject _knapsack;
     public PlayerManager playerManager;
@@ -20,6 +21,7 @@ public class GameStart : MonoBehaviour
         playerManager.Init();
         PlayerManager.Instance.player = new Player();
         itemManager.Init();
+        
         //GameManager.Instance.player.ReLoadJsonData(); 
         //WriteItemJson();
         //WriteEnemyJson();
@@ -111,5 +113,9 @@ public class GameStart : MonoBehaviour
     }
 
     #endregion
-    
+
+    public IArchitecture GetArchitecture()
+    {
+        return Game.Interface;
+    }
 }

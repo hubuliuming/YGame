@@ -1,13 +1,17 @@
 /****************************************************
-    文件：GameManager.cs
+    文件：PlayerCommand.cs
     作者：Y
     邮箱: 916111418@qq.com
     日期：#CreateTime#
     功能：Nothing
 *****************************************************/
 
+using YFramework;
 
-public class PlayerManager :ManagerBase<PlayerManager>
+public class PlayerCommand : AbstractCommand 
 {
-    public Player player;
+    protected override void OnExecute()
+    {
+      
+    }
 }
