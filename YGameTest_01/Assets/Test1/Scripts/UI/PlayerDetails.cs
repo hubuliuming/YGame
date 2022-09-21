@@ -7,10 +7,11 @@
 *****************************************************/
 
 using UnityEngine.UI;
+using YFramework;
 using YFramework.Kit;
 using YFramework.Kit.UI;
 
-public class PlayerDetails : UIBase
+public class PlayerDetails : UIBase,IController
 {
     private Text _showText;
     private Player _player;
@@ -44,5 +45,10 @@ public class PlayerDetails : UIBase
          "\n\n防御力："+_player.Defence+
          "\n\n速度："+_player.Speed+
          "\n\n金币："+_player.Coin);
+    }
+
+    public IArchitecture GetArchitecture()
+    {
+        return Game.Interface;
     }
 }

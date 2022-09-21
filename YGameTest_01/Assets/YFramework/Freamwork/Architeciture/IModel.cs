@@ -8,7 +8,7 @@
 
 namespace YFramework
 {
-    public interface IModel: ICanSetArchitecture, ICanGetUtility ,ICanSendEvent
+    public interface IModel: ICanSetArchitecture, ICanGetUtility ,ICanSendEvent,ICanGetSystem
     {
         void Init();
         BindableProperty<int> Count { get; }

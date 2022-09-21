@@ -8,24 +8,32 @@
 
 using YFramework;
 
-public class PlayerEventSystem : AbstractSystem
+public interface IPlayerEventSystem : ISystem
 {
-    private TypeEventSystem _typeEventSystem;
+    void LevelUp();
+}
+public class PlayerEventSystem : AbstractSystem,IPlayerEventSystem
+{
     private IPlayerModel _playerModel;
+    private ILogSystem _logSystem;
     protected override void OnInit()
     {
-        _typeEventSystem = new TypeEventSystem();
         _playerModel = this.GetModel<IPlayerModel>();
-        this.RegisterEvent<string>(ChangeName);
-
-        // _typeEventSystem.Register(ChangeName())
+        _logSystem = this.GetSystem<ILogSystem>();
     }
-    public void ChangeName(string nameStr)
+
+    public void LevelUp()
     {
-        _playerModel.Name.Value = nameStr;
-        //MsgDispatcher.Send(Msg.MsgRegister.UpdateShowData);
-        //UpdateLocalPlayerData();
+        var needExp = _playerModel.Level * 100 + 100;
+        if (_playerModel.Exp >= needExp)
+        {
+            _playerModel.Level++;
+            _playerModel.Exp -= needExp;
+            //ChangeExp(-needExp);
+        }
+        else
+        {
+            _logSystem.Log("经验不足升级");
+        }
     }
-
-  
 }
