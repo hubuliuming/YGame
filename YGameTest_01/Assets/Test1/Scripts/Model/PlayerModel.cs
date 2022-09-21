@@ -38,13 +38,11 @@ public class PlayerModel : AbstractModel,IPlayerModel
     
     protected override void OnInit()
     {
-        _logSystem = this.GetSystem<LogSystem>();
+        _logSystem = this.GetSystem<ILogSystem>();
         _data = YJsonUtility.ReadFromJson<PlayerData>(Msg.Paths.Config.PlayerData);
     }
-
     public bool IsDied { get; private set; }
     public bool IsEmptyPower { get; private set; }
-
     public string Name
     {
         get => _data.Name; 
@@ -116,7 +114,6 @@ public class PlayerModel : AbstractModel,IPlayerModel
             YJsonUtility.WriteToJson(_data, Msg.Paths.Config.PlayerData);
         }
     }
-
     public int Attack
     {
         get => _data.Attack; 
@@ -135,8 +132,25 @@ public class PlayerModel : AbstractModel,IPlayerModel
             YJsonUtility.WriteToJson(_data, Msg.Paths.Config.PlayerData);
         }
     }
+    public int Defence
+    {
+        get => _data.Defence;
+        set
+        {
+            if (value < PlayerData.LimitMinDefence)
+            {
+               value = PlayerData.LimitMinDefence;
+            }
+            else if (value > UpperDefence)
+            {
+                value = UpperDefence;
+            }
+            // todo UpdateShowData
+            _data.Defence = value;
+            YJsonUtility.WriteToJson(_data, Msg.Paths.Config.PlayerData);
+        }
+    }
 
-    public int Defence { get; set; }
     public int Speed { get; set; }
     public int Coin { get; set; }
     public int UpperPower { get; set; }
