@@ -10,7 +10,22 @@ using YFramework;
 
 public interface IPlayerEventSystem : ISystem
 {
+    void ChangeName(string newName);
+    void ChangeExp(long value);
+    void ChangePower(int value);
+    void ChangeHP(int value);
+    void ChangeAttack(int value);
+    void ChangeDefence(int value);
+    void ChangeSpeed(int value);
+    void ChangeCoin(int value);
+    void ChangeAll();
+
     void LevelUp();
+    void ChangeUpperPower(int value);
+    void ChangeUpperHP(int value);
+    void ChangeUpperAttack(int value);
+    void ChangeUpperDefence(int value);
+    
 }
 public class PlayerEventSystem : AbstractSystem,IPlayerEventSystem
 {
@@ -20,6 +35,51 @@ public class PlayerEventSystem : AbstractSystem,IPlayerEventSystem
     {
         _playerModel = this.GetModel<IPlayerModel>();
         _logSystem = this.GetSystem<ILogSystem>();
+    }
+
+    public void ChangeName(string newName)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void ChangeExp(long value)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void ChangePower(int value)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void ChangeHP(int value)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void ChangeAttack(int value)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void ChangeDefence(int value)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void ChangeSpeed(int value)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void ChangeCoin(int value)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void ChangeAll()
+    {
+        throw new System.NotImplementedException();
     }
 
     public void LevelUp()
@@ -35,5 +95,25 @@ public class PlayerEventSystem : AbstractSystem,IPlayerEventSystem
         {
             _logSystem.Log("经验不足升级");
         }
+    }
+
+    public void ChangeUpperPower(int value)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void ChangeUpperHP(int value)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void ChangeUpperAttack(int value)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void ChangeUpperDefence(int value)
+    {
+        throw new System.NotImplementedException();
     }
 }

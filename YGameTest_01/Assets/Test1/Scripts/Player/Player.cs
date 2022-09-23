@@ -89,7 +89,7 @@ public class Player
         }
     }
     
-    public void ChangeExp(int value, bool isDebug = true)
+    public void ChangeExp(long value, bool isDebug = true)
     {
         _playerData.Exp += value;
         if(isDebug)

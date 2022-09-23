@@ -150,12 +150,82 @@ public class PlayerModel : AbstractModel,IPlayerModel
             YJsonUtility.WriteToJson(_data, Msg.Paths.Config.PlayerData);
         }
     }
+    public int Speed
+    {
+        get => _data.Speed;
+        set
+        {
+            if (value < PlayerData.LimitMinSpeed)
+            {
+                value = PlayerData.LimitMinSpeed;
+            }
+            else if (value > UpperSpeed)
+            {
+                value = UpperSpeed;
+            }
+            // todo UpdateShowData
+            _data.Speed = value;
+            YJsonUtility.WriteToJson(_data, Msg.Paths.Config.PlayerData);
+        }
+    }
+    public int Coin
+    {
+        get => _data.Coin;
+        set
+        {
+            if (value < 0)
+                value = 0;
+            // todo UpdateShowData
+            _data.Coin = value;
+            YJsonUtility.WriteToJson(_data, Msg.Paths.Config.PlayerData);
+        }
+    }
 
-    public int Speed { get; set; }
-    public int Coin { get; set; }
-    public int UpperPower { get; set; }
-    public int UpperHP { get; set; }
-    public int UpperAttack { get; set; }
+    public int UpperPower
+    {
+        get => _data.UpperPower;
+        set
+        {
+            if (value < PlayerData.LimitMinPower)
+            {
+                value = PlayerData.LimitMinPower;
+                _logSystem.Log("已经到达最低体力上限值");
+            }
+            _data.UpperPower = value;
+            YJsonUtility.WriteToJson(_data, Msg.Paths.Config.PlayerData);
+        }
+    }
+
+    public int UpperHP
+    {
+        get => _data.UpperHP;
+        set
+        {
+            if (value < PlayerData.LimitMinHP)
+            {
+                value = PlayerData.LimitMinHP;
+                _logSystem.Log("已经到达最低生命上限值");
+                return;
+            }
+            _data.UpperHP = value;
+            YJsonUtility.WriteToJson(_data, Msg.Paths.Config.PlayerData);
+        }
+    }
+
+    public int UpperAttack
+    {
+        get => _data.UpperAttack;
+        set
+        {
+            if (value < PlayerData.LimitMinAttack)
+            {
+                value = PlayerData.LimitMinAttack;
+            }
+            _data.UpperAttack = value;
+            YJsonUtility.WriteToJson(_data, Msg.Paths.Config.PlayerData);
+        }
+    }
+
     public int UpperDefence { get; set; }
     public int UpperSpeed { get; set; }
 
