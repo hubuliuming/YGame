@@ -7,6 +7,7 @@
 *****************************************************/
 
 using YFramework;
+using YFramework.Kit.Utility;
 
 public interface IPlayerEventSystem : ISystem
 {
@@ -18,8 +19,7 @@ public interface IPlayerEventSystem : ISystem
     void ChangeDefence(int value);
     void ChangeSpeed(int value);
     void ChangeCoin(int value);
-    void ChangeAll();
-
+    
     void LevelUp();
     void ChangeUpperPower(int value);
     void ChangeUpperHP(int value);
@@ -30,57 +30,46 @@ public interface IPlayerEventSystem : ISystem
 public class PlayerEventSystem : AbstractSystem,IPlayerEventSystem
 {
     private IPlayerModel _playerModel;
-    private ILogSystem _logSystem;
+    private LogUtility _logUtility;
     protected override void OnInit()
     {
         _playerModel = this.GetModel<IPlayerModel>();
-        _logSystem = this.GetSystem<ILogSystem>();
+        _logUtility = this.GetUtility<LogUtility>();
     }
-
+    
     public void ChangeName(string newName)
     {
-        throw new System.NotImplementedException();
+        _playerModel.Name = newName;
     }
-
     public void ChangeExp(long value)
     {
-        throw new System.NotImplementedException();
+        _playerModel.Exp += value;
     }
-
     public void ChangePower(int value)
     {
-        throw new System.NotImplementedException();
+        _playerModel.Power += value;
     }
-
     public void ChangeHP(int value)
     {
-        throw new System.NotImplementedException();
+        _playerModel.HP += value;
     }
-
     public void ChangeAttack(int value)
     {
-        throw new System.NotImplementedException();
+        _playerModel.Attack += value;
     }
-
     public void ChangeDefence(int value)
     {
-        throw new System.NotImplementedException();
+        _playerModel.Defence += value;
     }
-
     public void ChangeSpeed(int value)
     {
-        throw new System.NotImplementedException();
+        _playerModel.Speed += value;
     }
-
     public void ChangeCoin(int value)
     {
-        throw new System.NotImplementedException();
+        _playerModel.Coin += value;
     }
-
-    public void ChangeAll()
-    {
-        throw new System.NotImplementedException();
-    }
+    
 
     public void LevelUp()
     {
@@ -93,27 +82,24 @@ public class PlayerEventSystem : AbstractSystem,IPlayerEventSystem
         }
         else
         {
-            _logSystem.Log("经验不足升级");
+            _logUtility.Log("经验不足升级");
         }
     }
 
     public void ChangeUpperPower(int value)
     {
-        throw new System.NotImplementedException();
+        _playerModel.UpperPower += value;
     }
-
     public void ChangeUpperHP(int value)
     {
-        throw new System.NotImplementedException();
+        _playerModel.UpperHP += value;
     }
-
     public void ChangeUpperAttack(int value)
     {
-        throw new System.NotImplementedException();
+        _playerModel.UpperAttack += value;
     }
-
     public void ChangeUpperDefence(int value)
     {
-        throw new System.NotImplementedException();
+        _playerModel.UpperDefence += value;
     }
 }

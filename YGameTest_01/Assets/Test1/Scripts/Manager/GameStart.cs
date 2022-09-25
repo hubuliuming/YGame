@@ -14,14 +14,8 @@ using YFramework.Kit.Utility;
 public class GameStart : MonoBehaviour,IController
 {
     private GameObject _knapsack;
-    public PlayerManager playerManager;
-    public ItemManager itemManager;
     private void Start()
     {
-        playerManager.Init();
-        PlayerManager.Instance.player = new Player();
-        itemManager.Init();
-        
         //GameManager.Instance.player.ReLoadJsonData(); 
         //WriteItemJson();
         //WriteEnemyJson();

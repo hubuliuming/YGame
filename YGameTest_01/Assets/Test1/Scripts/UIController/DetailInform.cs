@@ -14,7 +14,6 @@ public class DetailInform : UIBase
     public string Inform;
     public void Init()
     {
-        var player = PlayerManager.Instance.player;
         UiUtility.Get("Text").SetText(Inform);
         UiUtility.Get("BtnUse").AddListener(()=>MsgDispatcher.Register(Msg.MsgRegister.UseGoods, o =>
         {

@@ -12,7 +12,6 @@ public class Game : Architecture<Game>
 {
     protected override void Init()
     {
-        RegisterSystem<ILogSystem>(new LogSystem());
         RegisterModel<IPlayerModel>(new PlayerModel());
         RegisterSystem<IPlayerEventSystem>(new PlayerEventSystem());
     }

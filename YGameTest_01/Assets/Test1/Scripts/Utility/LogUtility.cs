@@ -1,5 +1,5 @@
 /****************************************************
-    文件：LogSystem.cs
+    文件：LogUtility.cs
     作者：Y
     邮箱: 916111418@qq.com
     日期：#CreateTime#
@@ -9,20 +9,8 @@
 using UnityEngine;
 using YFramework;
 
-public interface ILogSystem : ISystem
+public class LogUtility : MonoBehaviour,IUtility
 {
-    void Log(object message);
-    void LogWarning(object message);
-    void LogError(object message);
-}
-
-public class LogSystem : AbstractSystem,ILogSystem 
-{
-    protected override void OnInit()
-    {
-        
-    }
-
     public void Log(object message)
     {
         Debug.Log(message);

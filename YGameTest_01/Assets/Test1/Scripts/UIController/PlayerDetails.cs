@@ -18,7 +18,6 @@ public class PlayerDetails : UIBase,IController
     
     public  void Init()
     {
-        _player = PlayerManager.Instance.player;
         _showText = UiUtility.Get("Text").Text;
         UpdateShow();
         Register();

@@ -24,7 +24,7 @@ public class Knapsack : UIBase
 
     public  void Init()
     {
-        _player = PlayerManager.Instance.player;
+        // _player = PlayerManager.Instance.player;
         // todo fix
         //_goodsPool = FactoryUIBase.GetPool(Msg.ItemName.Goods, Msg.Paths.Prefab.Goods,contextRect);
         int gridNum = 0;

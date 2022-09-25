@@ -12,6 +12,7 @@ using YFramework.Kit.Utility;
 
 public interface IPlayerModel : IModel
 {
+   
     bool IsDied { get; }
     bool IsEmptyPower { get; }
     string Name { get; set; }
@@ -29,16 +30,18 @@ public interface IPlayerModel : IModel
     int UpperAttack { get; set; }
     int UpperDefence { get; set; }
     int UpperSpeed { get; set; }
- 
+    void UpdateLocalData();
+
 }
 public class PlayerModel : AbstractModel,IPlayerModel
 {
     private PlayerData _data;
-    private ILogSystem _logSystem;
-    
+    // todo LogSystem应该分为Utility
+    private LogUtility _logUtility;
+
     protected override void OnInit()
     {
-        _logSystem = this.GetSystem<ILogSystem>();
+        _logUtility = this.GetUtility<LogUtility>();
         _data = YJsonUtility.ReadFromJson<PlayerData>(Msg.Paths.Config.PlayerData);
     }
     public bool IsDied { get; private set; }
@@ -82,7 +85,7 @@ public class PlayerModel : AbstractModel,IPlayerModel
                 //todo 体力不够
                 IsEmptyPower = true;
                 value = 0;
-                _logSystem.Log("体力不足!");
+                _logUtility.Log("体力不足!");
                 return;
             }
             //恢复的体力不可以超过体力上限
@@ -189,13 +192,12 @@ public class PlayerModel : AbstractModel,IPlayerModel
             if (value < PlayerData.LimitMinPower)
             {
                 value = PlayerData.LimitMinPower;
-                _logSystem.Log("已经到达最低体力上限值");
+                _logUtility.Log("已经到达最低体力上限值");
             }
             _data.UpperPower = value;
             YJsonUtility.WriteToJson(_data, Msg.Paths.Config.PlayerData);
         }
     }
-
     public int UpperHP
     {
         get => _data.UpperHP;
@@ -204,14 +206,13 @@ public class PlayerModel : AbstractModel,IPlayerModel
             if (value < PlayerData.LimitMinHP)
             {
                 value = PlayerData.LimitMinHP;
-                _logSystem.Log("已经到达最低生命上限值");
+                _logUtility.Log("已经到达最低生命上限值");
                 return;
             }
             _data.UpperHP = value;
             YJsonUtility.WriteToJson(_data, Msg.Paths.Config.PlayerData);
         }
     }
-
     public int UpperAttack
     {
         get => _data.UpperAttack;
@@ -226,8 +227,42 @@ public class PlayerModel : AbstractModel,IPlayerModel
         }
     }
 
-    public int UpperDefence { get; set; }
-    public int UpperSpeed { get; set; }
+    public int UpperDefence
+    {
+        get => _data.UpperDefence;
+        set
+        {
+            if(value == 0)
+                return;
+            if (value < PlayerData.LimitMinDefence)
+            {
+                value = PlayerData.LimitMinDefence;
+            }
+
+            _data.UpperDefence = value;
+            YJsonUtility.WriteToJson(_data, Msg.Paths.Config.PlayerData);
+        }
+    }
+
+    public int UpperSpeed
+    {
+        get => _data.UpperSpeed;
+        set
+        {
+            if (value < PlayerData.LimitMinSpeed)
+            {
+                value = PlayerData.LimitMinSpeed;
+            }
+
+            _data.UpperSpeed = value;
+            YJsonUtility.WriteToJson(_data, Msg.Paths.Config.PlayerData);
+        }
+    }
+
+    public void UpdateLocalData()
+    {
+        YJsonUtility.WriteToJson(_data, Msg.Paths.Config.PlayerData);
+    }
 
 
     private bool CheckChangeDied(int value)
@@ -236,7 +271,7 @@ public class PlayerModel : AbstractModel,IPlayerModel
         {
             //todo 玩家死亡
             IsDied = true;
-            _logSystem.Log("玩家死亡！");
+            _logUtility.Log("玩家死亡！");
             HP = 0;
             return true;
         }

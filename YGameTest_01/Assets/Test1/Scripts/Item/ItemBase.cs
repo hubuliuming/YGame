@@ -30,7 +30,7 @@ public abstract class ItemBase : UIBase,IItem
 
     public void Init(string itemName)
     {
-         var _player = PlayerManager.Instance.player;
+         // var _player = PlayerManager.Instance.player;
          var datas = YJsonUtility.ReadFromJson<Dictionary<string,ItemData>>(Msg.Paths.Config.RecoverItem);
          foreach (var item in datas.Keys)
          {
@@ -39,7 +39,7 @@ public abstract class ItemBase : UIBase,IItem
                  var data = datas[itemName];
                  UiUtility.Get("Btn").AddListener(() =>
                  {
-                     _player.ChangeAll(data);
+                     // _player.ChangeAll(data);
                      //MsgDispatcher.Send(MsgRegister.UpdateShowData,null);
                      ItemFactory.Release(itemName,gameObject);
                  });
