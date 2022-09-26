@@ -14,14 +14,14 @@ using YFramework.Kit.Utility;
 public class GameStart : MonoBehaviour,IController
 {
     private GameObject _knapsack;
+    public Transform UIShow;
     private void Start()
     {
-        //GameManager.Instance.player.ReLoadJsonData(); 
         //WriteItemJson();
         //WriteEnemyJson();
         
-        transform.Find("PlayerData").GetComponent<PlayerDetails>().Init();
-        _knapsack = transform.Find("Knapsack").gameObject;
+        UIShow.Find("PlayerDetails").GetComponent<PlayerDetails>().Init();
+        _knapsack = UIShow.Find("Knapsack").gameObject;
         _knapsack.GetComponent<Knapsack>().Init();
     }
 
@@ -94,15 +94,16 @@ public class GameStart : MonoBehaviour,IController
 
     private void CreateEnemy()
     {
-        var wildBoarPool = ItemFactory.GetPool(Msg.EnemyName.WildBoar,Msg.Paths.Prefab.Enemy,transform);
+        var wildBoarPool = ItemFactory.GetPool(Msg.EnemyName.WildBoar,Msg.Prefab.Enemy,transform);
         var go = wildBoarPool.Get();
         go.transform.localPosition =Vector3.zero;
     }
 
     private void CreateItem()
     {
-        var pool = ItemFactory.GetPool(Msg.ItemName.ActiveApple, Msg.Paths.Prefab.RecoverItem,transform);
+        var pool = this.GetSystem<ItemFactorySystem>().GetPool(Msg.Prefab.RecoverItem);
         var go = pool.Get();
+        go.transform.parent = transform;
         go.transform.localPosition = new Vector3(300, 0, 0);
     }
 

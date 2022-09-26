@@ -29,6 +29,11 @@ public class ItemFactory
     
         return data;
     }
+
+    public static void Get(string itemName)
+    {
+        //_pools[itemName]
+    }
     
     public static void Release(string name,GameObject go)
     {

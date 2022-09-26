@@ -51,8 +51,8 @@ public class PlayerModel : AbstractModel,IPlayerModel
         get => _data.Name; 
         set
         {
-            // todo UpdateShowData
             _data.Name = value;
+            this.SendEvent<Msg.MsgRegister.UpdateShowData>();
             YJsonUtility.WriteToJson(_data,Msg.Paths.Config.PlayerData);
         }
     }
@@ -61,8 +61,8 @@ public class PlayerModel : AbstractModel,IPlayerModel
         get => _data.Level;
         set
         {
-            // todo UpdateShowData
             _data.Level = value;
+            this.SendEvent<Msg.MsgRegister.UpdateShowData>();
             YJsonUtility.WriteToJson(_data, Msg.Paths.Config.PlayerData);
         }
     }
@@ -72,6 +72,7 @@ public class PlayerModel : AbstractModel,IPlayerModel
         set
         {
             _data.Exp = value;
+            this.SendEvent<Msg.MsgRegister.UpdateShowData>();
             YJsonUtility.WriteToJson(_data, Msg.Paths.Config.PlayerData);
         }
     }
@@ -94,8 +95,8 @@ public class PlayerModel : AbstractModel,IPlayerModel
                 value = UpperPower;
             }
             IsEmptyPower = false;
-            // todo UpdateShowData
             _data.Power = value;
+            this.SendEvent<Msg.MsgRegister.UpdateShowData>();
             YJsonUtility.WriteToJson(_data, Msg.Paths.Config.PlayerData);
         }
     }
@@ -112,8 +113,8 @@ public class PlayerModel : AbstractModel,IPlayerModel
                 value = UpperHP;
             }
             IsDied = false;
-            // todo UpdateShowData
             _data.HP = value;
+            this.SendEvent<Msg.MsgRegister.UpdateShowData>();
             YJsonUtility.WriteToJson(_data, Msg.Paths.Config.PlayerData);
         }
     }
@@ -130,8 +131,8 @@ public class PlayerModel : AbstractModel,IPlayerModel
             {
                 value = UpperAttack;
             }
-            // todo UpdateShowData
             _data.Attack = value;
+            this.SendEvent<Msg.MsgRegister.UpdateShowData>();
             YJsonUtility.WriteToJson(_data, Msg.Paths.Config.PlayerData);
         }
     }
@@ -148,8 +149,8 @@ public class PlayerModel : AbstractModel,IPlayerModel
             {
                 value = UpperDefence;
             }
-            // todo UpdateShowData
             _data.Defence = value;
+            this.SendEvent<Msg.MsgRegister.UpdateShowData>();
             YJsonUtility.WriteToJson(_data, Msg.Paths.Config.PlayerData);
         }
     }
@@ -166,8 +167,8 @@ public class PlayerModel : AbstractModel,IPlayerModel
             {
                 value = UpperSpeed;
             }
-            // todo UpdateShowData
             _data.Speed = value;
+            this.SendEvent<Msg.MsgRegister.UpdateShowData>();
             YJsonUtility.WriteToJson(_data, Msg.Paths.Config.PlayerData);
         }
     }
@@ -178,8 +179,8 @@ public class PlayerModel : AbstractModel,IPlayerModel
         {
             if (value < 0)
                 value = 0;
-            // todo UpdateShowData
             _data.Coin = value;
+            this.SendEvent<Msg.MsgRegister.UpdateShowData>();
             YJsonUtility.WriteToJson(_data, Msg.Paths.Config.PlayerData);
         }
     }

@@ -8,42 +8,33 @@
 
 using UnityEngine.UI;
 using YFramework;
-using YFramework.Kit;
 using YFramework.Kit.UI;
 
 public class PlayerDetails : UIBase,IController
 {
     private Text _showText;
-    private Player _player;
+    private IPlayerModel _playerModel;
     
-    public  void Init()
+    public void Init()
     {
         _showText = UiUtility.Get("Text").Text;
+        _playerModel = this.GetModel<IPlayerModel>();
+        this.RegisterEvent<Msg.MsgRegister.UpdateShowData>(o => UpdateShow());
         UpdateShow();
-        Register();
     }
     
-    public void Register()
-    {
-        MsgDispatcher.Register(Msg.MsgRegister.UpdateShowData,o=>UpdateShow());
-    }
-
-    public void UnRegister()
-    {
-        MsgDispatcher.UnRegister(Msg.MsgRegister.UpdateShowData);
-    }
     
     public void UpdateShow()
     {
-        _showText.text = ("昵称：" + _player.Name + 
-         "\n\n等级："+_player.Level +
-         "\n\n经验："+_player.Exp +
-         "\n\n生命："+_player.HP +
-         "\n\n体力："+_player.Power+
-         "\n\n攻击力："+_player.Attack+
-         "\n\n防御力："+_player.Defence+
-         "\n\n速度："+_player.Speed+
-         "\n\n金币："+_player.Coin);
+        _showText.text = ("昵称：" + _playerModel.Name + 
+         "\n\n等级："+_playerModel.Level +
+         "\n\n经验："+_playerModel.Exp +
+         "\n\n生命："+_playerModel.HP +
+         "\n\n体力："+_playerModel.Power+
+         "\n\n攻击力："+_playerModel.Attack+
+         "\n\n防御力："+_playerModel.Defence+
+         "\n\n速度："+_playerModel.Speed+
+         "\n\n金币："+_playerModel.Coin);
     }
 
     public IArchitecture GetArchitecture()

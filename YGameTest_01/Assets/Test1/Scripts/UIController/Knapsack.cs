@@ -9,10 +9,11 @@
 using UnityEngine;
 using UnityEngine.Pool;
 using UnityEngine.UI;
+using YFramework;
 using YFramework.Kit;
 using YFramework.Kit.UI;
 
-public class Knapsack : UIBase
+public class Knapsack : UIBase,IController
 {
     private Player _player;
     public RectTransform contextRect;
@@ -73,5 +74,10 @@ public class Knapsack : UIBase
         {
             MsgDispatcher.Send(Msg.MsgRegister.UseGoods,null);
         });
+    }
+
+    public IArchitecture GetArchitecture()
+    {
+        return Game.Interface;
     }
 }

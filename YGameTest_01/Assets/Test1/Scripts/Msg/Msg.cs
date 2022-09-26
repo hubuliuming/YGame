@@ -23,8 +23,12 @@ public class Msg
     }
     public struct MsgRegister
     {
+        public struct UpdateShowData
+        {
+            
+        }
         public const string PlayerAttack = "PlayerAttack";
-        public const string UpdateShowData = "UpdateShowData";
+        //public const string UpdateShowData = "UpdateShowData";
         public const string UseGoods = "UseGoods";
     }
     
@@ -36,14 +40,15 @@ public class Msg
             public static readonly string RecoverItem = Application.dataPath + "/Test1/Data/RecoverItem";
             public static readonly string Enemy = Application.dataPath + "/Test1/Data/Enemy";
         }
-        public struct Prefab
-        {
-            public static readonly string WildBoar = "Prefabs/Enemy/"+Msg.EnemyName.WildBoar;
-            public static readonly string RecoverItem = "Prefabs/Item/RecoverItem";
-            public static readonly string Enemy = "Prefabs/Enemy";
-            public static readonly string Goods = "Prefabs/Goods";
-        }
+        
 
+    }
+    public struct Prefab
+    {
+        public static readonly string WildBoar = "Prefabs/Enemy/"+Msg.EnemyName.WildBoar;
+        public static readonly string RecoverItem = "Prefabs/Item/RecoverItem";
+        public static readonly string Enemy = "Prefabs/Enemy";
+        public static readonly string Goods = "Prefabs/Goods";
     }
     
 }

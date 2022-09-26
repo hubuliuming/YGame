@@ -44,18 +44,7 @@ public class Player
 
     public Dictionary<string, int> GoodsDic => _playerData.goodsDict;
     
-    public void ReLoadJsonData()
-    {
-        _playerData = new PlayerData
-            ("小明", 1,0,100, 200, 10, 8, 10, 1000)
-            {
-                goodsDict =new Dictionary<string, int>()
-                {
-                    {Msg.ItemName.SteamedBun,5}
-                }
-            };
-        YJsonUtility.WriteToJson(_playerData,Msg.Paths.Config.PlayerData);
-    }
+
     
     public void InitPlayer()
     {
@@ -71,7 +60,7 @@ public class Player
     public void ChangeName(string nameStr)
     {
         _playerData.Name = nameStr;
-        MsgDispatcher.Send(Msg.MsgRegister.UpdateShowData);
+        // MsgDispatcher.Send(Msg.MsgRegister.UpdateShowData);
         UpdateLocalPlayerData();
     }
 
@@ -94,7 +83,7 @@ public class Player
         _playerData.Exp += value;
         if(isDebug)
             Debug.Log("经验值:"+Exp);
-        MsgDispatcher.Send(Msg.MsgRegister.UpdateShowData);
+        // MsgDispatcher.Send(Msg.MsgRegister.UpdateShowData);
         UpdateLocalPlayerData();
     }
     public void ChangePower(int value,bool isDebug = true)
@@ -121,7 +110,7 @@ public class Player
         IsEmptyPower = false;
         if(isDebug)
             Debug.Log("PlayerPower:"+_playerData.Power);
-        MsgDispatcher.Send(Msg.MsgRegister.UpdateShowData);
+        // MsgDispatcher.Send(Msg.MsgRegister.UpdateShowData);
         UpdateLocalPlayerData();
     }
     public void ChangeUpperPower(int value, bool isDebug = true)
@@ -159,7 +148,7 @@ public class Player
         IsDied = false;
         if(isDebug)
             Debug.Log("PlayerHP:"+_playerData.HP);
-        MsgDispatcher.Send(Msg.MsgRegister.UpdateShowData);
+        // MsgDispatcher.Send(Msg.MsgRegister.UpdateShowData);
         UpdateLocalPlayerData();
     }
     public void ChangeUpperHP(int value, bool isDebug = true)
@@ -196,7 +185,7 @@ public class Player
         }
         if(isDebug)
             Debug.Log("PlayerAttack:"+_playerData.Attack);
-        MsgDispatcher.Send(Msg.MsgRegister.UpdateShowData);
+        // MsgDispatcher.Send(Msg.MsgRegister.UpdateShowData);
         UpdateLocalPlayerData();
     }
     public void ChangeUpperAttack(int value, bool isDebug = true)
@@ -233,7 +222,7 @@ public class Player
         }
         if(isDebug)
             Debug.Log("PlayerDefence:"+_playerData.Defence);
-        MsgDispatcher.Send(Msg.MsgRegister.UpdateShowData);
+        // MsgDispatcher.Send(Msg.MsgRegister.UpdateShowData);
         UpdateLocalPlayerData();
     }
     public void ChangeUpperDefence(int value, bool isDebug = true)
@@ -270,7 +259,7 @@ public class Player
         }
         if(isDebug)
             Debug.Log("PlayerSpeed:"+_playerData.Speed);
-        MsgDispatcher.Send(Msg.MsgRegister.UpdateShowData);
+        // MsgDispatcher.Send(Msg.MsgRegister.UpdateShowData);
         UpdateLocalPlayerData();
     }
     public void ChangeUpperSpeed(int value, bool isDebug = true)
@@ -299,7 +288,7 @@ public class Player
             _playerData.Coin += value;
         if(isDebug)
             Debug.Log("PlayerCoin:"+_playerData.Coin);
-        MsgDispatcher.Send(Msg.MsgRegister.UpdateShowData);
+        // MsgDispatcher.Send(Msg.MsgRegister.UpdateShowData);
         UpdateLocalPlayerData();
     }
     

@@ -6,7 +6,6 @@
     功能：Nothing
 *****************************************************/
 
-using System;
 using System.Collections.Generic;
 public class PlayerData 
 {
@@ -39,33 +38,6 @@ public class PlayerData
     public const int LimitMinSpeed = 5;
 
     public const int MaxLevel = 100;
-
-    public PlayerData(
-        string name,
-        int level,
-        long exp,
-        int power,
-        int hp,
-        int attack,
-        int defence,
-        int speed,
-        int coin)
-    {
-        this.Name = name;
-        this.Level = level;
-        this.Exp = exp;
-        this.Power = power;
-        this.HP = hp;
-        this.Attack = attack;
-        this.Defence = defence;
-        this.Speed = speed;
-        this.Coin = coin;
-        
-        UpperPower = Power;
-        UpperHP = HP;
-        UpperAttack = Attack;
-        UpperDefence = Defence;
-        UpperSpeed = Speed;
-    }
+    
     
 }

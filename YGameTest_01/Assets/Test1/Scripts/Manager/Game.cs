@@ -13,6 +13,8 @@ public class Game : Architecture<Game>
     protected override void Init()
     {
         RegisterModel<IPlayerModel>(new PlayerModel());
+        RegisterModel(new GoodsModel());
+        RegisterSystem(new ItemFactorySystem());
         RegisterSystem<IPlayerEventSystem>(new PlayerEventSystem());
     }
 }
