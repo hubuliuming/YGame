@@ -213,7 +213,7 @@ GameObject:
   - component: {fileID: 6798674848533739782}
   - component: {fileID: -6260142798773695084}
   m_Layer: 5
-  m_Name: RecoverItem
+  m_Name: "\u6D3B\u529B\u82F9\u679C"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

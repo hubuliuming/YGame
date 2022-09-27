@@ -15,7 +15,7 @@ using YFramework.Kit.UI;
 
 public class Knapsack : UIBase,IController
 {
-    private Player _player;
+    private IPlayerModel _playerModel;
     public RectTransform contextRect;
     private ObjectPool<GameObject> _goodsPool;
     
@@ -23,15 +23,16 @@ public class Knapsack : UIBase,IController
     private const int Column = 10;
     private const int MaxGirdNum = 99;
 
-    public  void Init()
+    public void Init()
     {
-        // _player = PlayerManager.Instance.player;
+        _playerModel = this.GetModel<IPlayerModel>();
         // todo fix
-        //_goodsPool = FactoryUIBase.GetPool(Msg.ItemName.Goods, Msg.Paths.Prefab.Goods,contextRect);
+        _goodsPool = this.GetSystem<FactoryUISystem>().GetPool(Msg.ItemName.Goods);
         int gridNum = 0;
-        foreach (var  i in _player.GoodsDic.Keys)
+        
+        foreach (var  i in _playerModel.GoodsDict.Keys)
         {
-            var kindNum = _player.GoodsDic[i];
+            var kindNum = _playerModel.GoodsDict[i];
             //单位格子已满
             while (kindNum > MaxGirdNum)
             {
@@ -56,9 +57,9 @@ public class Knapsack : UIBase,IController
     
     public void UpdateGoods()
     {
-        var count = _player.GoodsDic.Keys.Count;
+        var count = _playerModel.GoodsDict.Keys.Count;
         //todo 更新背包显示       
-        foreach (var i in _player.GoodsDic)
+        foreach (var i in _playerModel.GoodsDict)
         {
             
         }
@@ -67,12 +68,12 @@ public class Knapsack : UIBase,IController
     private void CreateGrid(string goodName,int num)
     {
         var go = _goodsPool.Get();
-        //go.transform.SetParent(contextRect,false);
+        go.transform.SetParent(contextRect,false);
         go.transform.Find("TxtNum").GetComponent<Text>().text = num.ToString();
         go.transform.Find("TxtName").GetComponent<Text>().text = goodName;
         go.GetComponent<Button>().onClick.AddListener(() =>
         {
-            MsgDispatcher.Send(Msg.MsgRegister.UseGoods,null);
+            MsgDispatcher.Send(Msg.Register.UseGoods,null);
         });
     }
 

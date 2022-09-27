@@ -46,7 +46,7 @@ public class GameStart : MonoBehaviour,IController
     {
         Dictionary<string,ItemBase.ItemData> datas = new Dictionary<string,ItemBase.ItemData>
         {
-            {Msg.ItemName.SteamedBun,new ItemBase.ItemData()
+            {Msg.ItemName.馒头,new ItemBase.ItemData()
             {
                 addAttack = 0,
                 addCoin = 0,
@@ -55,7 +55,7 @@ public class GameStart : MonoBehaviour,IController
                 addPower = 20,
                 addSpeed = 0
             }},
-            {Msg.ItemName.ActiveApple,new ItemBase.ItemData()
+            {Msg.ItemName.活力苹果,new ItemBase.ItemData()
             {
                 addAttack = 0,
                 addCoin = 0,
@@ -73,7 +73,7 @@ public class GameStart : MonoBehaviour,IController
         Dictionary<string, EnemyBase.EnemyData> datas = new Dictionary<string, EnemyBase.EnemyData>()
         {
             {
-                Msg.EnemyName.WildBoar, new EnemyBase.EnemyData()
+                Msg.EnemyName.野猪, new EnemyBase.EnemyData()
                 {
                     HP = 100,
                     Attack = 10,
@@ -84,7 +84,7 @@ public class GameStart : MonoBehaviour,IController
                     {
                         Exp = 10,
                         Coin = 20,
-                        GoodsName = Msg.ItemName.LittleMeat
+                        GoodsName = Msg.ItemName.小块肉
                     }
                 }
             }
@@ -94,16 +94,17 @@ public class GameStart : MonoBehaviour,IController
 
     private void CreateEnemy()
     {
-        var wildBoarPool = ItemFactory.GetPool(Msg.EnemyName.WildBoar,Msg.Prefab.Enemy,transform);
+        var wildBoarPool = this.GetSystem<FactoryUISystem>().GetPool(Msg.EnemyName.野猪);
         var go = wildBoarPool.Get();
+        go.transform.SetParent(transform,false);
         go.transform.localPosition =Vector3.zero;
     }
 
     private void CreateItem()
     {
-        var pool = this.GetSystem<ItemFactorySystem>().GetPool(Msg.Prefab.RecoverItem);
+        var pool = this.GetSystem<FactoryUISystem>().GetPool(Msg.ItemName.活力苹果);
         var go = pool.Get();
-        go.transform.parent = transform;
+        go.transform.SetParent(transform,false);
         go.transform.localPosition = new Vector3(300, 0, 0);
     }
 

@@ -9,7 +9,7 @@
 using UnityEngine;
 using YFramework;
 
-public class LogUtility : MonoBehaviour,IUtility
+public class LogUtility : IUtility
 {
     public void Log(object message)
     {

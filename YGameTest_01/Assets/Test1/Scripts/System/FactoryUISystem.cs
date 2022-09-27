@@ -1,5 +1,5 @@
 /****************************************************
-    文件：FactorySystem.cs
+    文件：FactoryBaseSystem.cs
     作者：Y
     邮箱: 916111418@qq.com
     日期：#CreateTime#
@@ -11,12 +11,12 @@ using UnityEngine;
 using UnityEngine.Pool;
 using YFramework;
 
+
 public interface IFactorySystem : ISystem
 {
     ObjectPool<GameObject> GetPool(string poolName);
 }
-
-public class ItemFactorySystem : AbstractSystem,IFactorySystem
+public class FactoryUISystem : AbstractSystem,IFactorySystem 
 {
     private Dictionary<string, ObjectPool<GameObject>> _pools = new Dictionary<string, ObjectPool<GameObject>>();
     
@@ -44,7 +44,7 @@ public class ItemFactorySystem : AbstractSystem,IFactorySystem
     private GameObject OnCreate(string path,string itemName,Transform parent)
     {
         var prefab = Resources.Load<GameObject>(path);
-        var go = Object.Instantiate(prefab,parent);
+        var go = Object.Instantiate(prefab);
         return go;
     }
     private void OnGet(GameObject go)
@@ -57,6 +57,8 @@ public class ItemFactorySystem : AbstractSystem,IFactorySystem
     }
     protected override void OnInit()
     {
-        CreatePool(Msg.ItemName.ActiveApple,Msg.Prefab.RecoverItem,null);
+        CreatePool(Msg.Prefab.活力苹果,Msg.ItemName.活力苹果,null);
+        CreatePool(Msg.Prefab.野猪,Msg.EnemyName.野猪,null);
+        CreatePool(Msg.Prefab.Goods,Msg.ItemName.Goods,null);
     }
 }

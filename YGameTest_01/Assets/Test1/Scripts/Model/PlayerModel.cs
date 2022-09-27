@@ -6,7 +6,7 @@
     功能：Nothing
 *****************************************************/
 
-using log4net;
+using System.Collections.Generic;
 using YFramework;
 using YFramework.Kit.Utility;
 
@@ -24,6 +24,7 @@ public interface IPlayerModel : IModel
     int Defence { get; set; }
     int Speed { get; set; }
     int Coin { get; set; }
+    Dictionary<string,int> GoodsDict { get ; set; }
 
     int UpperPower { get; set; }
     int UpperHP { get; set; }
@@ -52,7 +53,7 @@ public class PlayerModel : AbstractModel,IPlayerModel
         set
         {
             _data.Name = value;
-            this.SendEvent<Msg.MsgRegister.UpdateShowData>();
+            this.SendEvent<Msg.Register.UpdateShowData>();
             YJsonUtility.WriteToJson(_data,Msg.Paths.Config.PlayerData);
         }
     }
@@ -62,7 +63,7 @@ public class PlayerModel : AbstractModel,IPlayerModel
         set
         {
             _data.Level = value;
-            this.SendEvent<Msg.MsgRegister.UpdateShowData>();
+            this.SendEvent<Msg.Register.UpdateShowData>();
             YJsonUtility.WriteToJson(_data, Msg.Paths.Config.PlayerData);
         }
     }
@@ -72,7 +73,7 @@ public class PlayerModel : AbstractModel,IPlayerModel
         set
         {
             _data.Exp = value;
-            this.SendEvent<Msg.MsgRegister.UpdateShowData>();
+            this.SendEvent<Msg.Register.UpdateShowData>();
             YJsonUtility.WriteToJson(_data, Msg.Paths.Config.PlayerData);
         }
     }
@@ -96,7 +97,7 @@ public class PlayerModel : AbstractModel,IPlayerModel
             }
             IsEmptyPower = false;
             _data.Power = value;
-            this.SendEvent<Msg.MsgRegister.UpdateShowData>();
+            this.SendEvent<Msg.Register.UpdateShowData>();
             YJsonUtility.WriteToJson(_data, Msg.Paths.Config.PlayerData);
         }
     }
@@ -114,7 +115,7 @@ public class PlayerModel : AbstractModel,IPlayerModel
             }
             IsDied = false;
             _data.HP = value;
-            this.SendEvent<Msg.MsgRegister.UpdateShowData>();
+            this.SendEvent<Msg.Register.UpdateShowData>();
             YJsonUtility.WriteToJson(_data, Msg.Paths.Config.PlayerData);
         }
     }
@@ -132,7 +133,7 @@ public class PlayerModel : AbstractModel,IPlayerModel
                 value = UpperAttack;
             }
             _data.Attack = value;
-            this.SendEvent<Msg.MsgRegister.UpdateShowData>();
+            this.SendEvent<Msg.Register.UpdateShowData>();
             YJsonUtility.WriteToJson(_data, Msg.Paths.Config.PlayerData);
         }
     }
@@ -150,7 +151,7 @@ public class PlayerModel : AbstractModel,IPlayerModel
                 value = UpperDefence;
             }
             _data.Defence = value;
-            this.SendEvent<Msg.MsgRegister.UpdateShowData>();
+            this.SendEvent<Msg.Register.UpdateShowData>();
             YJsonUtility.WriteToJson(_data, Msg.Paths.Config.PlayerData);
         }
     }
@@ -168,7 +169,7 @@ public class PlayerModel : AbstractModel,IPlayerModel
                 value = UpperSpeed;
             }
             _data.Speed = value;
-            this.SendEvent<Msg.MsgRegister.UpdateShowData>();
+            this.SendEvent<Msg.Register.UpdateShowData>();
             YJsonUtility.WriteToJson(_data, Msg.Paths.Config.PlayerData);
         }
     }
@@ -180,7 +181,18 @@ public class PlayerModel : AbstractModel,IPlayerModel
             if (value < 0)
                 value = 0;
             _data.Coin = value;
-            this.SendEvent<Msg.MsgRegister.UpdateShowData>();
+            this.SendEvent<Msg.Register.UpdateShowData>();
+            YJsonUtility.WriteToJson(_data, Msg.Paths.Config.PlayerData);
+        }
+    }
+
+    public Dictionary<string,int> GoodsDict
+    {
+        get => _data.goodsDict ;
+        set
+        {
+            _data.goodsDict = value;
+            // todo 更新背包参数
             YJsonUtility.WriteToJson(_data, Msg.Paths.Config.PlayerData);
         }
     }

@@ -8,6 +8,7 @@
 
 using System;
 using System.Collections.Generic;
+using YFramework;
 using YFramework.Kit.UI;
 using YFramework.Kit.Utility;
 
@@ -15,7 +16,7 @@ public interface IItem
 {
     void Init(string itemName);
 }
-public abstract class ItemBase : UIBase,IItem
+public abstract class ItemBase : UIBase,IController
 {
     [Serializable]
     public struct ItemData
@@ -41,10 +42,16 @@ public abstract class ItemBase : UIBase,IItem
                  {
                      // _player.ChangeAll(data);
                      //MsgDispatcher.Send(MsgRegister.UpdateShowData,null);
-                     ItemFactory.Release(itemName,gameObject);
+                     // todo 
+                     //this.GetSystem<FactoryBaseSystem>().Release(itemName,gameObject);
                  });
                  break;
              }
          }
+    }
+
+    public IArchitecture GetArchitecture()
+    {
+        return Game.Interface;
     }
 }

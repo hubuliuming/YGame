@@ -19,7 +19,7 @@ public class PlayerDetails : UIBase,IController
     {
         _showText = UiUtility.Get("Text").Text;
         _playerModel = this.GetModel<IPlayerModel>();
-        this.RegisterEvent<Msg.MsgRegister.UpdateShowData>(o => UpdateShow());
+        this.RegisterEvent<Msg.Register.UpdateShowData>(o => UpdateShow());
         UpdateShow();
     }
     

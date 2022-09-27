@@ -11,7 +11,7 @@ using YFramework;
 
 public class GoodsModel : AbstractModel
 {
-    private Dictionary<string, int> _goodsDict = new Dictionary<string, int>();
+    public Dictionary<string, int> GoodsDict = new Dictionary<string, int>();
     protected override void OnInit()
     {
         

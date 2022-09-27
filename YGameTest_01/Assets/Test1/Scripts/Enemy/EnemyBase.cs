@@ -59,7 +59,6 @@ public  class EnemyBase : MonoBehaviour,IController
 
     public void Init(string enemyName)
     {
-        // _player = PlayerManager.Instance.player;
         var datas = YJsonUtility.ReadFromJson<Dictionary<string, EnemyData>>(Msg.Paths.Config.Enemy);
         foreach (var key in datas.Keys)
         {

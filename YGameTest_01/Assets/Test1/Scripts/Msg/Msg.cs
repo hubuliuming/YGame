@@ -12,23 +12,22 @@ public class Msg
 {
     public struct EnemyName
     {
-        public static readonly string WildBoar = "野猪";
+        public static readonly string 野猪 = "野猪";
     }
     public struct ItemName
     {
-        public static readonly string ActiveApple = "活力苹果";
-        public static readonly string SteamedBun = "馒头";
-        public static readonly string LittleMeat = "小块肉";
+        public static readonly string 活力苹果 = "活力苹果";
+        public static readonly string 馒头 = "馒头";
+        public static readonly string 小块肉 = "小块肉";
         public static readonly string Goods = "Goods";
     }
-    public struct MsgRegister
+    public struct Register
     {
         public struct UpdateShowData
         {
             
         }
         public const string PlayerAttack = "PlayerAttack";
-        //public const string UpdateShowData = "UpdateShowData";
         public const string UseGoods = "UseGoods";
     }
     
@@ -45,8 +44,8 @@ public class Msg
     }
     public struct Prefab
     {
-        public static readonly string WildBoar = "Prefabs/Enemy/"+Msg.EnemyName.WildBoar;
-        public static readonly string RecoverItem = "Prefabs/Item/RecoverItem";
+        public static readonly string 野猪 = "Prefabs/Enemy/"+ EnemyName.野猪;
+        public static readonly string 活力苹果 = "Prefabs/Item/"+ItemName.活力苹果;
         public static readonly string Enemy = "Prefabs/Enemy";
         public static readonly string Goods = "Prefabs/Goods";
     }
