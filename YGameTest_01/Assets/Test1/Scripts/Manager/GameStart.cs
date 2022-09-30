@@ -96,7 +96,6 @@ public class GameStart : MonoBehaviour,IController
     {
         var wildBoarPool = this.GetSystem<FactoryUISystem>().GetPool(Msg.EnemyName.野猪);
         var go = wildBoarPool.Get();
-        go.transform.SetParent(transform,false);
         go.transform.localPosition =Vector3.zero;
     }
 
@@ -104,7 +103,6 @@ public class GameStart : MonoBehaviour,IController
     {
         var pool = this.GetSystem<FactoryUISystem>().GetPool(Msg.ItemName.活力苹果);
         var go = pool.Get();
-        go.transform.SetParent(transform,false);
         go.transform.localPosition = new Vector3(300, 0, 0);
     }
 

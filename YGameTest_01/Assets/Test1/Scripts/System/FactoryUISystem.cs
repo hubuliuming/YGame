@@ -20,6 +20,13 @@ public class FactoryUISystem : AbstractSystem,IFactorySystem
 {
     private Dictionary<string, ObjectPool<GameObject>> _pools = new Dictionary<string, ObjectPool<GameObject>>();
     
+    protected override void OnInit()
+    {
+        var itemParent = GameObject.Find("ItemParent").transform;
+        CreatePool(Msg.Prefab.活力苹果,Msg.ItemName.活力苹果,itemParent);
+        CreatePool(Msg.Prefab.野猪,Msg.EnemyName.野猪,itemParent);
+        CreatePool(Msg.Prefab.Goods,Msg.ItemName.Goods,itemParent);
+    }
     public ObjectPool<GameObject> GetPool(string poolName)
     {
         if (!_pools.TryGetValue(poolName,out var itemPool))
@@ -55,10 +62,5 @@ public class FactoryUISystem : AbstractSystem,IFactorySystem
     {
         go.SetActive(false);
     }
-    protected override void OnInit()
-    {
-        CreatePool(Msg.Prefab.活力苹果,Msg.ItemName.活力苹果,null);
-        CreatePool(Msg.Prefab.野猪,Msg.EnemyName.野猪,null);
-        CreatePool(Msg.Prefab.Goods,Msg.ItemName.Goods,null);
-    }
+   
 }
