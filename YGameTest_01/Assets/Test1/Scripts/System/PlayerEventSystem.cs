@@ -7,33 +7,15 @@
 *****************************************************/
 
 using YFramework;
-using YFramework.Kit.Utility;
 
-public interface IPlayerEventSystem : ISystem
+
+public class PlayerEventSystem : AbstractSystem
 {
-    void ChangeName(string newName);
-    void ChangeExp(long value);
-    void ChangePower(int value);
-    void ChangeHP(int value);
-    void ChangeAttack(int value);
-    void ChangeDefence(int value);
-    void ChangeSpeed(int value);
-    void ChangeCoin(int value);
-    
-    void LevelUp();
-    void ChangeUpperPower(int value);
-    void ChangeUpperHP(int value);
-    void ChangeUpperAttack(int value);
-    void ChangeUpperDefence(int value);
-    
-}
-public class PlayerEventSystem : AbstractSystem,IPlayerEventSystem
-{
-    private IPlayerModel _playerModel;
+    private PlayerModel _playerModel;
     private LogUtility _logUtility;
     protected override void OnInit()
     {
-        _playerModel = this.GetModel<IPlayerModel>();
+        _playerModel = this.GetModel<PlayerModel>();
         _logUtility = this.GetUtility<LogUtility>();
     }
     
@@ -70,6 +52,19 @@ public class PlayerEventSystem : AbstractSystem,IPlayerEventSystem
         _playerModel.Coin += value;
     }
     
+    public void ChangeGoodsDic(string goodsName,int num)
+    {
+        if (_playerModel.goodsDict.ContainsKey(goodsName))
+        {
+            _playerModel.goodsDict[goodsName] += num;
+        }
+        else
+        {
+            //todo bug 可能为负数取出没有的物品
+            _playerModel.goodsDict.Add(goodsName,num);
+        }
+        _playerModel.UpdateLocalData();
+    }
 
     public void LevelUp()
     {
@@ -101,5 +96,12 @@ public class PlayerEventSystem : AbstractSystem,IPlayerEventSystem
     public void ChangeUpperDefence(int value)
     {
         _playerModel.UpperDefence += value;
+    }
+    
+    public bool EnableAttack()
+    {
+        if (!_playerModel.IsDied && !_playerModel.IsEmptyPower)
+            return true;
+        return false;
     }
 }

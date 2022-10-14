@@ -13,12 +13,12 @@ using YFramework.Kit.UI;
 public class PlayerDetails : UIBase,IController
 {
     private Text _showText;
-    private IPlayerModel _playerModel;
+    private PlayerModel _playerModel;
     
     public void Init()
     {
         _showText = UiUtility.Get("Text").Text;
-        _playerModel = this.GetModel<IPlayerModel>();
+        _playerModel = this.GetModel<PlayerModel>();
         this.RegisterEvent<Msg.Register.UpdateShowData>(o => UpdateShow());
         UpdateShow();
     }

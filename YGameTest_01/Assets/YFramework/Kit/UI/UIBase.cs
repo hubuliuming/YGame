@@ -6,7 +6,6 @@
     功能：UI基类
 *****************************************************/
 
-using YFramework.Kit;
 
 namespace YFramework.Kit.UI
 {
@@ -34,9 +33,11 @@ namespace YFramework.Kit.UI
             }
         }
 
+        public virtual void Init()
+        {
+            
+        }
         
-
-
         public virtual void Show()
         {
             gameObject.SetActive(true);

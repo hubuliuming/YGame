@@ -15,7 +15,7 @@ using YFramework.Kit.UI;
 
 public class Knapsack : UIBase,IController
 {
-    private IPlayerModel _playerModel;
+    private PlayerModel _playerModel;
     public RectTransform contextRect;
     private ObjectPool<GameObject> _goodsPool;
     
@@ -25,7 +25,7 @@ public class Knapsack : UIBase,IController
 
     public void Init()
     {
-        _playerModel = this.GetModel<IPlayerModel>();
+        _playerModel = this.GetModel<PlayerModel>();
         // todo fix
         _goodsPool = this.GetSystem<FactoryUISystem>().GetPool(Msg.ItemName.Goods);
         int gridNum = 0;

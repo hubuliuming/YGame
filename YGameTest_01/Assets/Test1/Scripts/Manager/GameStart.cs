@@ -32,8 +32,11 @@ public class GameStart : MonoBehaviour,IController
         {
             CreateEnemy();
         }
-        if(Input.GetKeyDown(KeyCode.I))
+
+        if (Input.GetKeyDown(KeyCode.I))
+        {
             CreateItem();
+        }
         if (Input.GetKeyDown(KeyCode.B))
         {
             _knapsack.SetActive(!_knapsack.activeSelf);

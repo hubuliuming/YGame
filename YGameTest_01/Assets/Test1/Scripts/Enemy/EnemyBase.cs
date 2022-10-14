@@ -11,12 +11,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
 using YFramework;
-using YFramework.Kit;
 using YFramework.Kit.UI;
 using YFramework.Kit.Utility;
 
 
-public  class EnemyBase : MonoBehaviour,IController
+public class EnemyBase : UIBase,IController
 {
     public enum RareLevel
     {
@@ -46,9 +45,9 @@ public  class EnemyBase : MonoBehaviour,IController
             public int Coin;
             public string GoodsName;
         }
-  
     }
 
+    private FactoryUISystem _factoryUISystem;
     public EnemyData data;
     protected EnemyData initData;
     // todo level
@@ -56,40 +55,60 @@ public  class EnemyBase : MonoBehaviour,IController
     private ObjectPool<GameObject> _enemyPool;
 
     private Player _player;
-
+    private PlayerEventSystem _playerEventSystem;
     public void Init(string enemyName)
     {
         var datas = YJsonUtility.ReadFromJson<Dictionary<string, EnemyData>>(Msg.Paths.Config.Enemy);
-        foreach (var key in datas.Keys)
+        _factoryUISystem = this.GetSystem<FactoryUISystem>();
+       
+        data = datas[enemyName];
+        initData = data;
+        InitData();
+        UiUtility.Get("Btn").AddListener(()=>
         {
-            if (key == enemyName)
+            //this.SendCommand(new AttackCommand(enemyName));
+            if (!_playerEventSystem.EnableAttack())
             {
-                data = datas[enemyName];
-                initData = data;
-                InitData();
-                // UiUtility.Get("Btn").AddListener(()=>
-                // {
-                //     if (!_player.EnableAttack())
-                //     {
-                //         Debug.Log("玩家已经死亡或者体力不足");
-                //         return;
-                //     }
-                //
-                //     _player.ChangePower(-data.CostPower,false);
-                //     AttackPlayer();
-                //     Debug.Log("战斗结果:" + AttackResult());
-                //     //死亡奖励
-                //     if (AttackResult())
-                //     {
-                //         //Player.ChangeCoin(data.awrd.Coin,false);
-                //         WinAward();
-                //     }
-                //     ItemFactory.Release(enemyName,gameObject);
-                //     MsgDispatcher.Send(Msg.MsgRegister.UpdateShowData);
-                // });
-                break;
+                Debug.Log("玩家已经死亡或者体力不足");
+                return;
             }
-        }
+                
+            _playerEventSystem.ChangePower(-data.CostPower);
+            AttackPlayer();
+            Debug.Log("战斗结果:" + AttackResult());
+            //死亡奖励
+            if (AttackResult())
+            {
+                //Player.ChangeCoin(data.awrd.Coin,false);
+                WinAward();
+            }
+            _factoryUISystem.GetPool(enemyName).Release(gameObject);
+            //MsgDispatcher.Send(Msg.MsgRegister.UpdateShowData);
+        });
+        
+        data = datas[enemyName];
+        initData = data;
+        InitData();
+        UiUtility.Get("Btn").AddListener(()=>
+        {
+            if (!_playerEventSystem.EnableAttack())
+            {
+                Debug.Log("玩家已经死亡或者体力不足");
+                return;
+            }
+                
+            _playerEventSystem.ChangePower(-data.CostPower);
+            AttackPlayer();
+            Debug.Log("战斗结果:" + AttackResult());
+            //死亡奖励
+            if (AttackResult())
+            {
+                //Player.ChangeCoin(data.awrd.Coin,false);
+                WinAward();
+            }
+            _factoryUISystem.GetPool(enemyName).Release(gameObject);
+            //MsgDispatcher.Send(Msg.MsgRegister.UpdateShowData);
+        });
     }
 
     public void InitData()
@@ -100,13 +119,13 @@ public  class EnemyBase : MonoBehaviour,IController
     private void WinAward()
     {
         Dictionary<string, int> goodsDic= new Dictionary<string, int>();
-        _player.ChangeExp(data.award.Exp);
-        _player.ChangeCoin(data.award.Coin);
+        _playerEventSystem.ChangeExp(data.award.Exp);
+        _playerEventSystem.ChangeCoin(data.award.Coin);
         //todo 数值要优化为配置
         goodsDic = DropSystem.GetRangeGoods(data.award.GoodsName,1,3);
         foreach (var i in goodsDic)
         {
-            _player.ChangeGoodsDic(i.Key,i.Value);
+            _playerEventSystem.ChangeGoodsDic(i.Key,i.Value);
             Debug.Log("战利品为经验值:"+data.award.Exp+",金币:"+data.award.Coin+",物品为:"+i.Value+"个"+i.Key);
         }
     }

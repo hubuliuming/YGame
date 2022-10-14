@@ -12,10 +12,10 @@ public class Game : Architecture<Game>
 {
     protected override void Init()
     {
-        RegisterModel<IPlayerModel>(new PlayerModel());
+        RegisterModel(new PlayerModel());
         RegisterUtility(new LogUtility());
         RegisterModel(new GoodsModel());
         RegisterSystem(new FactoryUISystem());
-        RegisterSystem<IPlayerEventSystem>(new PlayerEventSystem());
+        RegisterSystem(new PlayerEventSystem());
     }
 }

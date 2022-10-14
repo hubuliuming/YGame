@@ -13,7 +13,7 @@ public class Test : MonoBehaviour,IController
 {
     private void Start()
     {
-        var playerModel = this.GetModel<IPlayerModel>();
+        var playerModel = this.GetModel<PlayerModel>();
         Debug.Log(playerModel.HP);
     }
 

@@ -10,34 +10,9 @@ using System.Collections.Generic;
 using YFramework;
 using YFramework.Kit.Utility;
 
-public interface IPlayerModel : IModel
-{
-   
-    bool IsDied { get; }
-    bool IsEmptyPower { get; }
-    string Name { get; set; }
-    int Level { get; set; }
-    long Exp { get; set; }
-    int Power { get; set; }
-    int HP { get; set; }
-    int Attack { get; set; }
-    int Defence { get; set; }
-    int Speed { get; set; }
-    int Coin { get; set; }
-    Dictionary<string,int> GoodsDict { get ; set; }
-
-    int UpperPower { get; set; }
-    int UpperHP { get; set; }
-    int UpperAttack { get; set; }
-    int UpperDefence { get; set; }
-    int UpperSpeed { get; set; }
-    void UpdateLocalData();
-
-}
-public class PlayerModel : AbstractModel,IPlayerModel
+public class PlayerModel : AbstractModel
 {
     private PlayerData _data;
-    // todo LogSystem应该分为Utility
     private LogUtility _logUtility;
 
     protected override void OnInit()
@@ -271,6 +246,8 @@ public class PlayerModel : AbstractModel,IPlayerModel
             YJsonUtility.WriteToJson(_data, Msg.Paths.Config.PlayerData);
         }
     }
+
+    public Dictionary<string, int> goodsDict;
 
     public void UpdateLocalData()
     {
