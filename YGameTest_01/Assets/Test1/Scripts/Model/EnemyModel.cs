@@ -14,6 +14,7 @@ public class EnemyModel : AbstractModel
     [Serializable]
     public struct EnemyData
     {
+        public string Name;
         public int HP;
         public int Attack;
         public int Defence;

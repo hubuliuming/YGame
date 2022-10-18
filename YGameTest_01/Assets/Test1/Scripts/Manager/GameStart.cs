@@ -73,17 +73,17 @@ public class GameStart : MonoBehaviour,IController
 
     private void WriteEnemyJson()
     {
-        Dictionary<string, EnemyBase.EnemyData> datas = new Dictionary<string, EnemyBase.EnemyData>()
+        Dictionary<string, EnemyModel.EnemyData> datas = new Dictionary<string, EnemyModel.EnemyData>()
         {
             {
-                Msg.EnemyName.野猪, new EnemyBase.EnemyData()
+                Msg.EnemyName.野猪, new EnemyModel.EnemyData()
                 {
                     HP = 100,
                     Attack = 10,
                     Defence = 3,
                     Speed = 5,
                     CostPower = 10,
-                    award = new EnemyBase.EnemyData.Award()
+                    award = new EnemyModel.EnemyData.Award()
                     {
                         Exp = 10,
                         Coin = 20,

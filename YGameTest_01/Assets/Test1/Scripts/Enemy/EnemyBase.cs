@@ -6,7 +6,6 @@
     功能：Nothing
 *****************************************************/
 
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -26,30 +25,30 @@ public class EnemyBase : UIBase,IController
         Gold
     }
     
-    [Serializable]
-    public struct EnemyData
-    {
-        public int HP;
-        public int Attack;
-        public int Defence;
-        public int Speed;
-
-        public int CostPower;
-        public Award award;
-
-        //奖励
-        [Serializable]
-        public struct Award
-        {
-            public int Exp;
-            public int Coin;
-            public string GoodsName;
-        }
-    }
+    // [Serializable]
+    // public struct EnemyData
+    // {
+    //     public int HP;
+    //     public int Attack;
+    //     public int Defence;
+    //     public int Speed;
+    //
+    //     public int CostPower;
+    //     public Award award;
+    //
+    //     //奖励
+    //     [Serializable]
+    //     public struct Award
+    //     {
+    //         public int Exp;
+    //         public int Coin;
+    //         public string GoodsName;
+    //     }
+    // }
 
     private FactoryUISystem _factoryUISystem;
-    public EnemyData data;
-    protected EnemyData initData;
+    public EnemyModel.EnemyData data;
+    protected EnemyModel.EnemyData initData;
     // todo level
     //protected RareLevel level;
     private ObjectPool<GameObject> _enemyPool;
@@ -58,10 +57,11 @@ public class EnemyBase : UIBase,IController
     private PlayerEventSystem _playerEventSystem;
     public void Init(string enemyName)
     {
-        var datas = YJsonUtility.ReadFromJson<Dictionary<string, EnemyData>>(Msg.Paths.Config.Enemy);
+        var datas = YJsonUtility.ReadFromJson<Dictionary<string, EnemyModel.EnemyData>>(Msg.Paths.Config.Enemy);
         _factoryUISystem = this.GetSystem<FactoryUISystem>();
        
         data = datas[enemyName];
+        data.Name = enemyName;
         initData = data;
         InitData();
         UiUtility.Get("Btn").AddListener(()=>
