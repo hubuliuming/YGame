@@ -34,6 +34,12 @@ public class FactoryUISystem : AbstractSystem,IFactorySystem
         CreatePool(Msg.Prefab.Goods,Msg.ItemName.Goods,itemParent);
     }
 
+
+    public static GameObject Get(string name)
+    {
+        // todo 
+        return null;
+    }
    
     public ObjectPool<GameObject> GetPool(string poolName)
     {
