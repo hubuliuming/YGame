@@ -15,11 +15,10 @@ namespace Code_01.Mode
     public class PlayerModel : AbstractModel
     {
         private PlayerData _data;
-        private LogUtility _logUtility;
 
         protected override void OnInit()
         {
-            _logUtility = this.GetUtility<LogUtility>();
+            //ReWriteData();
             _data = YJsonUtility.ReadFromJson<PlayerData>(Msg.Paths.Config.PlayerData);
         }
         public bool IsDied { get; private set; }
@@ -64,7 +63,7 @@ namespace Code_01.Mode
                     //todo 体力不够
                     IsEmptyPower = true;
                     value = 0;
-                    _logUtility.Log("体力不足!");
+                    LogUtility.Log("体力不足!");
                     return;
                 }
                 //恢复的体力不可以超过体力上限
@@ -182,7 +181,7 @@ namespace Code_01.Mode
                 if (value < PlayerData.LimitMinPower)
                 {
                     value = PlayerData.LimitMinPower;
-                    _logUtility.Log("已经到达最低体力上限值");
+                    LogUtility.Log("已经到达最低体力上限值");
                 }
                 _data.UpperPower = value;
                 YJsonUtility.WriteToJson(_data, Msg.Paths.Config.PlayerData);
@@ -196,7 +195,7 @@ namespace Code_01.Mode
                 if (value < PlayerData.LimitMinHP)
                 {
                     value = PlayerData.LimitMinHP;
-                    _logUtility.Log("已经到达最低生命上限值");
+                    LogUtility.Log("已经到达最低生命上限值");
                     return;
                 }
                 _data.UpperHp = value;
@@ -249,11 +248,36 @@ namespace Code_01.Mode
             }
         }
 
-        public Dictionary<string, int> goodsDict;
+        public Dictionary<string, int> goodsDict = new Dictionary<string, int>();
 
         public void UpdateLocalData()
         {
             YJsonUtility.WriteToJson(_data, Msg.Paths.Config.PlayerData);
+        }
+
+        private void ReWriteData()
+        {
+            _data = new PlayerData()
+            {
+                Name = "小明",
+                Level  = 2,
+                Exp = 282,
+                Power = 100,
+                Hp = 200,
+                Attack = 10,
+                Defence = 8,
+                Speed = 10,
+                UpperPower = 100,
+                UpperHp = 200,
+                UpperAttack = 10,
+                UpperSpeed = 10,
+                Coin = 100,
+                goodsDict = new Dictionary<string, int>()
+                {
+                    {"馒头",5},
+                }
+            };
+            YJsonUtility.WriteToJson<PlayerData>(_data,Msg.Paths.Config.PlayerData);
         }
 
 
@@ -263,7 +287,7 @@ namespace Code_01.Mode
             {
                 //todo 玩家死亡
                 IsDied = true;
-                _logUtility.Log("玩家死亡！");
+                LogUtility.Log("玩家死亡！");
                 Hp = 0;
                 return true;
             }

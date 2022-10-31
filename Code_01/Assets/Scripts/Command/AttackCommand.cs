@@ -7,6 +7,7 @@
 *****************************************************/
 
 using System.Collections.Generic;
+using Code_01.Enemy;
 using Code_01.Mode;
 using Code_01.System;
 using UnityEngine;
@@ -18,16 +19,13 @@ namespace Code_01.Command
     {
         private PlayerModel _playerModel;
         private PlayerEventSystem _playerEventSystem;
-        private FactoryUISystem _factoryUISystem;
         private EnemyModel.EnemyData _data;
-        public AttackCommand(EnemyModel.EnemyData data)
+        private GameObject _curObj;
+        public AttackCommand(GameObject obj)
         {
-            this._playerModel = this.GetModel<PlayerModel>();
-            this._playerEventSystem = this.GetSystem<PlayerEventSystem>();
-            this._factoryUISystem = this.GetSystem<FactoryUISystem>();
-            this._data = data;
+            this._curObj = obj;
+            this._data = obj.GetComponent<EnemyBase>().data;
         }
-
         public AttackCommand()
         {
         
@@ -35,23 +33,22 @@ namespace Code_01.Command
 
         protected override void OnExecute()
         {
+            _playerModel = this.GetModel<PlayerModel>();
+            _playerEventSystem = this.GetSystem<PlayerEventSystem>();
             if (!_playerEventSystem.EnableAttack())
             {
                 Debug.Log("玩家已经死亡或者体力不足");
                 return;
             }
-                
             _playerEventSystem.ChangePower(-_data.CostPower);
             AttackPlayer();
             Debug.Log("战斗结果:" + AttackResult());
             //死亡奖励
             if (AttackResult())
             {
-                //Player.ChangeCoin(data.awrd.Coin,false);
                 WinAward();
+                _curObj.Release();
             }
-            //_factoryUISystem.GetPool(_data.Name).Release(gameObject);
-            //MsgDispatcher.Send(Msg.MsgRegister.UpdateShowData);
         }
     
         private void WinAward()
@@ -70,23 +67,23 @@ namespace Code_01.Command
     
         private void AttackPlayer()
         {
-            int playerHP = _playerModel.Hp;
-            while (_data.HP > 0 && playerHP > 0)
+            int playerHp = _playerModel.Hp;
+            while (_data.HP > 0 && playerHp > 0)
             {
                 //玩家先手
                 if (_playerModel.Speed >= _data.Speed)
                 {
                     _data.HP -= AttackMath.AttackValue(_playerModel.Attack, _data.Defence); 
-                    playerHP -= AttackMath.AttackValue(_data.Attack, _playerModel.Defence);
+                    playerHp -= AttackMath.AttackValue(_data.Attack, _playerModel.Defence);
                 }
                 else
                 {
-                    playerHP -= AttackMath.AttackValue(_data.Attack, _playerModel.Defence);
+                    playerHp -= AttackMath.AttackValue(_data.Attack, _playerModel.Defence);
                     _data.HP -= AttackMath.AttackValue(_playerModel.Attack, _data.Defence);
                 }
             }
             //当前的HP - 计算战斗后剩余的playerHP，得到改变的HP
-            _playerEventSystem.ChangeHP(-(_playerModel.Hp - playerHP));
+            _playerEventSystem.ChangeHP(-(_playerModel.Hp - playerHp));
         }
         private bool AttackResult()
         {

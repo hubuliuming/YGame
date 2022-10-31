@@ -7,6 +7,7 @@
 *****************************************************/
 
 using System.Collections.Generic;
+using Code_01.Enemy;
 using UnityEngine;
 using YFramework;
 using YFramework.Kit.Utility;
@@ -72,7 +73,6 @@ namespace Code_01.Controller
             };
             YJsonUtility.WriteToJson(datas,Msg.Paths.Config.RecoverItem);
         }
-
         private void WriteEnemyJson()
         {
             Dictionary<string, EnemyModel.EnemyData> datas = new Dictionary<string, EnemyModel.EnemyData>()
@@ -99,15 +99,13 @@ namespace Code_01.Controller
 
         private void CreateEnemy()
         {
-            var wildBoarPool = this.GetSystem<FactoryUISystem>().GetPool(Msg.EnemyName.野猪);
-            var go = wildBoarPool.Get();
+            var go = FactoryUISystem.Get(Msg.EnemyName.野猪);
             go.transform.localPosition =Vector3.zero;
         }
 
         private void CreateItem()
         {
-            var pool = this.GetSystem<FactoryUISystem>().GetPool(Msg.ItemName.活力苹果);
-            var go = pool.Get();
+            var go =FactoryUISystem.Get(Msg.ItemName.活力苹果);
             go.transform.localPosition = new Vector3(300, 0, 0);
         }
 

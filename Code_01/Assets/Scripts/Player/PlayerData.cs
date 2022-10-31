@@ -6,12 +6,28 @@
     功能：Nothing
 *****************************************************/
 
+using System;
 using System.Collections.Generic;
 
 namespace Code_01.Mode
 {
-    internal class PlayerData : BaseData 
+    internal class PlayerData  
     {
+        public string Name;
+        public int Level;
+        public long Exp;
+        public int Power;
+        public int Hp;
+        public int Attack;
+        public int Defence;
+        public int Speed;
+
+        public int UpperPower;
+        public int UpperHp;
+        public int UpperAttack;
+        public int UpperDefence;
+        public int UpperSpeed;
+ 
         public int Coin;
 
         /// <summary>

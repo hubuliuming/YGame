@@ -14,11 +14,9 @@ namespace Code_01.System
     public class PlayerEventSystem : AbstractSystem
     {
         private PlayerModel _playerModel;
-        private LogUtility _logUtility;
         protected override void OnInit()
         {
             _playerModel = this.GetModel<PlayerModel>();
-            _logUtility = this.GetUtility<LogUtility>();
         }
     
         public void ChangeName(string newName)
@@ -79,7 +77,7 @@ namespace Code_01.System
             }
             else
             {
-                _logUtility.Log("经验不足升级");
+                LogUtility.Log("经验不足升级");
             }
         }
 

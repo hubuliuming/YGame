@@ -35,9 +35,9 @@ public class Msg
     {
         public struct Config
         {
-            public static readonly string PlayerData = Application.dataPath + "/Test1/Data/Player";
-            public static readonly string RecoverItem = Application.dataPath + "/Test1/Data/RecoverItem";
-            public static readonly string Enemy = Application.dataPath + "/Test1/Data/Enemy";
+            public static readonly string PlayerData = Application.dataPath + "/Data/Player";
+            public static readonly string RecoverItem = Application.dataPath + "/Data/RecoverItem";
+            public static readonly string Enemy = Application.dataPath + "/Data/Enemy";
         }
         
 

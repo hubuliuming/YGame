@@ -20,17 +20,15 @@ namespace Code_01
     {
         private PlayerModel _playerModel;
         public RectTransform contextRect;
-        private ObjectPool<GameObject> _goodsPool;
     
         private const int Row = 6;
         private const int Column = 10;
         private const int MaxGirdNum = 99;
 
-        public void Init()
+        public override void Init()
         {
             _playerModel = this.GetModel<PlayerModel>();
             // todo fix
-            _goodsPool = this.GetSystem<FactoryUISystem>().GetPool(Msg.ItemName.Goods);
             int gridNum = 0;
         
             foreach (var  i in _playerModel.GoodsDict.Keys)
@@ -70,12 +68,13 @@ namespace Code_01
 
         private void CreateGrid(string goodName,int num)
         {
-            var go = _goodsPool.Get();
+            var go = FactoryUISystem.Get(Msg.ItemName.Goods);
             go.transform.SetParent(contextRect,false);
             go.transform.Find("TxtNum").GetComponent<Text>().text = num.ToString();
             go.transform.Find("TxtName").GetComponent<Text>().text = goodName;
             go.GetComponent<Button>().onClick.AddListener(() =>
             {
+                // todo 
                 MsgDispatcher.Send(Msg.Register.UseGoods,null);
             });
         }

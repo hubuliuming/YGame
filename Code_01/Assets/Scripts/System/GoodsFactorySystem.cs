@@ -10,7 +10,7 @@ using UnityEngine;
 using UnityEngine.Pool;
 using YFramework;
 
-public class GoodsFactorySystem : AbstractSystem,IFactorySystem 
+public class GoodsFactorySystem : AbstractSystem 
 {
     protected override void OnInit()
     {
