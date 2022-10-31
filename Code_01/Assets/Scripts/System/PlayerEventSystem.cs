@@ -6,6 +6,7 @@
     功能：Nothing
 *****************************************************/
 
+using Code_01.Enemy;
 using Code_01.Mode;
 using YFramework;
 
@@ -21,34 +22,42 @@ namespace Code_01.System
     
         public void ChangeName(string newName)
         {
+            if (newName == "") return;
             _playerModel.Name = newName;
         }
         public void ChangeExp(long value)
         {
+            if (value == 0) return;
             _playerModel.Exp += value;
         }
         public void ChangePower(int value)
         {
+            if (value == 0) return;
             _playerModel.Power += value;
         }
-        public void ChangeHP(int value)
+        public void ChangeHp(int value)
         {
+            if (value == 0) return;
             _playerModel.Hp += value;
         }
         public void ChangeAttack(int value)
         {
+            if (value == 0) return;
             _playerModel.Attack += value;
         }
         public void ChangeDefence(int value)
         {
+            if (value == 0) return;
             _playerModel.Defence += value;
         }
         public void ChangeSpeed(int value)
         {
+            if (value == 0) return;
             _playerModel.Speed += value;
         }
         public void ChangeCoin(int value)
         {
+            if (value == 0) return;
             _playerModel.Coin += value;
         }
     
@@ -83,19 +92,33 @@ namespace Code_01.System
 
         public void ChangeUpperPower(int value)
         {
+            if (value == 0) return;
             _playerModel.UpperPower += value;
         }
         public void ChangeUpperHP(int value)
         {
+            if (value == 0) return;
             _playerModel.UpperHp += value;
         }
         public void ChangeUpperAttack(int value)
         {
+            if (value == 0) return;
             _playerModel.UpperAttack += value;
         }
         public void ChangeUpperDefence(int value)
         {
+            if (value == 0) return;
             _playerModel.UpperDefence += value;
+        }
+
+        public void ChangeAll(ItemBase.ItemData data)
+        {
+            ChangePower(data.addPower);
+            ChangeHp(data.addHp);
+            ChangeAttack(data.addAttack);
+            ChangeDefence(data.addDefence);
+            ChangeSpeed(data.addSpeed);
+            ChangeCoin(data.addCoin);
         }
     
         public bool EnableAttack()

@@ -75,17 +75,17 @@ namespace Code_01.Controller
         }
         private void WriteEnemyJson()
         {
-            Dictionary<string, EnemyModel.EnemyData> datas = new Dictionary<string, EnemyModel.EnemyData>()
+            Dictionary<string, EnemyBase.EnemyData> datas = new Dictionary<string, EnemyBase.EnemyData>()
             {
                 {
-                    Msg.EnemyName.野猪, new EnemyModel.EnemyData()
+                    Msg.EnemyName.野猪, new EnemyBase.EnemyData()
                     {
                         HP = 100,
                         Attack = 10,
                         Defence = 3,
                         Speed = 5,
                         CostPower = 10,
-                        award = new EnemyModel.EnemyData.Award()
+                        award = new EnemyBase.EnemyData.Award()
                         {
                             Exp = 10,
                             Coin = 20,

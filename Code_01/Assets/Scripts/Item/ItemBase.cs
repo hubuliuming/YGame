@@ -9,6 +9,7 @@
 using System;
 using System.Collections.Generic;
 using Code_01;
+using Code_01.System;
 using YFramework;
 using YFramework.Kit.UI;
 using YFramework.Kit.Utility;
@@ -17,7 +18,7 @@ public interface IItem
 {
     void Init(string itemName);
 }
-public abstract class ItemBase : UIBase,IController
+public class ItemBase : UIBase,IController,IInit
 {
     [Serializable]
     public struct ItemData
@@ -30,25 +31,19 @@ public abstract class ItemBase : UIBase,IController
         public int addCoin;
     }
 
+    private PlayerEventSystem _playerEventSystem;
+
     public void Init(string itemName)
     {
-         // var _player = PlayerManager.Instance.player;
          var datas = YJsonUtility.ReadFromJson<Dictionary<string,ItemData>>(Msg.Paths.Config.RecoverItem);
-         foreach (var item in datas.Keys)
+         var data = datas[itemName];
+         _playerEventSystem = this.GetSystem<PlayerEventSystem>();
+         UiUtility.Get("Btn").AddListener(() =>
          {
-             if (item == itemName)
-             {
-                 var data = datas[itemName];
-                 UiUtility.Get("Btn").AddListener(() =>
-                 {
-                     // _player.ChangeAll(data);
-                     //MsgDispatcher.Send(MsgRegister.UpdateShowData,null);
-                     // todo 
-                     //this.GetSystem<FactoryBaseSystem>().Release(itemName,gameObject);
-                 });
-                 break;
-             }
-         }
+             _playerEventSystem.ChangeAll(data);
+             gameObject.Release();
+         });
+     
     }
 
     public IArchitecture GetArchitecture()

@@ -19,7 +19,7 @@ namespace Code_01.Command
     {
         private PlayerModel _playerModel;
         private PlayerEventSystem _playerEventSystem;
-        private EnemyModel.EnemyData _data;
+        private EnemyBase.EnemyData _data;
         private GameObject _curObj;
         public AttackCommand(GameObject obj)
         {
@@ -83,7 +83,7 @@ namespace Code_01.Command
                 }
             }
             //当前的HP - 计算战斗后剩余的playerHP，得到改变的HP
-            _playerEventSystem.ChangeHP(-(_playerModel.Hp - playerHp));
+            _playerEventSystem.ChangeHp(-(_playerModel.Hp - playerHp));
         }
         private bool AttackResult()
         {

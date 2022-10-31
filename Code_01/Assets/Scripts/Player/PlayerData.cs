@@ -6,7 +6,6 @@
     功能：Nothing
 *****************************************************/
 
-using System;
 using System.Collections.Generic;
 
 namespace Code_01.Mode
