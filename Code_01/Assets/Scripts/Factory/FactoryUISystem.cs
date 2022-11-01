@@ -27,7 +27,6 @@ namespace Code_01
             CreateEnemyPool(Msg.Prefab.野猪, Msg.EnemyName.野猪, itemParent);
             CreatePool(Msg.Prefab.Goods, Msg.ItemName.Goods, itemParent);
         }
-
         public static GameObject Get(string name)
         {
             foreach (var objName in _pools.Keys)
@@ -73,7 +72,6 @@ namespace Code_01
                         go.GetComponent<EnemyBase>().InitData();
                     },
                     OnRelease);
-
                 _pools.Add(objName, pool);
             }
         }
