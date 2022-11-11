@@ -10,24 +10,27 @@ using System.Collections.Generic;
 
 namespace Code_01.Mode
 {
-    internal class PlayerData  
+    public class PlayerData  
     {
-        public string Name;
-        public int Level;
-        public long Exp;
-        public int Power;
-        public int Hp;
-        public int Attack;
-        public int Defence;
-        public int Speed;
+        public  struct Property
+        {
+            public string Name;
+            public int Hp;
+            public int Power;
+            public int Level;
+            public long Exp;
+            public int Attack;
+            public int Defence;
+            public int Speed;
 
-        public int UpperPower;
-        public int UpperHp;
-        public int UpperAttack;
-        public int UpperDefence;
-        public int UpperSpeed;
- 
-        public int Coin;
+            public int UpperHp;
+            public int UpperPower;
+            public int UpperAttack;
+            public int UpperDefence;
+            public int UpperSpeed;
+        }
+
+        public Property property;
 
         /// <summary>
         /// 物品名字 key is 物品名字，value 是数量

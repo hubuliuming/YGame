@@ -1,19 +1,22 @@
 {
-  "Name": "小明",
-  "Level": 2,
-  "Exp": 342,
-  "Power": 100,
-  "Hp": 80,
-  "Attack": 10,
-  "Defence": 8,
-  "Speed": 10,
-  "UpperPower": 100,
-  "UpperHp": 200,
-  "UpperAttack": 10,
-  "UpperDefence": 0,
-  "UpperSpeed": 10,
-  "Coin": 220,
+  "property": {
+    "Name": "小明",
+    "Hp": 186,
+    "Power": 90,
+    "Level": 2,
+    "Exp": 432,
+    "Attack": 18,
+    "Defence": 8,
+    "Speed": 10,
+    "UpperHp": 200,
+    "UpperPower": 100,
+    "UpperAttack": 24,
+    "UpperDefence": 0,
+    "UpperSpeed": 10
+  },
   "goodsDict": {
-    "馒头": 5
+    "Coin": 400,
+    "馒头": 5,
+    "小块肉": 22
   }
 }

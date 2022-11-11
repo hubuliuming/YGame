@@ -6,7 +6,6 @@
     功能：Nothing
 *****************************************************/
 
-using Code_01.Enemy;
 using Code_01.Mode;
 using YFramework;
 
@@ -24,6 +23,11 @@ namespace Code_01.System
         {
             if (newName == "") return;
             _playerModel.Name = newName;
+        }
+        public void ChangeLevel(int value)
+        {
+            if (value == 0) return;
+            _playerModel.Level += value;
         }
         public void ChangeExp(long value)
         {
@@ -60,42 +64,13 @@ namespace Code_01.System
             if (value == 0) return;
             _playerModel.Coin += value;
         }
-    
-        public void ChangeGoodsDic(string goodsName,int num)
-        {
-            if (_playerModel.goodsDict.ContainsKey(goodsName))
-            {
-                _playerModel.goodsDict[goodsName] += num;
-            }
-            else
-            {
-                //todo bug 可能为负数取出没有的物品
-                _playerModel.goodsDict.Add(goodsName,num);
-            }
-            _playerModel.UpdateLocalData();
-        }
-
-        public void LevelUp()
-        {
-            var needExp = _playerModel.Level * 100 + 100;
-            if (_playerModel.Exp >= needExp)
-            {
-                _playerModel.Level++;
-                _playerModel.Exp -= needExp;
-                //ChangeExp(-needExp);
-            }
-            else
-            {
-                LogUtility.Log("经验不足升级");
-            }
-        }
-
+        
         public void ChangeUpperPower(int value)
         {
             if (value == 0) return;
             _playerModel.UpperPower += value;
         }
-        public void ChangeUpperHP(int value)
+        public void ChangeUpperHp(int value)
         {
             if (value == 0) return;
             _playerModel.UpperHp += value;
@@ -110,15 +85,55 @@ namespace Code_01.System
             if (value == 0) return;
             _playerModel.UpperDefence += value;
         }
-
+        public void ChangeUpperSpeed(int value)
+        {
+            if (value == 0) return;
+            _playerModel.UpperSpeed += value;
+        }
+        
+        public void LevelUp()
+        {
+            var needExp = _playerModel.Level * 100 + 100;
+            if (_playerModel.Exp >= needExp)
+            {
+                _playerModel.Level++;
+                _playerModel.Exp -= needExp;
+                //ChangeExp(-needExp);
+            }
+            else
+            {
+                LogUtility.Log("经验不足升级");
+            }
+        }
+        public void ChangeGoodsDic(string goodsName,int num)
+        {
+            if (_playerModel.GoodsDict.ContainsKey(goodsName))
+            {
+                _playerModel.GoodsDict[goodsName] += num;
+            }
+            else
+            {
+                //todo bug 可能为负数取出没有的物品
+                _playerModel.GoodsDict.Add(goodsName,num);
+            }
+            _playerModel.UpdateLocalData();
+        }
+        
         public void ChangeAll(ItemBase.ItemData data)
         {
-            ChangePower(data.addPower);
-            ChangeHp(data.addHp);
-            ChangeAttack(data.addAttack);
-            ChangeDefence(data.addDefence);
-            ChangeSpeed(data.addSpeed);
-            ChangeCoin(data.addCoin);
+            ChangeLevel(data.changeLevel);
+            ChangeExp(data.changeExp);
+            ChangePower(data.changePower);
+            ChangeHp(data.changeHp);
+            ChangeAttack(data.changeAttack);
+            ChangeDefence(data.changeDefence);
+            ChangeSpeed(data.changeSpeed);
+            ChangeCoin(data.changeCoin);
+            ChangeUpperPower(data.changeUpperPower);
+            ChangeUpperHp(data.changeUpperHp);
+            ChangeUpperAttack(data.changeUpperAttack);
+            ChangeUpperDefence(data.changeUpperDefence);
+            ChangeUpperSpeed(data.changeUpperSpeed);
         }
     
         public bool EnableAttack()

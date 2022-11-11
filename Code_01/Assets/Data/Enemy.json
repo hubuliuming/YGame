@@ -1,5 +1,6 @@
 {
   "野猪": {
+    "Name": null,
     "HP": 100,
     "Attack": 10,
     "Defence": 3,

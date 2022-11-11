@@ -21,14 +21,12 @@ namespace Code_01.Command
         private PlayerEventSystem _playerEventSystem;
         private EnemyBase.EnemyData _data;
         private GameObject _curObj;
+        public AttackCommand(){}
+
         public AttackCommand(GameObject obj)
         {
             this._curObj = obj;
             this._data = obj.GetComponent<EnemyBase>().data;
-        }
-        public AttackCommand()
-        {
-        
         }
 
         protected override void OnExecute()

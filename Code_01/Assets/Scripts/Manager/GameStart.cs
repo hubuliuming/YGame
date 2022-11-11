@@ -48,55 +48,6 @@ namespace Code_01.Controller
 
         #region TestMeoth
 
-        private void WriteItemJson()
-        {
-            Dictionary<string,ItemBase.ItemData> datas = new Dictionary<string,ItemBase.ItemData>
-            {
-                {Msg.ItemName.馒头,new ItemBase.ItemData()
-                {
-                    addAttack = 0,
-                    addCoin = 0,
-                    addDefence = 0,
-                    addHp = 5,
-                    addPower = 20,
-                    addSpeed = 0
-                }},
-                {Msg.ItemName.活力苹果,new ItemBase.ItemData()
-                {
-                    addAttack = 0,
-                    addCoin = 0,
-                    addDefence = 0,
-                    addHp = 10,
-                    addPower = 10,
-                    addSpeed = 0
-                }}
-            };
-            YJsonUtility.WriteToJson(datas,Msg.Paths.Config.RecoverItem);
-        }
-        private void WriteEnemyJson()
-        {
-            Dictionary<string, EnemyBase.EnemyData> datas = new Dictionary<string, EnemyBase.EnemyData>()
-            {
-                {
-                    Msg.EnemyName.野猪, new EnemyBase.EnemyData()
-                    {
-                        HP = 100,
-                        Attack = 10,
-                        Defence = 3,
-                        Speed = 5,
-                        CostPower = 10,
-                        award = new EnemyBase.EnemyData.Award()
-                        {
-                            Exp = 10,
-                            Coin = 20,
-                            GoodsName = Msg.ItemName.小块肉
-                        }
-                    }
-                }
-            };
-            YJsonUtility.WriteToJson(datas,Msg.Paths.Config.Enemy);
-        }
-
         private void CreateEnemy()
         {
             var go = FactoryUISystem.Get(Msg.EnemyName.野猪);

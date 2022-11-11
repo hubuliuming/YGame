@@ -9,7 +9,7 @@
 using System;
 using System.Collections.Generic;
 using Code_01;
-using Code_01.System;
+using Code_01.Command;
 using YFramework;
 using YFramework.Kit.UI;
 using YFramework.Kit.Utility;
@@ -23,27 +23,31 @@ public class ItemBase : UIBase,IController,IInit
     [Serializable]
     public struct ItemData
     {
-        public int addHp;
-        public int addPower;
-        public int addAttack;
-        public int addDefence;
-        public int addSpeed;
-        public int addCoin;
+        public int changeHp;
+        public int changePower;
+        public int changeLevel;
+        public long changeExp;
+        public int changeAttack;
+        public int changeDefence;
+        public int changeSpeed;
+        public int changeCoin;
+        
+        public int changeUpperHp;
+        public int changeUpperPower;
+        public int changeUpperAttack;
+        public int changeUpperDefence;
+        public int changeUpperSpeed;
     }
-
-    private PlayerEventSystem _playerEventSystem;
-
+    
     public void Init(string itemName)
     {
          var datas = YJsonUtility.ReadFromJson<Dictionary<string,ItemData>>(Msg.Paths.Config.RecoverItem);
          var data = datas[itemName];
-         _playerEventSystem = this.GetSystem<PlayerEventSystem>();
          UiUtility.Get("Btn").AddListener(() =>
          {
-             _playerEventSystem.ChangeAll(data);
+             this.SendCommand(new UseItemCommand(data));
              gameObject.Release();
          });
-     
     }
 
     public IArchitecture GetArchitecture()

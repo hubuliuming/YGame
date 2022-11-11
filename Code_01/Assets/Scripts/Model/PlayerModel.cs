@@ -14,48 +14,47 @@ namespace Code_01.Mode
 {
     public class PlayerModel : AbstractModel
     {
-        private PlayerData _data;
+        private PlayerData _playerData;
 
         protected override void OnInit()
         {
-            //ReWriteData();
-            _data = YJsonUtility.ReadFromJson<PlayerData>(Msg.Paths.Config.PlayerData);
+            _playerData = YJsonUtility.ReadFromJson<PlayerData>(Msg.Paths.Config.PlayerData);
         }
         public bool IsDied { get; private set; }
         public bool IsEmptyPower { get; private set; }
         public string Name
         {
-            get => _data.Name; 
+            get => _playerData.property.Name; 
             set
             {
-                _data.Name = value;
+                _playerData.property.Name = value;
                 this.SendEvent<Msg.Register.UpdateShowData>();
-                YJsonUtility.WriteToJson(_data,Msg.Paths.Config.PlayerData);
+                YJsonUtility.WriteToJson(_playerData,Msg.Paths.Config.PlayerData);
             }
         }
         public int Level
         {
-            get => _data.Level;
+            get => _playerData.property.Level;
             set
             {
-                _data.Level = value;
+                _playerData.property.Level = value;
                 this.SendEvent<Msg.Register.UpdateShowData>();
-                YJsonUtility.WriteToJson(_data, Msg.Paths.Config.PlayerData);
+                YJsonUtility.WriteToJson(_playerData, Msg.Paths.Config.PlayerData);
             }
         }
         public long Exp
         {
-            get => _data.Exp;
+            get => _playerData.property.Exp;
             set
             {
-                _data.Exp = value;
+                _playerData.property.Exp = value;
                 this.SendEvent<Msg.Register.UpdateShowData>();
-                YJsonUtility.WriteToJson(_data, Msg.Paths.Config.PlayerData);
+                YJsonUtility.WriteToJson(_playerData, Msg.Paths.Config.PlayerData);
             }
         }
         public int Power
         {
-            get => _data.Power;
+            get => _playerData.property.Power;
             set
             {
                 if (value < 0)
@@ -72,14 +71,14 @@ namespace Code_01.Mode
                     value = UpperPower;
                 }
                 IsEmptyPower = false;
-                _data.Power = value;
+                _playerData.property.Power = value;
                 this.SendEvent<Msg.Register.UpdateShowData>();
-                YJsonUtility.WriteToJson(_data, Msg.Paths.Config.PlayerData);
+                YJsonUtility.WriteToJson(_playerData, Msg.Paths.Config.PlayerData);
             }
         }
         public int Hp
         {
-            get => _data.Hp; 
+            get => _playerData.property.Hp; 
             set
             {
                 if(CheckChangeDied(value))
@@ -90,14 +89,14 @@ namespace Code_01.Mode
                     value = UpperHp;
                 }
                 IsDied = false;
-                _data.Hp = value;
+                _playerData.property.Hp = value;
                 this.SendEvent<Msg.Register.UpdateShowData>();
-                YJsonUtility.WriteToJson(_data, Msg.Paths.Config.PlayerData);
+                YJsonUtility.WriteToJson(_playerData, Msg.Paths.Config.PlayerData);
             }
         }
         public int Attack
         {
-            get => _data.Attack; 
+            get => _playerData.property.Attack; 
             set
             {
                 if ( value < PlayerData.LimitMinAttack)
@@ -108,14 +107,14 @@ namespace Code_01.Mode
                 {
                     value = UpperAttack;
                 }
-                _data.Attack = value;
+                _playerData.property.Attack = value;
                 this.SendEvent<Msg.Register.UpdateShowData>();
-                YJsonUtility.WriteToJson(_data, Msg.Paths.Config.PlayerData);
+                YJsonUtility.WriteToJson(_playerData, Msg.Paths.Config.PlayerData);
             }
         }
         public int Defence
         {
-            get => _data.Defence;
+            get => _playerData.property.Defence;
             set
             {
                 if (value < PlayerData.LimitMinDefence)
@@ -126,14 +125,14 @@ namespace Code_01.Mode
                 {
                     value = UpperDefence;
                 }
-                _data.Defence = value;
+                _playerData.property.Defence = value;
                 this.SendEvent<Msg.Register.UpdateShowData>();
-                YJsonUtility.WriteToJson(_data, Msg.Paths.Config.PlayerData);
+                YJsonUtility.WriteToJson(_playerData, Msg.Paths.Config.PlayerData);
             }
         }
         public int Speed
         {
-            get => _data.Speed;
+            get => _playerData.property.Speed;
             set
             {
                 if (value < PlayerData.LimitMinSpeed)
@@ -144,38 +143,27 @@ namespace Code_01.Mode
                 {
                     value = UpperSpeed;
                 }
-                _data.Speed = value;
+                _playerData.property.Speed = value;
                 this.SendEvent<Msg.Register.UpdateShowData>();
-                YJsonUtility.WriteToJson(_data, Msg.Paths.Config.PlayerData);
+                YJsonUtility.WriteToJson(_playerData, Msg.Paths.Config.PlayerData);
             }
         }
         public int Coin
         {
-            get => _data.Coin;
+            get => _playerData.goodsDict["Coin"];
             set
             {
                 if (value < 0)
                     value = 0;
-                _data.Coin = value;
+                _playerData.goodsDict["Coin"] = value;
                 this.SendEvent<Msg.Register.UpdateShowData>();
-                YJsonUtility.WriteToJson(_data, Msg.Paths.Config.PlayerData);
-            }
-        }
-
-        public Dictionary<string,int> GoodsDict
-        {
-            get => _data.goodsDict ;
-            set
-            {
-                _data.goodsDict = value;
-                // todo 更新背包参数
-                YJsonUtility.WriteToJson(_data, Msg.Paths.Config.PlayerData);
+                YJsonUtility.WriteToJson(_playerData, Msg.Paths.Config.PlayerData);
             }
         }
 
         public int UpperPower
         {
-            get => _data.UpperPower;
+            get => _playerData.property.UpperPower;
             set
             {
                 if (value < PlayerData.LimitMinPower)
@@ -183,13 +171,13 @@ namespace Code_01.Mode
                     value = PlayerData.LimitMinPower;
                     LogUtility.Log("已经到达最低体力上限值");
                 }
-                _data.UpperPower = value;
-                YJsonUtility.WriteToJson(_data, Msg.Paths.Config.PlayerData);
+                _playerData.property.UpperPower = value;
+                YJsonUtility.WriteToJson(_playerData, Msg.Paths.Config.PlayerData);
             }
         }
         public int UpperHp
         {
-            get => _data.UpperHp;
+            get => _playerData.property.UpperHp;
             set
             {
                 if (value < PlayerData.LimitMinHP)
@@ -198,27 +186,26 @@ namespace Code_01.Mode
                     LogUtility.Log("已经到达最低生命上限值");
                     return;
                 }
-                _data.UpperHp = value;
-                YJsonUtility.WriteToJson(_data, Msg.Paths.Config.PlayerData);
+                _playerData.property.UpperHp = value;
+                YJsonUtility.WriteToJson(_playerData, Msg.Paths.Config.PlayerData);
             }
         }
         public int UpperAttack
         {
-            get => _data.UpperAttack;
+            get => _playerData.property.UpperAttack;
             set
             {
                 if (value < PlayerData.LimitMinAttack)
                 {
                     value = PlayerData.LimitMinAttack;
                 }
-                _data.UpperAttack = value;
-                YJsonUtility.WriteToJson(_data, Msg.Paths.Config.PlayerData);
+                _playerData.property.UpperAttack = value;
+                YJsonUtility.WriteToJson(_playerData, Msg.Paths.Config.PlayerData);
             }
         }
-
         public int UpperDefence
         {
-            get => _data.UpperDefence;
+            get => _playerData.property.UpperDefence;
             set
             {
                 if(value == 0)
@@ -228,14 +215,13 @@ namespace Code_01.Mode
                     value = PlayerData.LimitMinDefence;
                 }
 
-                _data.UpperDefence = value;
-                YJsonUtility.WriteToJson(_data, Msg.Paths.Config.PlayerData);
+                _playerData.property.UpperDefence = value;
+                YJsonUtility.WriteToJson(_playerData, Msg.Paths.Config.PlayerData);
             }
         }
-
         public int UpperSpeed
         {
-            get => _data.UpperSpeed;
+            get => _playerData.property.UpperSpeed;
             set
             {
                 if (value < PlayerData.LimitMinSpeed)
@@ -243,44 +229,28 @@ namespace Code_01.Mode
                     value = PlayerData.LimitMinSpeed;
                 }
 
-                _data.UpperSpeed = value;
-                YJsonUtility.WriteToJson(_data, Msg.Paths.Config.PlayerData);
+                _playerData.property.UpperSpeed = value;
+                YJsonUtility.WriteToJson(_playerData, Msg.Paths.Config.PlayerData);
             }
         }
 
-        public Dictionary<string, int> goodsDict = new Dictionary<string, int>();
+        public Dictionary<string,int> GoodsDict
+        {
+            get => _playerData.goodsDict ;
+            set
+            {
+                _playerData.goodsDict = value;
+                // todo 更新背包参数
+                YJsonUtility.WriteToJson(_playerData, Msg.Paths.Config.PlayerData);
+            }
+        }
+
 
         public void UpdateLocalData()
         {
-            YJsonUtility.WriteToJson(_data, Msg.Paths.Config.PlayerData);
+            YJsonUtility.WriteToJson(_playerData, Msg.Paths.Config.PlayerData);
         }
-
-        private void ReWriteData()
-        {
-            _data = new PlayerData()
-            {
-                Name = "小明",
-                Level  = 2,
-                Exp = 282,
-                Power = 100,
-                Hp = 200,
-                Attack = 10,
-                Defence = 8,
-                Speed = 10,
-                UpperPower = 100,
-                UpperHp = 200,
-                UpperAttack = 10,
-                UpperSpeed = 10,
-                Coin = 100,
-                goodsDict = new Dictionary<string, int>()
-                {
-                    {"馒头",5},
-                }
-            };
-            YJsonUtility.WriteToJson<PlayerData>(_data,Msg.Paths.Config.PlayerData);
-        }
-
-
+        
         private bool CheckChangeDied(int value)
         {
             if (Hp <= 0 || Hp + value <= 0)

@@ -59,7 +59,6 @@ namespace Code_01.Enemy
         //protected RareLevel level;
         private ObjectPool<GameObject> _enemyPool;
 
-        private Player _player;
         private PlayerEventSystem _playerEventSystem;
         public void Init(string enemyName)
         {
@@ -79,14 +78,6 @@ namespace Code_01.Enemy
         {
             data = initData;
         }
-        private void ChangeHP(ref int hpSelf,int defenceSelf,bool isDebug = true)
-        {
-            var attackValue = AttackMath.AttackValue(_player.Attack,defenceSelf,isDebug);
-            hpSelf -= attackValue;
-            if(isDebug)
-                Debug.Log("cur enemyHP:"+ hpSelf);
-        }
-    
         public IArchitecture GetArchitecture()
         {
             return Game.Interface;

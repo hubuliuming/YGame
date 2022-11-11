@@ -15,9 +15,7 @@ public class Test : MonoBehaviour,IController
 {
     private void Start()
     {
-        var playerModel = this.GetModel<PlayerModel>();
         
-        Debug.Log(playerModel.Hp);
     }
 
     public IArchitecture GetArchitecture()
