@@ -18,7 +18,6 @@ namespace Code_01.Command
         public UseItemCommand(ItemBase.ItemData data)
         {
             this._data = data;
-            
         }
         protected override void OnExecute()
         {

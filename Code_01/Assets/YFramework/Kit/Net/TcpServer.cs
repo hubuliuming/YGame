@@ -17,41 +17,46 @@ using UnityEngine;
 
 namespace YFramework.Kit.Net
 {
-    public class TcpServer : MonoBehaviour
+    //todo SendMessage
+    public class TcpServer
     {
-        private string ip = "127.0.0.1";
+        private string _ip;
+        private int _port;
 
-        private int port = 6666;
-
-        //private string submitStr;
-        //private bool isSubmit;
-        private Socket server;
-        private Thread thread;
-
-        private byte[] receiveBuffer = new byte[1024];
-
-        public string ReceiveStr => Encoding.UTF8.GetString(receiveBuffer);
-
-        private void Start()
+        public Socket server;
+        private Thread _thread;
+        private byte[] _receiveBuffer;
+        public Action<string> onReceved;
+        public string ReceiveStr { get; private set; }
+        
+        public TcpServer(string ip,int port,int receiveBufferLength = 1024)
         {
-            thread = new Thread(Init);
-            thread.IsBackground = true;
-            thread.Start();
+            this._ip = ip;
+            this._port = port;
+            this._receiveBuffer = new byte[receiveBufferLength];
+        }
+
+        public void Start()
+        {
+            _thread = new Thread(Init);
+            _thread.IsBackground = true;
+            _thread.Start();
         }
         private void Init()
         {
             server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            server.Bind(new IPEndPoint(IPAddress.Parse(ip),port));
+            server.Bind(new IPEndPoint(IPAddress.Parse(_ip),_port));
             server.Listen(0);
             server.BeginAccept(AcceptCallBack,server);
         }
+        
         private void AcceptCallBack(IAsyncResult ar)
         {
             Socket serverSocket = ar.AsyncState as Socket;
             Socket clientSocket = serverSocket.EndAccept(ar);
             Debug.Log("连接客户端成功");
+            clientSocket.BeginReceive(_receiveBuffer, 0, _receiveBuffer.Length, SocketFlags.None, ReceiveCallBack, clientSocket);
             
-            clientSocket.BeginReceive(receiveBuffer, 0, receiveBuffer.Length, SocketFlags.None, ReceiveCallBack, clientSocket);
             serverSocket.BeginAccept(AcceptCallBack, serverSocket);
         }
         private void ReceiveCallBack(IAsyncResult ar)
@@ -60,19 +65,16 @@ namespace YFramework.Kit.Net
             try
             {
                 clientSocket = ar.AsyncState as Socket;
-                int count = clientSocket.EndReceive(ar);
-                if (count <= 0)
+                int length = clientSocket.EndReceive(ar);
+                if (length <= 0)
                 {
                     clientSocket.Close();
                     return;
-                }  
-                //接收到消息，执行方法
-                Debug.Log(ReceiveStr);
-                // if (ReceiveStr.Contains(submitStr))
-                // {
-                //     isSubmit = true;
-                // }
-                clientSocket.BeginReceive(receiveBuffer, 0, receiveBuffer.Length, SocketFlags.None, ReceiveCallBack, clientSocket);
+                }
+                ReceiveStr = Encoding.UTF8.GetString(_receiveBuffer, 0, length);
+                Debug.Log("收到消息:"+ReceiveStr+",长度为："+length);
+                onReceved?.Invoke(ReceiveStr);
+                clientSocket.BeginReceive(_receiveBuffer, 0, _receiveBuffer.Length, SocketFlags.None, ReceiveCallBack, clientSocket);
             }
             catch (Exception e)
             {
@@ -83,16 +85,20 @@ namespace YFramework.Kit.Net
                 }
             }
         }
-        private void OnDestroy()
-        {
-            Close();
-        }
-        private void Close()
+     
+        public void Close()
         {
             if (server != null)
+            {
                 server.Close();
-            if (thread != null)
-                thread.Abort();
+                server = null;
+            }
+
+            if (_thread != null)
+            {
+                _thread.Abort();
+                _thread = null;
+            }
         }
     }
     
@@ -113,7 +119,7 @@ namespace YFramework.Kit.Net
             Buffer.BlockCopy(ms.GetBuffer(),0,packet,0,(int)ms.Length);
             bw.Close();
             ms.Close();
-            Debug.Log(packet.Length);
+            Console.WriteLine(packet.Length);
             return packet;
         }
         /// <summary>

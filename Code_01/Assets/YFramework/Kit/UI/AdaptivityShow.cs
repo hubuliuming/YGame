@@ -10,6 +10,7 @@ using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using YFramework.Extension;
 
 namespace YFramework.Kit.UI
 {
@@ -24,70 +25,20 @@ namespace YFramework.Kit.UI
         {
             areaTrans.gameObject.SetActive(true);
             var go = Instantiate(gameObject, areaTrans);
+            var trans = go.GetComponent<RectTransform>();
+            trans.anchorMin = Vector2.one * 0.5f;
+            trans.anchorMax = Vector2.one * 0.5f;
             Destroy(go.GetComponent<AdaptivityShow>());
             onClose += () =>
             {
                 areaTrans.gameObject.SetActive(false);
                 Destroy(go);
             };
-        
-            //image
-            var img = go.GetComponent<Image>();
-            if (img != null)
-            {
-                img.SetNativeSize();
-                SetTransSizeDelta(img.rectTransform);
-            }
-            else
-            {
-                var rawImg = go.GetComponent<RawImage>();
-                rawImg.SetNativeSize();
-                SetTransSizeDelta(rawImg.rectTransform);
-            }
-
+            go.GetComponent<RectTransform>().AdaptivitySize(areaTrans);
             go.AddComponent<Button>().onClick.AddListener(()=>
             {
                 onClose?.Invoke();
             });
-        }
-
-        private void SetTransSizeDelta(RectTransform rectTrans)
-        {
-            Vector2 areaSize = areaTrans.sizeDelta;
-            Vector2 rectSize = rectTrans.sizeDelta;
-            //显示区域足够不做处理
-            if (rectSize.x <= areaSize.x && rectSize.y <= areaSize.y)
-            {
-                return;
-            }
-            var offsetScale = 1f;
-            // 宽度都未超出，所以是高度超出了按高度比例来计算
-            if (rectSize.x < areaSize.x)
-            {
-                offsetScale = areaSize.y / rectSize.y;
-                Debug.Log(offsetScale);
-            }
-            // 反之 高度未超出
-            else if (rectSize.y < areaSize.y)
-            {
-                offsetScale = areaSize.x / rectSize.x;
-            }
-            //两者都超出
-            else
-            {
-                var x =Mathf.Abs(areaSize.x - rectSize.x) / areaSize.x;
-                var y =Mathf.Abs(areaSize.y - rectSize.y) / areaSize.y;
-                //取最大比例值来适应框
-                if (x >= y)
-                {
-                    offsetScale = areaSize.x / rectSize.x ;
-                }
-                else if (x < y)
-                {
-                    offsetScale = areaSize.y / rectSize.y ;
-                }
-            }
-            rectTrans.sizeDelta *= offsetScale;
         }
     }
 }

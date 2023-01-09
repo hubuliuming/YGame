@@ -8,7 +8,7 @@ namespace YFramework.Kit.UI
     /// <summary>
     /// 挂载初始默认值的SlideScroll上，只修改宽高
     /// </summary>
-    public class SlideScrollHorizontal : UIBase,IBeginDragHandler,IEndDragHandler
+    public class SlideScrollHorizontal : MonoBehaviour,IBeginDragHandler,IEndDragHandler
     {
         public ScrollRect scrollRect;
         public float cellLength;
@@ -31,7 +31,7 @@ namespace YFramework.Kit.UI
 
         private Vector3 _contentInitPos;
         private Vector2 _contentInitSize;
-        public  void Init()
+        public void Init()
         {
             scrollRect.inertia = false;
             scrollRect.horizontal = true;
@@ -48,20 +48,26 @@ namespace YFramework.Kit.UI
             _contentInitPos = _contentTrans.localPosition;
             _contentInitSize = _contentTrans.sizeDelta;
             currentIndex = 0;
-            
+            //todo 验证全部情况的正确性
             UpdateTotal();
             if(pageText != null)
                 pageText.text = currentIndex.ToString() + "/" + totalItemNum;
             if (pageTextPro != null)
                 pageTextPro.text = currentIndex.ToString() + "/" + totalItemNum;
-            if(btnLast != null)
+            if (btnLast != null)
+            {
+                btnLast.onClick.RemoveAllListeners();
                 btnLast.onClick.AddListener(ToLastPage);
-            if(btnNext != null)
+            }
+            if (btnNext != null)
+            {
+                btnNext.onClick.RemoveAllListeners();
                 btnNext.onClick.AddListener(ToNextPage);
+            }
         }
         public void UpdateTotal()
         {
-            totalItemNum = (int)(_contentTrans.sizeDelta.x / cellLength) + 1;
+            totalItemNum = (int)(_contentTrans.sizeDelta.x / (cellLength+spacing)) +1;
         }
         public void InitPos()
         {

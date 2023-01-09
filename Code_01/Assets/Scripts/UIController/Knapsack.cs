@@ -25,14 +25,16 @@ namespace Code_01
         private const int Column = 10;
         private const int MaxGirdNum = 99;
 
-        public override void Init()
+        public void Init()
         {
             _playerModel = this.GetModel<PlayerModel>();
             // todo fix
             int gridNum = 0;
         
-            foreach (var  i in _playerModel.GoodsDict.Keys)
+            foreach (var i in _playerModel.GoodsDict.Keys)
             {
+                //金币不展示背包格子
+                if(i.Equals("Coin")) continue;
                 var kindNum = _playerModel.GoodsDict[i];
                 //单位格子已满
                 while (kindNum > MaxGirdNum)

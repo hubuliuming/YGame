@@ -81,8 +81,7 @@ namespace Code_01.Mode
             get => _playerData.property.Hp; 
             set
             {
-                if(CheckChangeDied(value))
-                    return;
+                if (CheckChangeDied(value)) return;
                 //恢复的血量不可以超过血量上限
                 if (value >= UpperHp)
                 {
@@ -155,7 +154,7 @@ namespace Code_01.Mode
             {
                 if (value < 0)
                     value = 0;
-                _playerData.goodsDict["Coin"] = value;
+                //_playerData.goodsDict["Coin"] = value;
                 this.SendEvent<Msg.Register.UpdateShowData>();
                 YJsonUtility.WriteToJson(_playerData, Msg.Paths.Config.PlayerData);
             }
@@ -253,12 +252,13 @@ namespace Code_01.Mode
         
         private bool CheckChangeDied(int value)
         {
-            if (Hp <= 0 || Hp + value <= 0)
+            var tempHp = _playerData.property.Hp;
+            if (tempHp <= 0 || tempHp + value <= 0)
             {
                 //todo 玩家死亡
                 IsDied = true;
                 LogUtility.Log("玩家死亡！");
-                Hp = 0;
+                _playerData.property.Hp = 0;
                 return true;
             }
 

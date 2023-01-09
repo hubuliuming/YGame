@@ -12,7 +12,7 @@ namespace Code_01.Mode
 {
     public class PlayerData  
     {
-        public  struct Property
+        public struct Property
         {
             public string Name;
             public int Hp;
