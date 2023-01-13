@@ -97,6 +97,12 @@ namespace Code_01.Editor
             };
             YJsonUtility.WriteToJson<PlayerData>(playerData,Msg.Paths.Config.PlayerData);
         }
+
+        [UnityEditor.MenuItem("Tools/打开EnemyEditorWindow %e")]
+        private static void OpenEnemyEditorWindow()
+        {
+            EnemyEditor.Show();
+        }
     }
 #endif
 }

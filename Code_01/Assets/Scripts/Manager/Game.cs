@@ -19,7 +19,6 @@ namespace Code_01
             RegisterModel(new PlayerModel());
             RegisterUtility(new LogUtility());
             RegisterModel(new GoodsModel());
-            RegisterSystem(new ExcelSystem());
             RegisterSystem(new FactoryUISystem());
             RegisterSystem(new PlayerEventSystem());
         }
