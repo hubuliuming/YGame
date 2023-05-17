@@ -2,7 +2,7 @@
   "property": {
     "Name": "小明",
     "Hp": 0,
-    "Power": 100,
+    "Power": 10,
     "Level": 2,
     "Exp": 472,
     "Attack": 24,
